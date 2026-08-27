@@ -121,7 +121,7 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
       </div>
 
       <div class="badge-row">
-        <a class="dist" href="https://pypi.org/project/secret-kernel-core/" data-c="py"><svg aria-hidden="true"><use href="#logo-pypi"/></svg>secret-kernel-* <span class="ver">0.1.0a2</span></a>
+        <a class="dist" href="https://pypi.org/project/secret-kernel-core/" data-c="py"><svg aria-hidden="true"><use href="#logo-pypi"/></svg>secret-kernel-* <span class="ver">0.1.0a3</span></a>
         <a class="dist" href="https://github.com/brunnofoggia/secret-kernel-js" data-c="ts"><svg aria-hidden="true"><use href="#logo-npm"/></svg>@secret-kernel/* <span class="tag" data-l="en">unpublished</span><span class="tag" data-l="pt">não publicado</span></a>
         <a class="dist" href="https://github.com/brunnofoggia/secret-kernel-py" data-c="py"><svg aria-hidden="true"><use href="#logo-github"/></svg><span data-l="en">Source</span><span data-l="pt">Código</span></a>
         <a class="dist" href="https://github.com/brunnofoggia/secret-kernel-js" data-c="ts"><svg aria-hidden="true"><use href="#logo-github"/></svg><span data-l="en">Source</span><span data-l="pt">Código</span></a>
@@ -169,14 +169,14 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
       <ul data-l="en">
         <li><strong>Read-only.</strong> No write, no delete, no rotation, no batch read, no explicit historical version.</li>
         <li><strong>Latest version only.</strong> When a provider supports versions, the kernel always reads the current one.</li>
-        <li><strong>No per-call <code>env</code> override.</strong> A per-call <code>project</code> can be replaced; <code>env</code> cannot. A service running in production reading a development secret is almost always a defect, and the API does not invite it.</li>
+        <li><strong>Cross-environment reads are opt-in, one call at a time.</strong> The client's <code>env</code> applies unless a call says otherwise. Replacing it is never implicit and never a default, and <code data-c="py">omit_env</code><code data-c="ts">omitEnv</code> still wins over it — a service reading another environment is usually a defect, but the caller sometimes knows better than the process context.</li>
         <li><strong>Provider options never leak.</strong> <code>region</code> belongs to AWS, <code data-c="py">project_id</code><code data-c="ts">projectId</code> to GCP. The shared contract knows neither.</li>
         <li><strong>Failures are never cached.</strong> A missing secret that appears later is found on the next read.</li>
       </ul>
       <ul data-l="pt">
         <li><strong>Somente leitura.</strong> Sem escrita, remoção, rotação, leitura em lote ou versão histórica explícita.</li>
         <li><strong>Apenas a última versão.</strong> Quando o provider suporta versões, o kernel sempre lê a atual.</li>
-        <li><strong>Sem troca de <code>env</code> por chamada.</strong> O <code>project</code> pode ser substituído por chamada; o <code>env</code> não. Um serviço em produção lendo um segredo de desenvolvimento é quase sempre um defeito, e a API não convida a isso.</li>
+        <li><strong>Leitura entre ambientes é opt-in, uma chamada por vez.</strong> O <code>env</code> do client vale a menos que uma chamada diga o contrário. Substituí-lo nunca é implícito nem default, e <code data-c="py">omit_env</code><code data-c="ts">omitEnv</code> continua vencendo — um serviço lendo outro ambiente é normalmente um defeito, mas quem chama às vezes sabe mais que o contexto do processo.</li>
         <li><strong>Opções de provider não vazam.</strong> <code>region</code> é da AWS, <code data-c="py">project_id</code><code data-c="ts">projectId</code> é do GCP. O contrato compartilhado não conhece nenhuma das duas.</li>
         <li><strong>Falhas nunca são cacheadas.</strong> Um segredo ausente que aparece depois é encontrado na leitura seguinte.</li>
       </ul>
@@ -199,40 +199,59 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
 
     <div class="row">
       <div class="prose">
-        <h3 data-l="en">Step 1 · install</h3>
-        <h3 data-l="pt">Passo 1 · instalar</h3>
-        <p data-l="en">An AWS-only service never pulls a GCP SDK, because the provider packages are separate distributions.</p>
-        <p data-l="pt">Um serviço só-AWS nunca baixa um SDK do GCP, porque os pacotes de provider são distribuições separadas.</p>
+        <h3 data-l="en">Step 1 · install the base</h3>
+        <h3 data-l="pt">Passo 1 · instale a base</h3>
+        <p data-l="en">The contract, the shared core and the factory. No provider yet — that is step 2, and it is a separate distribution so an AWS-only service never pulls a GCP SDK.</p>
+        <p data-l="pt">O contrato, o core compartilhado e a factory. Nenhum provider ainda — isso é o passo 2, e ele é uma distribuição separada, então um serviço só-AWS nunca baixa um SDK do GCP.</p>
         <p data-l="en"><code>contracts</code> depends on nothing. A consumer that only declares types or catches errors installs that one package alone.</p>
         <p data-l="pt"><code>contracts</code> não depende de nada. Quem só declara tipos ou captura erros instala apenas esse pacote.</p>
       </div>
       <div class="code">
         <div class="code-bar"><span data-c="py">uv</span><span data-c="ts">npm</span><span class="grow">shell</span></div>
         <pre data-c="py"><span class="pr">$</span> uv add secret-kernel-contracts secret-kernel-core \
-    secret-kernel-factory \
-    secret-kernel-provider-aws-parameter-store</pre>
+    secret-kernel-factory</pre>
         <pre data-c="ts"><span class="pr">$</span> npm install @secret-kernel/contracts @secret-kernel/core \
-    @secret-kernel/factory \
-    @secret-kernel/provider-aws-parameter-store</pre>
+    @secret-kernel/factory</pre>
       </div>
     </div>
 
-    <div class="row">
+    <div class="step-band">
+      <h3 data-l="en">Step 2 · add a provider and read</h3>
+      <h3 data-l="pt">Passo 2 · adicione um provider e leia</h3>
+      <p data-l="en">Pick where the secret lives. The call is identical either way — only the provider alias and its typed options change, which is the whole point of the contract.</p>
+      <p data-l="pt">Escolha onde o segredo mora. A chamada é idêntica nos dois casos — mudam apenas o alias do provider e suas opções tipadas, que é justamente o propósito do contrato.</p>
+    </div>
+
+    <div class="row sub">
       <div class="prose">
-        <h3 data-l="en">Step 2 · develop against memory</h3>
-        <h3 data-l="pt">Passo 2 · desenvolver contra memória</h3>
-        <p data-l="en">The in-memory provider reads preloaded values or environment variables, so local development and CI need no cloud account at all.</p>
-        <p data-l="pt">O provider in-memory lê valores pré-carregados ou variáveis de ambiente, então desenvolvimento local e CI não precisam de conta em nuvem nenhuma.</p>
+        <div class="subtopic">
+          <span class="bullet" aria-hidden="true">•</span>
+          <code>in-memory</code>
+        </div>
+        <p data-l="en">For local development, CI and tests. Reads preloaded values or environment variables, so nothing needs a cloud account.</p>
+        <p data-l="pt">Para desenvolvimento local, CI e testes. Lê valores pré-carregados ou variáveis de ambiente, então nada precisa de conta em nuvem.</p>
         <p data-l="en">With <code data-c="py">env_secrets</code><code data-c="ts">envSecrets</code>, the key is the resolved name without the leading slash, non-alphanumerics replaced by <code>_</code>, uppercased and prefixed: <code>/dev/my-app/database</code> becomes <code>SECRET_KERNEL_DEV_MY_APP_DATABASE</code>. Preloaded secrets win over the environment.</p>
         <p data-l="pt">Com <code data-c="py">env_secrets</code><code data-c="ts">envSecrets</code>, a chave é o nome resolvido sem a barra inicial, não-alfanuméricos trocados por <code>_</code>, em maiúsculas e com prefixo: <code>/dev/my-app/database</code> vira <code>SECRET_KERNEL_DEV_MY_APP_DATABASE</code>. Segredos pré-carregados vencem o ambiente.</p>
       </div>
-      <div class="code">
-        <div class="code-bar">
-          <svg aria-hidden="true" data-c="py"><use href="#logo-python"/></svg>
-          <svg aria-hidden="true" data-c="ts"><use href="#logo-typescript"/></svg>
-          <span data-c="py">in-memory</span><span data-c="ts">in-memory</span>
+      <div>
+        <div class="code">
+          <div class="code-bar"><span data-c="py">uv</span><span data-c="ts">npm</span><span class="grow">shell</span></div>
+          <pre data-c="py"><span class="pr">$</span> uv add secret-kernel-provider-in-memory</pre>
+          <pre data-c="ts"><span class="pr">$</span> npm install @secret-kernel/provider-in-memory</pre>
         </div>
-        <pre data-c="py"><span class="k">from</span> secret_kernel.provider_in_memory <span class="k">import</span> InMemoryProviderOptions
+        <div class="code">
+          <div class="code-bar">
+            <svg aria-hidden="true" data-c="py"><use href="#logo-python"/></svg>
+            <svg aria-hidden="true" data-c="ts"><use href="#logo-typescript"/></svg>
+            <span data-c="py">in-memory</span><span data-c="ts">in-memory</span>
+          </div>
+          <pre data-c="py"><span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
+    CreateSecretClientConfig,
+    <span class="f">create_secret_client</span>,
+)
+<span class="k">from</span> secret_kernel.provider_in_memory <span class="k">import</span> (
+    InMemoryProviderOptions,
+)
 
 client = <span class="f">create_secret_client</span>(
     CreateSecretClientConfig(
@@ -244,8 +263,16 @@ client = <span class="f">create_secret_client</span>(
             env_secrets=<span class="n">True</span>,
         ),
     )
-)</pre>
-        <pre data-c="ts"><span class="k">const</span> client = <span class="k">await</span> <span class="f">createSecretClient</span>({
+)
+
+secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
+<span class="c"># secret.value == "s3cr3t"</span></pre>
+          <pre data-c="ts"><span class="k">import</span> {
+  SecretProvider,
+  <span class="f">createSecretClient</span>,
+} <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
+
+<span class="k">const</span> client = <span class="k">await</span> <span class="f">createSecretClient</span>({
   provider: SecretProvider.InMemory,
   env: <span class="s">'dev'</span>,
   project: <span class="s">'my-app'</span>,
@@ -253,7 +280,65 @@ client = <span class="f">create_secret_client</span>(
     secrets: { <span class="s">'/dev/my-app/database/password'</span>: <span class="s">'s3cr3t'</span> },
     envSecrets: <span class="n">true</span>,
   },
-});</pre>
+});
+
+<span class="k">const</span> secret = <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'database/password'</span>);
+<span class="c">// secret.value === 's3cr3t'</span></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="row sub">
+      <div class="prose">
+        <div class="subtopic">
+          <svg aria-hidden="true"><use href="#logo-aws"/></svg>
+          <code>aws-parameter-store</code>
+        </div>
+        <p data-l="en">For a real store. Reads <code>SecureString</code> parameters, the low-cost option in AWS.</p>
+        <p data-l="pt">Para um cofre de verdade. Lê parâmetros <code>SecureString</code>, a opção de baixo custo na AWS.</p>
+        <p data-l="en">Pass <code>credentials</code> to be explicit, or leave it out and the AWS SDK's own chain applies. Explicit credentials take precedence.</p>
+        <p data-l="pt">Passe <code>credentials</code> para ser explícito, ou omita e a própria cadeia do SDK da AWS se aplica. Credenciais explícitas têm precedência.</p>
+        <p data-l="en">Only the provider and its options differ from the block above. <code data-c="py">get_secret</code><code data-c="ts">getSecret</code> is the same call.</p>
+        <p data-l="pt">Só o provider e suas opções diferem do bloco acima. <code data-c="py">get_secret</code><code data-c="ts">getSecret</code> é a mesma chamada.</p>
+      </div>
+      <div>
+        <div class="code">
+          <div class="code-bar"><span data-c="py">uv</span><span data-c="ts">npm</span><span class="grow">shell</span></div>
+          <pre data-c="py"><span class="pr">$</span> uv add secret-kernel-provider-aws-parameter-store</pre>
+          <pre data-c="ts"><span class="pr">$</span> npm install @secret-kernel/provider-aws-parameter-store</pre>
+        </div>
+        <div class="code">
+          <div class="code-bar">
+            <svg aria-hidden="true"><use href="#logo-aws"/></svg>
+            <span data-c="py">aws-parameter-store</span><span data-c="ts">aws-parameter-store</span>
+          </div>
+          <pre data-c="py"><span class="k">from</span> secret_kernel.provider_aws_parameter_store <span class="k">import</span> (
+    AwsParameterStoreProviderOptions,
+)
+
+client = <span class="f">create_secret_client</span>(
+    CreateSecretClientConfig(
+        provider=<span class="s">"aws-parameter-store"</span>,
+        env=<span class="s">"prod"</span>,
+        project=<span class="s">"billing"</span>,
+        options=AwsParameterStoreProviderOptions(
+            region=<span class="s">"us-east-1"</span>,
+        ),
+    )
+)
+
+secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
+<span class="c"># reads /prod/billing/database/password</span></pre>
+          <pre data-c="ts"><span class="k">const</span> client = <span class="k">await</span> <span class="f">createSecretClient</span>({
+  provider: SecretProvider.AwsParameterStore,
+  env: <span class="s">'prod'</span>,
+  project: <span class="s">'billing'</span>,
+  options: { region: <span class="s">'us-east-1'</span> },
+});
+
+<span class="k">const</span> secret = <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'database/password'</span>);
+<span class="c">// reads /prod/billing/database/password</span></pre>
+        </div>
       </div>
     </div>
   </section>
@@ -325,8 +410,8 @@ client = <span class="f">create_secret_client</span>(
       <div>
         <h2 data-l="en">Changing the name for one call</h2>
         <h2 data-l="pt">Mudando o nome para uma chamada</h2>
-        <p data-l="en">Each client-level part can be dropped, and <code>project</code> and <code>prefix</code> can be replaced.</p>
-        <p data-l="pt">Cada parte do nível do client pode ser derrubada, e <code>project</code> e <code>prefix</code> podem ser substituídos.</p>
+        <p data-l="en">Each of the three client-level parts can be dropped, and each can be replaced.</p>
+        <p data-l="pt">Cada uma das três partes do nível do client pode ser derrubada, e cada uma pode ser substituída.</p>
       </div>
     </div>
 
@@ -334,8 +419,8 @@ client = <span class="f">create_secret_client</span>(
       <div class="prose">
         <p data-l="en"><strong>Omitting always wins over replacing.</strong> Passing both <code data-c="py">omit_project</code><code data-c="ts">omitProject</code> and <code>project</code> drops the segment.</p>
         <p data-l="pt"><strong>Omitir sempre vence substituir.</strong> Passar <code data-c="py">omit_project</code><code data-c="ts">omitProject</code> e <code>project</code> juntos derruba o segmento.</p>
-        <p class="note" data-l="en">There is deliberately no <code>env</code> counterpart to the replacement. Reading another project's secret is legitimate; reading another environment's almost never is.</p>
-        <p class="note" data-l="pt">Deliberadamente não existe equivalente de substituição para <code>env</code>. Ler o segredo de outro projeto é legítimo; ler o de outro ambiente quase nunca é.</p>
+        <p class="note" data-l="en">Replacing <code>env</code> is never implicit: the client's value applies unless a call says otherwise, in that call alone. It exists for the caller who knows better than the process context — a local run reading the one secret that lives elsewhere.</p>
+        <p class="note" data-l="pt">Substituir o <code>env</code> nunca é implícito: o valor do client vale a menos que uma chamada diga o contrário, e só naquela chamada. Existe para quem chama e sabe mais que o contexto do processo — uma execução local lendo o único segredo que mora em outro lugar.</p>
       </div>
       <div class="code">
         <div class="code-bar">
@@ -355,6 +440,11 @@ client = <span class="f">create_secret_client</span>(
     <span class="s">"api-key"</span>, GetSecretOptions(project=<span class="s">"shared"</span>)
 )
 
+<span class="c"># /staging/billing/database/password — another environment, once</span>
+<span class="k">await</span> client.<span class="f">get_secret</span>(
+    <span class="s">"database/password"</span>, GetSecretOptions(env=<span class="s">"staging"</span>)
+)
+
 <span class="c"># /license-key — belongs to no environment or project</span>
 <span class="k">await</span> client.<span class="f">get_secret</span>(
     <span class="s">"license-key"</span>,
@@ -365,6 +455,9 @@ client = <span class="f">create_secret_client</span>(
 
 <span class="c">// /prod/shared/api-key — read another project's secret</span>
 <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'api-key'</span>, { project: <span class="s">'shared'</span> });
+
+<span class="c">// /staging/billing/database/password — another environment, once</span>
+<span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'database/password'</span>, { env: <span class="s">'staging'</span> });
 
 <span class="c">// /license-key — belongs to no environment or project</span>
 <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'license-key'</span>, {
@@ -851,16 +944,31 @@ client = <span class="f">create_secret_client</span>(
       <div>
         <h2 data-l="en">Changelog</h2>
         <h2 data-l="pt">Changelog</h2>
-        <p data-l="en">Early, and honest about it. All published packages share one version per release.</p>
-        <p data-l="pt">No começo, e honesto sobre isso. Todos os pacotes publicados compartilham uma versão por release.</p>
+        <p data-l="en">Early, and honest about it. Each implementation releases on its own, so this follows the language you picked above. Within one release every distribution shares a version.</p>
+        <p data-l="pt">No começo, e honesto sobre isso. Cada implementação lança por conta própria, então isto acompanha a linguagem escolhida acima. Dentro de um release, toda distribuição compartilha a versão.</p>
       </div>
     </div>
 
-    <div class="col">
-      <div class="release">
+    <!-- Uneven on purpose: Python has two releases, TypeScript one. -->
+    <div class="col" data-uneven="data-c">
+      <!-- Python -->
+      <div class="release" data-c="py">
+        <div>
+          <span class="release-v">0.1.0a3</span>
+          <span class="release-d">2026-08-27</span>
+        </div>
+        <div class="release-body">
+          <h4 data-l="en">Added</h4>
+          <h4 data-l="pt">Adicionado</h4>
+          <p data-l="en"><code>get_secret</code> accepts an <code>env</code> that replaces the client's environment for one call. It is never implicit and never a default: the environment the client was built with applies unless a call says otherwise, in that call alone, and <code>omit_env</code> still wins over it.</p>
+          <p data-l="pt"><code>get_secret</code> aceita um <code>env</code> que substitui o ambiente do client por uma chamada. Nunca é implícito nem default: o ambiente com que o client foi construído vale a menos que uma chamada diga o contrário, e só naquela chamada, e o <code>omit_env</code> continua vencendo.</p>
+        </div>
+      </div>
+
+      <div class="release" data-c="py">
         <div>
           <span class="release-v">0.1.0a2</span>
-          <span class="release-d">2026-08-25 · Python</span>
+          <span class="release-d">2026-08-25</span>
         </div>
         <div class="release-body">
           <h4 data-l="en">Changed</h4>
@@ -876,30 +984,46 @@ client = <span class="f">create_secret_client</span>(
         </div>
       </div>
 
-      <div class="release">
+      <div class="release" data-c="py">
         <div>
           <span class="release-v">0.1.0a1</span>
-          <span class="release-d">Python</span>
+          <span class="release-d" data-l="en">first alpha</span>
+          <span class="release-d" data-l="pt">primeiro alpha</span>
         </div>
         <div class="release-body">
-          <p data-l="en" style="margin:0;color:var(--cream-dim)">First alpha, tagged before changelog fragments were being kept. The contract, the shared core, the factory, the five providers and the shared contract suite.</p>
-          <p data-l="pt" style="margin:0;color:var(--cream-dim)">Primeiro alpha, tagueado antes de os fragmentos de changelog começarem a ser mantidos. O contrato, o core compartilhado, a factory, os cinco providers e a suíte de contrato compartilhada.</p>
+          <p data-l="en">The contract, the shared core, the factory, the five providers and the shared contract suite. Tagged before changelog fragments were being kept, which is why there is nothing itemised here.</p>
+          <p data-l="pt">O contrato, o core compartilhado, a factory, os cinco providers e a suíte de contrato compartilhada. Tagueado antes de os fragmentos de changelog começarem a ser mantidos, e é por isso que não há itens detalhados aqui.</p>
         </div>
       </div>
 
-      <div class="release">
+      <!-- TypeScript -->
+      <div class="release" data-c="ts">
         <div>
-          <span class="release-v">0.1.0-alpha.1</span>
-          <span class="release-d">TypeScript</span>
+          <span class="release-v">0.1.0-alpha.3</span>
           <span class="release-tag" data-l="en">unpublished</span>
           <span class="release-tag" data-l="pt">não publicado</span>
         </div>
         <div class="release-body">
-          <p data-l="en" style="margin:0;color:var(--cream-dim)">Tagged and feature-complete against the same contract, still held back from npm. Nothing to install yet — read it from the repository.</p>
-          <p data-l="pt" style="margin:0;color:var(--cream-dim)">Tagueado e completo em features contra o mesmo contrato, ainda retido do npm. Nada para instalar ainda — leia direto do repositório.</p>
+          <h4 data-l="en">Added</h4>
+          <h4 data-l="pt">Adicionado</h4>
+          <p data-l="en"><code>getSecret</code> accepts an <code>env</code> that replaces the client's environment for one call. It is never implicit and never a default: the environment the client was built with applies unless a call says otherwise, in that call alone, and <code>omitEnv</code> still wins over it.</p>
+          <p data-l="pt"><code>getSecret</code> aceita um <code>env</code> que substitui o ambiente do client por uma chamada. Nunca é implícito nem default: o ambiente com que o client foi construído vale a menos que uma chamada diga o contrário, e só naquela chamada, e o <code>omitEnv</code> continua vencendo.</p>
         </div>
       </div>
-    </div>
+
+      <div class="release" data-c="ts">
+        <div>
+          <span class="release-v">0.1.0-alpha.1</span>
+          <span class="release-d" data-l="en">first alpha</span>
+          <span class="release-d" data-l="pt">primeiro alpha</span>
+          <span class="release-tag" data-l="en">unpublished</span>
+          <span class="release-tag" data-l="pt">não publicado</span>
+        </div>
+        <div class="release-body">
+          <p data-l="en">The contract, the shared core, the factory, the five providers and the shared contract suite. Tagged and feature-complete against the same contract, but nothing was pushed to npm — read it from the repository until it is.</p>
+          <p data-l="pt">O contrato, o core compartilhado, a factory, os cinco providers e a suíte de contrato compartilhada. Tagueado e completo em features contra o mesmo contrato, mas nada foi enviado ao npm — leia direto do repositório até que seja.</p>
+        </div>
+      </div>
   </section>
 </main>
 
@@ -929,7 +1053,7 @@ client = <span class="f">create_secret_client</span>(
         <ul>
           <li><a href="https://github.com/brunnofoggia/secret-kernel-py">GitHub</a></li>
           <li><a href="https://pypi.org/project/secret-kernel-core/">PyPI · secret-kernel-core</a></li>
-          <li><span style="color:var(--cream-faint)">0.1.0a2 · Python 3.12+</span></li>
+          <li><span style="color:var(--cream-faint)">0.1.0a3 · Python 3.12+</span></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -937,7 +1061,7 @@ client = <span class="f">create_secret_client</span>(
         <ul>
           <li><a href="https://github.com/brunnofoggia/secret-kernel-js">GitHub</a></li>
           <li><span style="color:var(--cream-faint)" data-l="en">npm — not published yet</span><span style="color:var(--cream-faint)" data-l="pt">npm — ainda não publicado</span></li>
-          <li><span style="color:var(--cream-faint)">0.1.0-alpha.1 · Node 22+</span></li>
+          <li><span style="color:var(--cream-faint)">0.1.0-alpha.3 · Node 22+</span></li>
         </ul>
       </div>
       <div class="footer-col">

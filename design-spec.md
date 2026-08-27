@@ -48,10 +48,18 @@ claim needs the code that proves it, visible without a click.
    `/prod/billing/database/password`. Rules: `env` and `project` are single
    segments and reject a slash; `prefix` and the name accept `/`. All optional.
 5. **Changing the name for one call** — `omit_env` / `omit_project` /
-   `omit_prefix`, and `project` / `prefix` replacement. Omitting wins over
-   replacing. There is deliberately no per-call `env` override, and the site must
-   say why: a production service reading a development secret is almost always a
-   defect.
+   `omit_prefix` drop a part, and `env` / `project` / `prefix` replace one.
+   Omitting wins over replacing. Replacing `env` is never implicit and never a
+   default, and the site must say why it is nonetheless offered: a service reading
+   another environment is usually a defect, but the caller sometimes knows better
+   than the process context.
+
+   > Corrected on 2026-08-27. Until `secret-kernel-py` `0.1.0a3` and
+   > `secret-kernel-js` `0.1.0-alpha.3`, this item said there was deliberately no
+   > per-call `env` override at all, and the page said so in two places. That was
+   > true of the Python API when this spec was written and never true of the
+   > TypeScript one, which carried `env?` in `GetSecretBaseOptions` from the
+   > start. Both now agree.
 6. **Reading structured secrets** — default string; `JSON`; `KEY_VALUE` with
    `pair_separator` / `key_value_separator` / `keys` / `trim`; client-level
    conventions merged field by field by a per-call override.

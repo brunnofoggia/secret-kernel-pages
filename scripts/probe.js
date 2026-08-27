@@ -88,6 +88,43 @@ window.__probe = function () {
   out.symbols = Object.keys(symbols).length;
   out.brokenUses = brokenUses.slice(0, 8);
 
+  /* Within one parent, each language variant must appear the same number of
+   * times. Comparing presence instead of counts is not enough: dropping one of
+   * two Portuguese siblings leaves the parent still holding Portuguese, and the
+   * gap goes unnoticed in one of the four toggle combinations.
+   *
+   * A parent that is legitimately uneven — the changelog, where Python has two
+   * releases and TypeScript one — declares it with data-uneven, so the exception
+   * is visible in the markup rather than hidden in this check. */
+  var gaps = [];
+  [['data-l', ['en', 'pt']], ['data-c', ['py', 'ts']]].forEach(function (pair) {
+    var attr = pair[0], values = pair[1];
+    var parents = [];
+    document.querySelectorAll('[' + attr + ']').forEach(function (el) {
+      if (el.parentElement && parents.indexOf(el.parentElement) === -1) {
+        parents.push(el.parentElement);
+      }
+    });
+    parents.forEach(function (parent) {
+      var uneven = (parent.getAttribute('data-uneven') || '').split(/\s+/);
+      if (uneven.indexOf(attr) !== -1) return;
+
+      var counts = values.map(function (v) {
+        return Array.prototype.filter.call(parent.children, function (c) {
+          return c.getAttribute(attr) === v;
+        }).length;
+      });
+      if (counts[0] === counts[1]) return;
+
+      var where = parent.className
+        ? '.' + String(parent.className).split(' ')[0]
+        : parent.tagName.toLowerCase();
+      gaps.push(values[0] + '=' + counts[0] + ' ' + values[1] + '=' + counts[1]
+        + ' under ' + where);
+    });
+  });
+  out.pairGaps = gaps.slice(0, 8);
+
   out.copyButtons = document.querySelectorAll('.copy').length;
   return out;
 };

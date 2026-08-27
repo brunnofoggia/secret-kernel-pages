@@ -14,11 +14,14 @@ import { iframeHarness, screenshot, stage, NARROW_LIMIT } from './lib/win-chrome
 const SHOTS = [
   ['01-hero-en-py', 1440, 1000, 'en', 'py', null],
   ['02-hero-pt-ts', 1440, 1000, 'pt', 'ts', null],
+  ['02b-install-py', 1440, 1500, 'en', 'py', 'install'],
+  ['02c-install-pt-ts', 1440, 1500, 'pt', 'ts', 'install'],
   ['03-names-en-py', 1440, 1100, 'en', 'py', 'names'],
   ['04-providers-pt-py', 1440, 1150, 'pt', 'py', 'providers'],
   ['05-parse-en-ts', 1440, 1150, 'en', 'ts', 'parse'],
   ['06-errors-pt-py', 1440, 1150, 'pt', 'py', 'errors'],
-  ['07-changelog-en', 1440, 950, 'en', 'py', 'changelog'],
+  ['07-changelog-py', 1440, 950, 'en', 'py', 'changelog'],
+  ['07b-changelog-ts', 1440, 800, 'en', 'ts', 'changelog'],
   ['08-mobile-pt-py', 390, 1000, 'pt', 'py', null],
   ['09-mobile-en-ts', 390, 1000, 'en', 'ts', 'install'],
 ];

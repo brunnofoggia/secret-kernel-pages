@@ -264,6 +264,40 @@ li strong { color: var(--cream); font-weight: 500; }
 .row:first-of-type { border-top: 0; padding-top: 0; }
 .row > * { min-width: 0; }
 
+/* A step that carries subtopics: the band introduces it, and each subtopic
+   below is a normal prose/code row labelled by its provider alias. */
+.step-band {
+  padding: 2.75rem 0 0;
+  border-top: 1px solid var(--rule-soft);
+}
+.step-band h3 { margin-bottom: 0.6rem; }
+.step-band p {
+  margin: 0;
+  max-width: 34rem;
+  color: var(--cream-dim);
+}
+.row.sub { border-top: 0; padding: 1.75rem 0; }
+.subtopic {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.9rem;
+}
+.subtopic svg { width: 16px; height: 16px; fill: var(--sky); flex: none; }
+.subtopic .bullet {
+  width: 16px;
+  flex: none;
+  text-align: center;
+  color: var(--sky);
+  font-family: var(--mono);
+}
+.subtopic code {
+  padding: 0;
+  background: none;
+  color: var(--cream);
+  font: 500 14px/1 var(--mono);
+}
+
 /* ── hero ───────────────────────────────────────────────────────────────── */
 .hero {
   display: grid;

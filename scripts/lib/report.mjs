@@ -20,6 +20,7 @@ export function problemsFor(r) {
     bad.push(`expected ${EXPECTED_SYMBOLS} brand symbols, found ${r.symbols}`);
   }
   if (r.brokenUses?.length) bad.push(`unresolved <use>: ${r.brokenUses.join(', ')}`);
+  if (r.pairGaps?.length) bad.push(`toggle gap: ${r.pairGaps.join('; ')}`);
   return bad;
 }
 

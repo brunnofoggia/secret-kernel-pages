@@ -1,0 +1,57 @@
+name: ci
+
+# Builds dist/ and verifies it. Never deploys — publishing is deploy.yml, which
+# only runs when a human starts it.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      # The sprite is generated but committed, because the build reads it and
+      # src/ has no other generated file. This keeps it from going stale.
+      - name: Check the committed logo sprite is current
+        run: |
+          npm run sprite
+          git diff --exit-code -- src/assets/logo-sprite.html \
+            || { echo "::error::src/assets/logo-sprite.html is stale — run 'npm run sprite' and commit"; exit 1; }
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify the built page
+        run: npm run verify
+
+      - name: Upload dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          if-no-files-found: error
+          retention-days: 14

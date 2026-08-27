@@ -121,7 +121,7 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
       </div>
 
       <div class="badge-row">
-        <a class="dist" href="https://pypi.org/project/secret-kernel-core/" data-c="py"><svg aria-hidden="true"><use href="#logo-pypi"/></svg>secret-kernel-* <span class="ver">0.1.0a3</span></a>
+        <a class="dist" href="https://pypi.org/project/secret-kernel-core/" data-c="py"><svg aria-hidden="true"><use href="#logo-pypi"/></svg>secret-kernel-*</a>
         <a class="dist" href="https://github.com/brunnofoggia/secret-kernel-js" data-c="ts"><svg aria-hidden="true"><use href="#logo-npm"/></svg>@secret-kernel/* <span class="tag" data-l="en">unpublished</span><span class="tag" data-l="pt">não publicado</span></a>
         <a class="dist" href="https://github.com/brunnofoggia/secret-kernel-py" data-c="py"><svg aria-hidden="true"><use href="#logo-github"/></svg><span data-l="en">Source</span><span data-l="pt">Código</span></a>
         <a class="dist" href="https://github.com/brunnofoggia/secret-kernel-js" data-c="ts"><svg aria-hidden="true"><use href="#logo-github"/></svg><span data-l="en">Source</span><span data-l="pt">Código</span></a>
@@ -938,6 +938,9 @@ client = <span class="f">create_secret_client</span>(
   </section>
 
   <!-- ══ 10 · changelog ═════════════════════════════════════════════════ -->
+  <!-- #changelog is the Changelog URL in the published package metadata of
+       secret-kernel-py (0.1.0a4 onwards). Renaming this id breaks every package
+       page on PyPI, so it does not get renamed. -->
   <section id="changelog">
     <div class="sec-head">
       <div class="sec-num">10</div>
@@ -949,9 +952,32 @@ client = <span class="f">create_secret_client</span>(
       </div>
     </div>
 
-    <!-- Uneven on purpose: Python has two releases, TypeScript one. -->
+    <!-- TypeScript only, on purpose: the Python packages are on PyPI, so there
+         is no Python counterpart to write. Scoped to this wrapper so the rest of
+         the section is still checked for toggle gaps. -->
+    <div data-uneven="data-c">
+      <p class="note" data-c="ts" data-l="en">None of these are on npm yet. The tags exist and are feature-complete against the same contract — read them from the repository until they are published.</p>
+      <p class="note" data-c="ts" data-l="pt">Nenhum destes está no npm ainda. As tags existem e estão completas em features contra o mesmo contrato — leia direto do repositório até serem publicadas.</p>
+    </div>
+
+    <!-- Uneven on purpose: Python has more releases than TypeScript. -->
     <div class="col" data-uneven="data-c">
       <!-- Python -->
+      <div class="release" data-c="py">
+        <div>
+          <span class="release-v">0.1.0a4</span>
+          <span class="release-d">2026-08-27</span>
+          <span class="release-tag" data-l="en">tagged, not on PyPI</span>
+          <span class="release-tag" data-l="pt">tagueado, fora do PyPI</span>
+        </div>
+        <div class="release-body">
+          <h4 data-l="en">Changed</h4>
+          <h4 data-l="pt">Alterado</h4>
+          <p data-l="en">The <code>Changelog</code> link on the package page points here instead of at the raw file on GitHub, so every link on that page leads to where the reader already is.</p>
+          <p data-l="pt">O link <code>Changelog</code> na página do pacote aponta para cá em vez do arquivo bruto no GitHub, então todo link daquela página leva para onde quem lê já está.</p>
+        </div>
+      </div>
+
       <div class="release" data-c="py">
         <div>
           <span class="release-v">0.1.0a3</span>
@@ -999,9 +1025,19 @@ client = <span class="f">create_secret_client</span>(
       <!-- TypeScript -->
       <div class="release" data-c="ts">
         <div>
+          <span class="release-v">0.1.0-alpha.4</span>
+        </div>
+        <div class="release-body">
+          <h4 data-l="en">Changed</h4>
+          <h4 data-l="pt">Alterado</h4>
+          <p data-l="en">Version only. The number tracks the Python side of the family, where <code>0.1.0a4</code> corrects the <code>Changelog</code> link on the package page. npm has no equivalent field, so nothing about these packages changed.</p>
+          <p data-l="pt">Apenas versão. O número acompanha o lado Python da família, onde <code>0.1.0a4</code> corrige o link <code>Changelog</code> na página do pacote. O npm não tem campo equivalente, então nada nestes pacotes mudou.</p>
+        </div>
+      </div>
+
+      <div class="release" data-c="ts">
+        <div>
           <span class="release-v">0.1.0-alpha.3</span>
-          <span class="release-tag" data-l="en">unpublished</span>
-          <span class="release-tag" data-l="pt">não publicado</span>
         </div>
         <div class="release-body">
           <h4 data-l="en">Added</h4>
@@ -1016,12 +1052,10 @@ client = <span class="f">create_secret_client</span>(
           <span class="release-v">0.1.0-alpha.1</span>
           <span class="release-d" data-l="en">first alpha</span>
           <span class="release-d" data-l="pt">primeiro alpha</span>
-          <span class="release-tag" data-l="en">unpublished</span>
-          <span class="release-tag" data-l="pt">não publicado</span>
         </div>
         <div class="release-body">
-          <p data-l="en">The contract, the shared core, the factory, the five providers and the shared contract suite. Tagged and feature-complete against the same contract, but nothing was pushed to npm — read it from the repository until it is.</p>
-          <p data-l="pt">O contrato, o core compartilhado, a factory, os cinco providers e a suíte de contrato compartilhada. Tagueado e completo em features contra o mesmo contrato, mas nada foi enviado ao npm — leia direto do repositório até que seja.</p>
+          <p data-l="en">The contract, the shared core, the factory, the five providers and the shared contract suite. Tagged before changelog fragments were being kept, which is why there is nothing itemised here.</p>
+          <p data-l="pt">O contrato, o core compartilhado, a factory, os cinco providers e a suíte de contrato compartilhada. Tagueado antes de os fragmentos de changelog começarem a ser mantidos, e é por isso que não há itens detalhados aqui.</p>
         </div>
       </div>
   </section>
@@ -1053,7 +1087,7 @@ client = <span class="f">create_secret_client</span>(
         <ul>
           <li><a href="https://github.com/brunnofoggia/secret-kernel-py">GitHub</a></li>
           <li><a href="https://pypi.org/project/secret-kernel-core/">PyPI · secret-kernel-core</a></li>
-          <li><span style="color:var(--cream-faint)">0.1.0a3 · Python 3.12+</span></li>
+          <li><span style="color:var(--cream-faint)">Python 3.12+</span></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -1061,7 +1095,7 @@ client = <span class="f">create_secret_client</span>(
         <ul>
           <li><a href="https://github.com/brunnofoggia/secret-kernel-js">GitHub</a></li>
           <li><span style="color:var(--cream-faint)" data-l="en">npm — not published yet</span><span style="color:var(--cream-faint)" data-l="pt">npm — ainda não publicado</span></li>
-          <li><span style="color:var(--cream-faint)">0.1.0-alpha.3 · Node 22+</span></li>
+          <li><span style="color:var(--cream-faint)">Node 22+</span></li>
         </ul>
       </div>
       <div class="footer-col">

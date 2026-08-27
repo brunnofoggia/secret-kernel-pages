@@ -20,8 +20,8 @@ const SHOTS = [
   ['04-providers-pt-py', 1440, 1150, 'pt', 'py', 'providers'],
   ['05-parse-en-ts', 1440, 1150, 'en', 'ts', 'parse'],
   ['06-errors-pt-py', 1440, 1150, 'pt', 'py', 'errors'],
-  ['07-changelog-py', 1440, 950, 'en', 'py', 'changelog'],
-  ['07b-changelog-ts', 1440, 800, 'en', 'ts', 'changelog'],
+  ['07-changelog-py', 1440, 1250, 'en', 'py', 'changelog'],
+  ['07b-changelog-ts', 1440, 1100, 'en', 'ts', 'changelog'],
   ['08-mobile-pt-py', 390, 1000, 'pt', 'py', null],
   ['09-mobile-en-ts', 390, 1000, 'en', 'ts', 'install'],
 ];

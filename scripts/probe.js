@@ -125,6 +125,26 @@ window.__probe = function () {
   });
   out.pairGaps = gaps.slice(0, 8);
 
+  /* Section ids are external URL targets, not just internal anchors:
+   * #changelog is the Changelog link in the published package metadata of
+   * secret-kernel-py, and the others are linked from the masthead. Renaming one
+   * silently breaks whatever points at it, so the set is asserted here. */
+  var REQUIRED_IDS = ['top', 'scope', 'install', 'names', 'per-call', 'parse',
+    'providers', 'cache', 'errors', 'extend', 'changelog'];
+  out.missingIds = REQUIRED_IDS.filter(function (id) {
+    return !document.getElementById(id);
+  });
+
+  /* Every in-page link must land on something that exists. */
+  var deadLinks = [];
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    var id = a.getAttribute('href').slice(1);
+    if (id && !document.getElementById(id)) deadLinks.push('#' + id);
+  });
+  out.deadLinks = deadLinks.filter(function (v, i, arr) {
+    return arr.indexOf(v) === i;
+  }).slice(0, 8);
+
   out.copyButtons = document.querySelectorAll('.copy').length;
   return out;
 };

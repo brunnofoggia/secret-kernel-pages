@@ -21,6 +21,8 @@ export function problemsFor(r) {
   }
   if (r.brokenUses?.length) bad.push(`unresolved <use>: ${r.brokenUses.join(', ')}`);
   if (r.pairGaps?.length) bad.push(`toggle gap: ${r.pairGaps.join('; ')}`);
+  if (r.missingIds?.length) bad.push(`missing section id: ${r.missingIds.join(', ')}`);
+  if (r.deadLinks?.length) bad.push(`link to nothing: ${r.deadLinks.join(', ')}`);
   return bad;
 }
 

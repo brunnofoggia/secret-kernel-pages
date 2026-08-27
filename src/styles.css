@@ -246,6 +246,7 @@ li strong { color: var(--cream); font-weight: 500; }
 
 .note {
   margin: 1.75rem 0;
+  max-width: var(--measure);
   padding: 0.15rem 0 0.15rem 1.15rem;
   border-left: 2px solid var(--sky);
   color: var(--cream-dim);

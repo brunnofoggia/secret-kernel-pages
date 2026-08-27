@@ -2,14 +2,15 @@ name: deploy
 
 # Publishes dist/ to GitHub Pages on the custom domain in site.config.json.
 #
-# Deliberately manual: workflow_dispatch only. A deploy puts the page in front of
-# people, and that stays a decision someone makes rather than a side effect of
-# merging. To deploy on every push to main instead, add:
+# Runs when ci succeeds on main, and can always be started by hand. It chains off
+# ci rather than off the push itself so a commit that fails the gate never
+# reaches the site: workflow_run fires on `completed`, which includes failure, so
+# the conclusion is checked explicitly below.
 #
-#   push:
-#     branches: [main]
-#
-# to the triggers below.
+# The consequence, deliberately accepted: every commit that lands on main and
+# passes ci goes live. Rolling back is a revert plus another deploy — there is no
+# button that un-publishes. To go back to manual-only, delete the workflow_run
+# block and keep workflow_dispatch.
 #
 # One-time setup outside this file:
 #   - Settings > Pages > Source: GitHub Actions
@@ -21,6 +22,10 @@ name: deploy
 # custom domain, so this workflow refuses to run when it is unset.
 
 on:
+  workflow_run:
+    workflows: [ci]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -34,9 +39,17 @@ concurrency:
 
 jobs:
   build:
+    # workflow_run fires on failure too, so the conclusion has to be read.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # A workflow_run checkout defaults to the default branch's tip, which
+          # may already be a later commit than the one ci verified.
+          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
 
       - uses: actions/setup-node@v4
         with:

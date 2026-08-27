@@ -181,15 +181,31 @@ of `verify.mjs`.
 ## CI and deploying
 
 `ci.yml` runs on every push and pull request to `main`: check the sprite, build,
-verify, and upload `dist/` as an artifact. It never deploys.
+verify, and upload `dist/` as an artifact. It never deploys — the artifact is
+also the way to inspect the built page without publishing it (Actions → the run →
+Artifacts → dist).
 
-`deploy.yml` publishes `dist/` to Pages and is **`workflow_dispatch` only** —
-someone has to start it. A deploy puts the page in front of people, and that
-stays a decision rather than a side effect of merging. It runs the same build and
-verify first, refuses to start without a configured domain, and asserts
-`dist/CNAME` exists before uploading.
+`deploy.yml` publishes `dist/` to Pages. It runs when **`ci` succeeds on `main`**,
+and can always be started by hand from the Actions tab.
 
-To deploy on every push to `main` instead, add a `push:` trigger to `deploy.yml`.
+It chains off `ci` rather than off the push, so a commit that fails the gate never
+reaches the site. Three details that make that hold:
+
+- `workflow_run` fires on `completed`, which includes failure, so the job checks
+  `github.event.workflow_run.conclusion == 'success'` explicitly;
+- the `deploy` job is `needs: build`, so a skipped or failed build skips the
+  deploy rather than publishing something unverified;
+- a `workflow_run` checkout defaults to the default branch's tip, which may
+  already be a later commit than the one `ci` verified, so it checks out
+  `workflow_run.head_sha`.
+
+It then re-runs build and verify, refuses to start without a configured domain,
+and asserts `dist/CNAME` exists before uploading.
+
+**The consequence, deliberately accepted:** every commit that lands on `main` and
+passes `ci` goes live. Rolling back is a revert plus another deploy — nothing
+un-publishes. To go back to manual-only, delete the `workflow_run` block from
+`deploy.yml` and keep `workflow_dispatch`.
 
 ## Content is downstream of the libraries
 

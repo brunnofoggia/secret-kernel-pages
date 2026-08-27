@@ -145,6 +145,11 @@ window.__probe = function () {
     return arr.indexOf(v) === i;
   }).slice(0, 8);
 
+  /* What the toggles actually settled on, so a harness can load the page with
+     ?code=/?lang= and assert the URL won over storage and the default. */
+  out.activeCode = de.getAttribute("data-code");
+  out.activeLang = de.getAttribute("data-lang");
+
   out.copyButtons = document.querySelectorAll('.copy').length;
   return out;
 };

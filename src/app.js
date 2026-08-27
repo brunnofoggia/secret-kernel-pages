@@ -4,6 +4,12 @@
  * button per code block, and nav highlighting. The toggles themselves are pure
  * CSS (see styles.css); this only flips an attribute on <html>, so the page is
  * fully readable with JavaScript disabled — it simply stays on the defaults.
+ *
+ * Both toggles can be set from the URL: ?code=py|ts and ?lang=en|pt. That exists
+ * because the published package metadata links here, and a reader arriving from
+ * PyPI should see Python whatever they last clicked. Precedence is therefore
+ * query, then localStorage, then the attribute already in the markup — an
+ * explicit link beats a remembered preference, which beats the default.
  */
 (function () {
   'use strict';
@@ -16,6 +22,8 @@
   };
 
   var LOCALE = { en: 'en', pt: 'pt-BR' };
+
+  var params = new URLSearchParams(window.location.search);
 
   function store(key, value) {
     try {
@@ -40,6 +48,20 @@
     root.setAttribute(t.attr, value);
     if (name === 'lang') root.lang = LOCALE[value];
 
+    /* Keep a parameter that is already in the URL truthful, so copying the
+     * address after clicking shares what is actually on screen. Never add one
+     * that was not there: the page does not rewrite an address nobody
+     * parameterised. */
+    if (params.has(name) && params.get(name) !== value) {
+      params.set(name, value);
+      try {
+        window.history.replaceState(null, '',
+          window.location.pathname + '?' + params + window.location.hash);
+      } catch (e) {
+        /* file:// refuses replaceState; the toggle still works */
+      }
+    }
+
     var buttons = document.querySelectorAll('[' + attrSelector(t.prop) + ']');
     for (var i = 0; i < buttons.length; i++) {
       buttons[i].setAttribute('aria-pressed', String(buttons[i].dataset[t.prop] === value));
@@ -63,12 +85,17 @@
       });
     });
 
-    /* Reconcile from storage when there is a stored choice, otherwise from the
-     * attribute already on <html>. Without the fallback, a page shipped with a
-     * different default would render that default while the buttons still
-     * claimed the old one. */
-    var saved = read(t.key);
-    apply(name, saved && t.valid.indexOf(saved) !== -1 ? saved : root.getAttribute(t.attr));
+    /* Query, then storage, then the attribute already on <html>. The last one
+     * is not merely a default: without it a page shipped with a different
+     * default would render that default while the buttons still claimed the
+     * old one. */
+    var candidates = [params.get(name), read(t.key), root.getAttribute(t.attr)];
+    for (var c = 0; c < candidates.length; c++) {
+      if (candidates[c] && t.valid.indexOf(candidates[c]) !== -1) {
+        apply(name, candidates[c]);
+        break;
+      }
+    }
   });
 
   /* ── copy buttons ──────────────────────────────────────────────────────

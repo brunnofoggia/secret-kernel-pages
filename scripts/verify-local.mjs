@@ -76,5 +76,37 @@ for (const width of WIDTHS) {
   rows.push({ width, ...extract(dom) });
 }
 
-const problems = printTable(rows);
+/* Same check as verify.mjs: the query must beat what localStorage holds. The
+ * seeding runs inside the page, since this harness cannot drive the browser. */
+const SEED = `
+<script>
+try {
+  var q = new URLSearchParams(location.search);
+  if (q.get('seed')) localStorage.setItem(q.get('seedKey'), q.get('seed'));
+} catch (e) {}
+</script>
+`;
+await area.write('qprobe.html', page.replace('<head>', '<head>' + SEED).replace('</body>', RUNNER + '</body>'));
+
+const queryChecks = [];
+for (const [param, value, other, key, reads] of [
+  ['code', 'ts', 'py', 'sk.code', 'activeCode'],
+  ['code', 'py', 'ts', 'sk.code', 'activeCode'],
+  ['lang', 'pt', 'en', 'sk.lang', 'activeLang'],
+]) {
+  const query = `?${param}=${value}&seed=${other}&seedKey=${key}`;
+  const dom = await dumpDom(area.url('qprobe.html') + query, { width: 1280 });
+  queryChecks.push({ param, value, other, got: extract(dom)[reads] });
+}
+
+console.log('\n  query overrides a stored preference');
+console.log('  ' + '-'.repeat(46));
+const queryProblems = [];
+for (const c of queryChecks) {
+  const ok = c.got === c.value;
+  console.log(`  ?${c.param}=${c.value} over stored "${c.other}" -> ${c.got}  ${ok ? 'ok' : 'FAIL'}`);
+  if (!ok) queryProblems.push(`?${c.param}=${c.value} gave "${c.got}"`);
+}
+
+const problems = printTable(rows).concat(queryProblems);
 process.exit(problems.length ? 1 : 0);

@@ -131,6 +131,29 @@ The page carries two independent switches, both remembered in `localStorage`:
 Both switch through a CSS attribute selector on `<html>`, so the page is readable
 with JavaScript disabled; it just stays on the defaults (EN, Python).
 
+### Linking to a specific view
+
+Both toggles can be set from the URL:
+
+```text
+https://secret-kernel.foggia.zip/?code=py#changelog
+https://secret-kernel.foggia.zip/?code=ts
+https://secret-kernel.foggia.zip/?lang=pt
+```
+
+Precedence is **query, then `localStorage`, then the attribute in the markup** —
+an explicit link beats a remembered preference, which beats the default. This
+exists because the published package metadata links here: a reader arriving from
+PyPI should see Python whatever they last clicked.
+
+An unrecognised value is ignored rather than applied, and the choice is then
+remembered like any other. The page keeps a parameter that is **already** in the
+URL truthful when you click a toggle, so copying the address shares what is on
+screen — but it never adds one that was not there.
+
+`npm run verify` seeds `localStorage` with the opposite value and asserts the
+query still wins, so this cannot rot silently.
+
 ## Verifying a change
 
 ```bash

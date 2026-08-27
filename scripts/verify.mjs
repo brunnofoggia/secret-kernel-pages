@@ -57,7 +57,38 @@ for (const width of WIDTHS) {
   await context.close();
 }
 
+/* The published package metadata links here with ?code=, so the query has to beat
+ * a stored preference. Seeded with the opposite value to prove it does. */
+const queryChecks = [];
+for (const [param, value, other, reads] of [
+  ['code', 'ts', 'py', 'activeCode'],
+  ['code', 'py', 'ts', 'activeCode'],
+  ['lang', 'pt', 'en', 'activeLang'],
+]) {
+  const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+  const page = await context.newPage();
+  await page.goto(`file://${PAGE}`, { waitUntil: 'load' });
+  await page.evaluate(([k, v]) => localStorage.setItem(k, v),
+    [param === 'code' ? 'sk.code' : 'sk.lang', other]);
+  await page.goto(`file://${PAGE}?${param}=${value}`, { waitUntil: 'load' });
+  await page.waitForTimeout(400);
+  await page.addScriptTag({ path: PROBE });
+  const r = await page.evaluate('window.__probe()');
+  queryChecks.push({ param, value, other, got: r[reads] });
+  await context.close();
+}
+
 await browser.close();
 
+console.log('\n  query overrides a stored preference');
+console.log('  ' + '-'.repeat(46));
+const queryProblems = [];
+for (const c of queryChecks) {
+  const ok = c.got === c.value;
+  console.log(`  ?${c.param}=${c.value} over stored "${c.other}" -> ${c.got}  ${ok ? 'ok' : 'FAIL'}`);
+  if (!ok) queryProblems.push(`?${c.param}=${c.value} gave "${c.got}"`);
+}
+
 const problems = printTable(rows, { consoleErrors });
+problems.push(...queryProblems);
 process.exit(problems.length ? 1 : 0);

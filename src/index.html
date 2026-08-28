@@ -960,6 +960,21 @@ client = <span class="f">create_secret_client</span>(
       <!-- Python -->
       <div class="release" data-c="py">
         <div>
+          <span class="release-v">0.1.0a5</span>
+          <span class="release-d">2026-08-28</span>
+          <span class="release-tag" data-l="en">tagged, not on PyPI yet</span>
+          <span class="release-tag" data-l="pt">tagueado, ainda fora do PyPI</span>
+        </div>
+        <div class="release-body">
+          <h4 data-l="en">Changed · breaking</h4>
+          <h4 data-l="pt">Alterado · breaking</h4>
+          <p data-l="en">The AWS providers name their SDK configuration <code>client_options</code>, which is what the GCP providers and the TypeScript side already called it. It was <code>client_config</code>, so one argument carried two names across a family of nine distributions — a difference <code>snake_case</code> does not explain and a reader cannot derive from its counterpart. Breaking only for a caller passing that option by keyword.</p>
+          <p data-l="pt">Os providers da AWS chamam sua configuração de SDK de <code>client_options</code>, que é como os providers do GCP e o lado TypeScript já chamavam. Era <code>client_config</code>, então um argumento carregava dois nomes numa família de nove distribuições — uma diferença que <code>snake_case</code> não explica e que quem lê não deduz da contraparte. Breaking apenas para quem passa essa opção por keyword.</p>
+        </div>
+      </div>
+
+      <div class="release" data-c="py">
+        <div>
           <span class="release-v">0.1.0a4</span>
           <span class="release-d">2026-08-27</span>
         </div>

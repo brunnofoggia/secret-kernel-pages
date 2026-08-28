@@ -21,10 +21,11 @@ is stripped of nothing but its hardcoded `fill`, so the page can recolor it with
 | npm | where `@secret-kernel/*` is **not yet** published | Simple Icons CDN | `src/assets/logos/npm.svg` |
 | GitHub | source links | Simple Icons CDN | `src/assets/logos/github.svg` |
 
-`scripts/build_logo_sprite.py` folds all seven into one inline `<symbol>` sprite at
-`src/assets/logo-sprite.html`, which is pasted into the page. Nothing is referenced
-by URL, so the page has no external image dependency and cannot render with broken
-marks if it is moved.
+`scripts/lib/sprite.mjs` folds all seven into one inline `<symbol>` sprite, which
+the build injects into the page. The sprite is never written to `src/`: it is
+derived from the SVGs above, and a derived file in the source tree is one that can
+go stale. Nothing is referenced by URL, so the page has no external image
+dependency and cannot render with broken marks if it is moved.
 
 ## Facts the page asserts
 

@@ -25,9 +25,10 @@ fills in. Build first.
 `dist/` is not a copy of `src/`. Everything `scripts/build.mjs` does is a reason
 the step exists:
 
-1. **The brand-mark sprite is injected.** It is generated from
-   `src/assets/logos/` by `npm run sprite`, so keeping it inline in
-   `src/index.html` would commit a build artifact into the source tree.
+1. **The brand-mark sprite is generated and injected.** It is folded from
+   `src/assets/logos/` at build time, so it exists only in `dist/` — neither
+   inline in `src/index.html` nor as a generated file committed beside the
+   source, which is also why it cannot go stale.
 2. **`styles.css` and `app.js` get a content hash in their filename** —
    `styles.60be36e5.css` — so Pages can serve them with a long cache lifetime and
    still update the moment they change.
@@ -35,7 +36,7 @@ the step exists:
 4. **With a domain configured**, `CNAME`, the canonical link, `og:url`,
    `robots.txt` and `sitemap.xml`. See below.
 
-Nothing is minified. The page is ~67 KB of HTML and gzip on the wire does most of
+Nothing is minified. The page is ~77 KB of HTML and gzip on the wire does most of
 what a minifier would, for none of the toolchain.
 
 ## The deploy target lives in one file
@@ -73,26 +74,25 @@ src/                       hand-authored, the only thing you edit
 ├── styles.css             tokens, layout, responsive rules
 ├── app.js                 the two toggles, copy buttons, nav highlighting
 └── assets/
-    ├── logos/*.svg        official brand marks, as downloaded
-    └── logo-sprite.html   the marks folded into one <symbol> sprite (generated)
+    └── logos/*.svg        official brand marks, as downloaded
 dist/                      the built artifact — gitignored, never edited
 site.config.json           the origin the site is served from
 scripts/
 ├── build.mjs              src/ -> dist/
-├── build-logo-sprite.mjs  regenerate the sprite from src/assets/logos/
 ├── serve.mjs              serve dist/ for local preview
 ├── probe.js               the layout checks, injected into the page
 ├── verify.mjs             runs the checks via Playwright (the CI gate)
 ├── verify-local.mjs       runs the same checks via Windows Chrome (this WSL box)
-├── shots.mjs              screenshots of dist/ in nine states
+├── shots.mjs              screenshots of dist/ into tmp/final/
 └── lib/
-    ├── config.mjs         paths, viewport widths, the thresholds
+    ├── config.mjs         paths, widths, thresholds, storage keys
+    ├── sprite.mjs         folds the logo SVGs into one <symbol> sprite
     ├── site.mjs           reads and validates site.config.json
     ├── report.mjs         turns a probe report into a verdict
     └── win-chrome.mjs     driving the Windows Chrome WSL can reach
 .github/workflows/
 ├── ci.yml                 build + verify on push and PR
-└── deploy.yml             publish dist/ to Pages — manual only
+└── deploy.yml             publish dist/ to Pages when ci succeeds on main
 ```
 
 `probe.js` keeps the `.js` extension because it is injected into the page and
@@ -117,7 +117,8 @@ This repository keeps only the decision record for *this* page.
 
 ## The two toggles
 
-The page carries two independent switches, both remembered in `localStorage`:
+The page carries two independent switches, both remembered in `localStorage`
+under `sk.code` and `sk.lang`:
 
 - **Python ↔ TypeScript** — swaps every code sample *and* the identifier names in
   the prose, following the mapping the api-reference documents in both
@@ -170,8 +171,7 @@ At eight viewport widths from 1440 down to 360, the verifier checks:
 - that no interactive target is under 24px tall (WCAG 2.2 AA, Target Size Minimum);
 - that the built page carries all seven brand symbols and every `<use>` resolves.
 
-Console errors fail the run too. CI additionally fails if the committed sprite is
-stale — it regenerates it and diffs.
+Console errors fail the run too.
 
 ### Two harnesses, one set of checks
 
@@ -203,8 +203,8 @@ of `verify.mjs`.
 
 ## CI and deploying
 
-`ci.yml` runs on every push and pull request to `main`: check the sprite, build,
-verify, and upload `dist/` as an artifact. It never deploys — the artifact is
+`ci.yml` runs on every push and pull request to `main`: build, verify, and upload
+`dist/` as an artifact. It never deploys — the artifact is
 also the way to inspect the built page without publishing it (Actions → the run →
 Artifacts → dist).
 

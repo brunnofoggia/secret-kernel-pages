@@ -11,7 +11,7 @@
  */
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { DIST, PROBE, WIDTHS } from './lib/config.mjs';
+import { DIST, PROBE, STORE_KEYS, WIDTHS } from './lib/config.mjs';
 import { printTable } from './lib/report.mjs';
 
 let chromium;
@@ -69,7 +69,7 @@ for (const [param, value, other, reads] of [
   const page = await context.newPage();
   await page.goto(`file://${PAGE}`, { waitUntil: 'load' });
   await page.evaluate(([k, v]) => localStorage.setItem(k, v),
-    [param === 'code' ? 'sk.code' : 'sk.lang', other]);
+    [STORE_KEYS[param], other]);
   await page.goto(`file://${PAGE}?${param}=${value}`, { waitUntil: 'load' });
   await page.waitForTimeout(400);
   await page.addScriptTag({ path: PROBE });

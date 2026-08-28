@@ -1,8 +1,8 @@
 /* The layout checks, in one place.
  *
  * Two harnesses run this: scripts/verify.mjs (Playwright, used by CI and by any
- * machine with a working Linux Chromium) and scripts/verify.py (Windows Chrome,
- * used on this WSL box where Playwright's browser cannot start). Keeping the
+ * machine with a working Linux Chromium) and scripts/verify-local.mjs (Windows
+ * Chrome, for this WSL box where Playwright's browser cannot start). Keeping the
  * assertions here means the two harnesses cannot drift apart on *what* they
  * check — only on how they open a browser.
  *

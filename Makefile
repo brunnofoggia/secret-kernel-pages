@@ -2,7 +2,7 @@
 # package.json scripts, so CI and a local shell run the same implementation and
 # nothing is reachable only through Make.
 
-.PHONY: help install build sprite verify verify-local shots serve check-all clean
+.PHONY: help install build verify verify-local shots serve check-all clean
 
 help:
 	@echo "install       install Node deps and the Chromium Playwright needs"
@@ -11,7 +11,6 @@ help:
 	@echo "verify        check dist/ at 8 viewport widths (Playwright; the CI gate)"
 	@echo "verify-local  the same checks via Windows Chrome (this WSL box)"
 	@echo "shots         screenshots of dist/ into tmp/final/"
-	@echo "sprite        regenerate src/assets/logo-sprite.html from the logo SVGs"
 	@echo "check-all     build + verify — run before opening a PR"
 	@echo "clean         remove dist/ and tmp/"
 
@@ -24,9 +23,6 @@ build:
 
 serve:
 	npm run build && npm run serve
-
-sprite:
-	npm run sprite
 
 verify:
 	npm run verify

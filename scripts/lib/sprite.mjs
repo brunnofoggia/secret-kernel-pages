@@ -1,20 +1,21 @@
-/* Fold the downloaded official brand SVGs into one inline <symbol> sprite.
+/* Fold the official brand SVGs into one inline <symbol> sprite.
  *
  * The marks are third-party trademarks used for identification, so they are kept
  * byte-for-byte from their official sources and stripped only of hardcoded
  * fills, which lets the page recolour them through currentColor.
  *
- * Run this after adding or replacing anything in src/assets/logos/. The output
- * is committed because src/ has no other generated file and the build reads it
- * directly.
+ * This returns the sprite rather than writing it. The sprite is a build artifact
+ * derived from src/assets/logos/, and a build artifact does not belong in the
+ * source tree — so the build injects it and nothing on disk can go stale.
  */
-import { readdir, readFile, writeFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { SRC } from './lib/config.mjs';
+import { SRC } from './config.mjs';
 
 const LOGO_DIR = join(SRC, 'assets', 'logos');
-const OUT = join(SRC, 'assets', 'logo-sprite.html');
 
+/* Named here rather than read from the file, because <title> is what a screen
+ * reader announces and the downloaded marks do not all carry one. */
 const TITLES = {
   aws: 'Amazon Web Services',
   github: 'GitHub',
@@ -42,19 +43,17 @@ async function symbol(file) {
   return `<symbol id="logo-${slug}" viewBox="${viewBox[1]}"><title>${title}</title>${body}</symbol>`;
 }
 
-try {
+export async function buildSprite() {
   const files = (await readdir(LOGO_DIR)).filter((f) => f.endsWith('.svg')).sort();
+  if (!files.length) throw new Error(`no SVGs in ${LOGO_DIR}`);
+
   const symbols = await Promise.all(files.map(symbol));
 
-  const sprite =
-    '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" ' +
-    'style="position:absolute;width:0;height:0;overflow:hidden">' +
-    symbols.join('') + '</svg>\n';
-
-  await writeFile(OUT, sprite, 'utf8');
-  console.log(`  ${OUT.replace(process.cwd() + '/', '')} — ${symbols.length} symbols, ` +
-    `${Buffer.byteLength(sprite)} bytes`);
-} catch (err) {
-  console.error(`error: ${err.message}`);
-  process.exit(1);
+  return {
+    count: symbols.length,
+    markup:
+      '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" ' +
+      'style="position:absolute;width:0;height:0;overflow:hidden">' +
+      symbols.join('') + '</svg>',
+  };
 }

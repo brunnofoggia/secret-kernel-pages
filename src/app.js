@@ -17,6 +17,9 @@
   var root = document.documentElement;
 
   var TOGGLES = {
+    /* The keys are repeated in scripts/lib/config.mjs, which the verifiers read.
+     * This file runs in the browser and cannot import that one, so the pair is
+     * the single unavoidable duplication — change both together. */
     lang: { attr: 'data-lang', key: 'sk.lang', prop: 'setLang', valid: ['en', 'pt'] },
     code: { attr: 'data-code', key: 'sk.code', prop: 'setCode', valid: ['py', 'ts'] }
   };

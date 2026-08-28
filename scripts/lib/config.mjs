@@ -1,5 +1,5 @@
-/* Paths and the viewport set, in one place so the build, the two verifiers and
- * the screenshot tool cannot disagree about them. */
+/* Paths, the viewport set and the thresholds, in one place so the build, the two
+ * verifiers and the screenshot tool cannot disagree about them. */
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 
@@ -24,3 +24,13 @@ export const MIN_FONT_PX = 12;
 
 /* WCAG 2.2 AA, Target Size (Minimum). */
 export const MIN_TARGET_PX = 24;
+
+/* Where the page remembers each toggle. src/app.js declares the same two keys;
+ * it runs in the browser and cannot import this file, so that pair is the one
+ * unavoidable duplication — change both together. */
+export const STORE_KEYS = { code: 'sk.code', lang: 'sk.lang' };
+
+/* Prefix for the directories staged under the Windows temp dir. Distinct per
+ * repository, so two sibling family pages verified on the same box do not
+ * overwrite each other's staging area. */
+export const STAGE_PREFIX = 'sk';

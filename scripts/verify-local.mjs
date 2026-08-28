@@ -11,7 +11,7 @@
 import { readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { DIST, PROBE, WIDTHS } from './lib/config.mjs';
+import { DIST, PROBE, STAGE_PREFIX, STORE_KEYS, WIDTHS } from './lib/config.mjs';
 import { printTable } from './lib/report.mjs';
 import { dumpDom, iframeHarness, stage } from './lib/win-chrome.mjs';
 
@@ -54,7 +54,7 @@ if (!existsSync(join(DIST, 'index.html'))) {
 
 let area;
 try {
-  area = await stage('skverify', DIST);
+  area = await stage(`${STAGE_PREFIX}verify`, DIST);
 } catch (err) {
   console.error(`error: ${err.message}`);
   process.exit(1);
@@ -90,9 +90,9 @@ await area.write('qprobe.html', page.replace('<head>', '<head>' + SEED).replace(
 
 const queryChecks = [];
 for (const [param, value, other, key, reads] of [
-  ['code', 'ts', 'py', 'sk.code', 'activeCode'],
-  ['code', 'py', 'ts', 'sk.code', 'activeCode'],
-  ['lang', 'pt', 'en', 'sk.lang', 'activeLang'],
+  ['code', 'ts', 'py', STORE_KEYS.code, 'activeCode'],
+  ['code', 'py', 'ts', STORE_KEYS.code, 'activeCode'],
+  ['lang', 'pt', 'en', STORE_KEYS.lang, 'activeLang'],
 ]) {
   const query = `?${param}=${value}&seed=${other}&seedKey=${key}`;
   const dom = await dumpDom(area.url('qprobe.html') + query, { width: 1280 });

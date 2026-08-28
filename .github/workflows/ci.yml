@@ -1,7 +1,8 @@
 name: ci
 
 # Builds dist/ and verifies it. Never deploys — publishing is deploy.yml, which
-# only runs when a human starts it.
+# chains off a successful run of this workflow on main. The artifact uploaded
+# below is how you inspect a build without publishing it.
 
 on:
   push:
@@ -33,14 +34,6 @@ jobs:
 
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
-
-      # The sprite is generated but committed, because the build reads it and
-      # src/ has no other generated file. This keeps it from going stale.
-      - name: Check the committed logo sprite is current
-        run: |
-          npm run sprite
-          git diff --exit-code -- src/assets/logo-sprite.html \
-            || { echo "::error::src/assets/logo-sprite.html is stale — run 'npm run sprite' and commit"; exit 1; }
 
       - name: Build
         run: npm run build

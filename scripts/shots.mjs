@@ -7,7 +7,7 @@
 import { copyFile, mkdir, readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { DIST, TMP } from './lib/config.mjs';
+import { DIST, STAGE_PREFIX, TMP } from './lib/config.mjs';
 import { iframeHarness, screenshot, stage, NARROW_LIMIT } from './lib/win-chrome.mjs';
 
 /* name, width, height, prose language, code language, section to isolate */
@@ -34,7 +34,7 @@ if (!existsSync(join(DIST, 'index.html'))) {
 
 let area;
 try {
-  area = await stage('skshots', DIST);
+  area = await stage(`${STAGE_PREFIX}shots`, DIST);
 } catch (err) {
   console.error(`error: ${err.message}`);
   process.exit(1);

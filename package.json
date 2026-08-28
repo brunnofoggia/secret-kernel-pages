@@ -9,7 +9,6 @@
   },
   "scripts": {
     "build": "node scripts/build.mjs",
-    "sprite": "node scripts/build-logo-sprite.mjs",
     "verify": "node scripts/verify.mjs",
     "verify:local": "node scripts/verify-local.mjs",
     "shots": "node scripts/shots.mjs",

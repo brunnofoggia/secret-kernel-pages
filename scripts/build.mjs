@@ -2,9 +2,9 @@
  *
  * dist/ is not a copy of src/. Everything here is a reason the step exists:
  *
- * 1. The brand-mark sprite is injected. It is generated from src/assets/logos/,
- *    so keeping it inline in src/index.html would commit a build artifact into
- *    the source tree.
+ * 1. The brand-mark sprite is generated from src/assets/logos/ and injected. It
+ *    is a build artifact, so it exists only here — neither inline in
+ *    src/index.html nor as a generated file committed beside the source.
  * 2. styles.css and app.js get a content hash in their filename, so Pages can
  *    serve them with a long cache lifetime and still update instantly.
  * 3. .nojekyll is written, without which Pages runs the files through Jekyll.
@@ -20,6 +20,7 @@ import { mkdir, readFile, rm, writeFile, readdir, stat } from 'node:fs/promises'
 import { join, relative } from 'node:path';
 import { DIST, SRC, ROOT } from './lib/config.mjs';
 import { readSite } from './lib/site.mjs';
+import { buildSprite } from './lib/sprite.mjs';
 
 const HASHED = ['styles.css', 'app.js'];
 const SPRITE_MARK = '<!--LOGO_SPRITE-->';
@@ -54,8 +55,9 @@ async function build() {
   if (!html.includes(SPRITE_MARK)) {
     throw new Error(`src/index.html has no ${SPRITE_MARK} to inject the sprite into`);
   }
-  const sprite = (await readFile(join(SRC, 'assets', 'logo-sprite.html'), 'utf8')).trim();
-  html = html.replace(SPRITE_MARK, sprite);
+  const sprite = await buildSprite();
+  html = html.replace(SPRITE_MARK, sprite.markup);
+  console.log(`  sprite      ${sprite.count} brand marks, ${Buffer.byteLength(sprite.markup)} bytes`);
 
   /* --- hashed assets -------------------------------------------------- */
   for (const name of HASHED) {

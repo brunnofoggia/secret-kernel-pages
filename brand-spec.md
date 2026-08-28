@@ -30,9 +30,13 @@ marks if it is moved.
 
 Verified against the repositories on 2026-08-27, not from memory:
 
-- `secret-kernel-py` — nine distributions at `0.1.0a2`, released 2026-08-25.
-- `secret-kernel-js` — nine packages at `0.1.0-alpha.1`, **not published to npm**.
-  Changesets is in pre-release mode (`.changeset/pre.json` present).
+- `secret-kernel-py` — nine distributions, latest `0.1.0a4`, on PyPI.
+- `secret-kernel-js` — nine packages, latest `0.1.0-alpha.4`, on npm.
+
+Checked against the registries rather than the repositories, because a tag is not
+a release: between 2026-08-25 and 2026-08-27 both sides had tags the registries
+did not serve, and the page said so at the time. Versions are stated on the page
+in one place, the changelog, so this file does not repeat them per release.
 - Providers: `in-memory`, `aws-parameter-store`, `aws-secrets-manager`,
   `gcp-parameter-manager`, `gcp-secret-manager`.
 - Python 3.12+; the TypeScript packages ship ESM with declarations.

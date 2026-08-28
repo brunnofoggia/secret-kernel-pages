@@ -122,7 +122,7 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
 
       <div class="badge-row">
         <a class="dist" href="https://pypi.org/project/secret-kernel-core/" data-c="py"><svg aria-hidden="true"><use href="#logo-pypi"/></svg>secret-kernel-*</a>
-        <a class="dist" href="https://github.com/brunnofoggia/secret-kernel-js" data-c="ts"><svg aria-hidden="true"><use href="#logo-npm"/></svg>@secret-kernel/* <span class="tag" data-l="en">unpublished</span><span class="tag" data-l="pt">não publicado</span></a>
+        <a class="dist" href="https://www.npmjs.com/package/@secret-kernel/core" data-c="ts"><svg aria-hidden="true"><use href="#logo-npm"/></svg>@secret-kernel/*</a>
         <a class="dist" href="https://github.com/brunnofoggia/secret-kernel-py" data-c="py"><svg aria-hidden="true"><use href="#logo-github"/></svg><span data-l="en">Source</span><span data-l="pt">Código</span></a>
         <a class="dist" href="https://github.com/brunnofoggia/secret-kernel-js" data-c="ts"><svg aria-hidden="true"><use href="#logo-github"/></svg><span data-l="en">Source</span><span data-l="pt">Código</span></a>
       </div>
@@ -952,14 +952,6 @@ client = <span class="f">create_secret_client</span>(
       </div>
     </div>
 
-    <!-- TypeScript only, on purpose: the Python packages are on PyPI, so there
-         is no Python counterpart to write. Scoped to this wrapper so the rest of
-         the section is still checked for toggle gaps. -->
-    <div data-uneven="data-c">
-      <p class="note" data-c="ts" data-l="en">None of these are on npm yet. The tags exist and are feature-complete against the same contract — read them from the repository until they are published.</p>
-      <p class="note" data-c="ts" data-l="pt">Nenhum destes está no npm ainda. As tags existem e estão completas em features contra o mesmo contrato — leia direto do repositório até serem publicadas.</p>
-    </div>
-
     <!-- Uneven on purpose: Python has more releases than TypeScript. -->
     <div class="col" data-uneven="data-c">
       <!-- Python -->
@@ -967,8 +959,6 @@ client = <span class="f">create_secret_client</span>(
         <div>
           <span class="release-v">0.1.0a4</span>
           <span class="release-d">2026-08-27</span>
-          <span class="release-tag" data-l="en">tagged, not on PyPI</span>
-          <span class="release-tag" data-l="pt">tagueado, fora do PyPI</span>
         </div>
         <div class="release-body">
           <h4 data-l="en">Changed</h4>
@@ -1030,8 +1020,8 @@ client = <span class="f">create_secret_client</span>(
         <div class="release-body">
           <h4 data-l="en">Changed</h4>
           <h4 data-l="pt">Alterado</h4>
-          <p data-l="en">Corrects the <code>Changelog</code> link on the package page.</p>
-          <p data-l="pt">Corrige o link <code>Changelog</code> na página do pacote.</p>
+          <p data-l="en">The <code>homepage</code> carries the language, so a reader arriving from the npm page lands on the TypeScript tab rather than on whichever one the site defaults to. The site reads that from the query ahead of a preference already stored in the browser, so the link decides even for a returning visitor. No source changes.</p>
+          <p data-l="pt">O <code>homepage</code> carrega a linguagem, então quem chega da página do npm cai na aba TypeScript em vez da que o site usa por padrão. O site lê isso da query antes de uma preferência já guardada no navegador, então o link decide mesmo para quem já visitou. Sem mudanças de código.</p>
         </div>
       </div>
 
@@ -1094,7 +1084,7 @@ client = <span class="f">create_secret_client</span>(
         <h4>TypeScript</h4>
         <ul>
           <li><a href="https://github.com/brunnofoggia/secret-kernel-js">GitHub</a></li>
-          <li><span style="color:var(--cream-faint)" data-l="en">npm — not published yet</span><span style="color:var(--cream-faint)" data-l="pt">npm — ainda não publicado</span></li>
+          <li><a href="https://www.npmjs.com/package/@secret-kernel/core">npm · @secret-kernel/core</a></li>
           <li><span style="color:var(--cream-faint)">Node 22+</span></li>
         </ul>
       </div>

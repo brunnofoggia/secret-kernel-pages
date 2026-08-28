@@ -7,7 +7,11 @@ exists, so the three differ by design reasoning and not by content.
 
 A one-page website for the **Secret Kernel** library family: two independent
 implementations of the same contract, `secret-kernel-py` (published on PyPI,
-`0.1.0a2`) and `secret-kernel-js` (`0.1.0-alpha.1`, **not yet published to npm**).
+`0.1.0a4`) and `secret-kernel-js` (published on npm, `0.1.0-alpha.4`).
+
+> Updated 2026-08-27. Both were mid-release while this page was being built:
+> TypeScript was unpublished and the site carried an "unpublished" badge for it,
+> which the sections below still described. Both are published now.
 
 Hand-authored HTML + CSS + minimal vanilla JS. No Vue, React, Angular, no build
 step, no framework. Responsive and modern. Dark mode.
@@ -39,8 +43,7 @@ claim needs the code that proves it, visible without a click.
 ## 4. Content — sections in order
 
 1. **Hero** — one-sentence purpose, the `get_secret` / `getSecret` line, install
-   command, links to PyPI / npm / GitHub. TypeScript carries an
-   "unpublished" badge.
+   command, links to PyPI / npm / GitHub.
 2. **Why / utility** — the one-contract claim, and the scope boundary (read-only,
    latest version) stated as a feature.
 3. **Install + first read** — copy-pasteable, per language.
@@ -76,9 +79,13 @@ claim needs the code that proves it, visible without a click.
    `provider`, `ref`, `code`, `cause`.
 10. **Observability + bring your own provider** — `logger`, `debug`,
     `provider_class`.
-11. **Changelog** — short and factual. `0.1.0a2` (2026-08-25) and `0.1.0-alpha.1`.
-    First versions; the changelog should read as a short honest list, not a
-    marketing timeline.
+11. **Changelog** — short and factual, and the only place on the page that states
+    a version number. It follows the code toggle, because the two implementations
+    release independently. It should read as a short honest list, not a marketing
+    timeline.
+
+    The `#changelog` anchor is the `Changelog` URL in the published package
+    metadata of `secret-kernel-py`, so the id is a public contract.
 12. **Footer** — docs links (API reference, architecture decisions, structure,
     maintenance, release), license MIT.
 

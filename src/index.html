@@ -123,8 +123,11 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
       <div class="badge-row">
         <a class="dist" href="https://pypi.org/project/secret-kernel-core/" data-c="py"><svg aria-hidden="true"><use href="#logo-pypi"/></svg>secret-kernel-*</a>
         <a class="dist" href="https://www.npmjs.com/package/@secret-kernel/core" data-c="ts"><svg aria-hidden="true"><use href="#logo-npm"/></svg>@secret-kernel/*</a>
+        <!-- HIDDEN: source links, private repositories (404 for the public).
+             Uncomment to restore.
         <a class="dist" href="https://github.com/brunnofoggia/secret-kernel-py" data-c="py"><svg aria-hidden="true"><use href="#logo-github"/></svg><span data-l="en">Source</span><span data-l="pt">Código</span></a>
         <a class="dist" href="https://github.com/brunnofoggia/secret-kernel-js" data-c="ts"><svg aria-hidden="true"><use href="#logo-github"/></svg><span data-l="en">Source</span><span data-l="pt">Código</span></a>
+        -->
       </div>
     </div>
 
@@ -1054,6 +1057,10 @@ client = <span class="f">create_secret_client</span>(
 <footer class="footer">
   <div class="shell">
     <div class="footer-grid">
+      <!-- HIDDEN: the whole Documentation column.
+           The repositories are private, so these resolve to 404 for anyone but
+           the owner. Kept verbatim rather than deleted: uncomment to restore the
+           moment the repositories are public.
       <div class="footer-col">
         <h4 data-l="en">Documentation</h4>
         <h4 data-l="pt">Documentação</h4>
@@ -1072,10 +1079,12 @@ client = <span class="f">create_secret_client</span>(
           <li><a href="https://github.com/brunnofoggia/secret-kernel-js/blob/main/docs/release.md">Release</a></li>
         </ul>
       </div>
+      -->
+
       <div class="footer-col">
         <h4>Python</h4>
         <ul>
-          <li><a href="https://github.com/brunnofoggia/secret-kernel-py">GitHub</a></li>
+          <!-- HIDDEN: private repository. <li><a href="https://github.com/brunnofoggia/secret-kernel-py">GitHub</a></li> -->
           <li><a href="https://pypi.org/project/secret-kernel-core/">PyPI · secret-kernel-core</a></li>
           <li><span style="color:var(--cream-faint)">Python 3.12+</span></li>
         </ul>
@@ -1083,7 +1092,7 @@ client = <span class="f">create_secret_client</span>(
       <div class="footer-col">
         <h4>TypeScript</h4>
         <ul>
-          <li><a href="https://github.com/brunnofoggia/secret-kernel-js">GitHub</a></li>
+          <!-- HIDDEN: private repository. <li><a href="https://github.com/brunnofoggia/secret-kernel-js">GitHub</a></li> -->
           <li><a href="https://www.npmjs.com/package/@secret-kernel/core">npm · @secret-kernel/core</a></li>
           <li><span style="color:var(--cream-faint)">Node 22+</span></li>
         </ul>

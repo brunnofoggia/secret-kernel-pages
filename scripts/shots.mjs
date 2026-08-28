@@ -22,6 +22,7 @@ const SHOTS = [
   ['06-errors-pt-py', 1440, 1150, 'pt', 'py', 'errors'],
   ['07-changelog-py', 1440, 1250, 'en', 'py', 'changelog'],
   ['07b-changelog-ts', 1440, 1100, 'en', 'ts', 'changelog'],
+  ['10-footer-en-py', 1440, 620, 'en', 'py', 'footer'],
   ['08-mobile-pt-py', 390, 1000, 'pt', 'py', null],
   ['09-mobile-en-ts', 390, 1000, 'en', 'ts', 'install'],
 ];
@@ -58,7 +59,10 @@ for (const [name, width, height, lang, code, anchor] of SHOTS) {
 
   /* Isolating a section beats scrolling to it: headless Chrome screenshots the
    * original scroll position regardless of what the page did after load. */
-  if (anchor) {
+  if (anchor === "footer") {
+    html = html.replace("</body>",
+      "<style>main{display:none}.footer{border-top:0}</style></body>");
+  } else if (anchor) {
     html = html.replace('</body>',
       `<style>main > section:not(#${anchor}){display:none}` +
       `footer{display:none}#${anchor}{padding-top:3rem}</style></body>`);

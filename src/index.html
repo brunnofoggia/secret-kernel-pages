@@ -373,6 +373,25 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
         </tbody>
       </table>
     </div>
+
+    <div class="col prose" style="margin-top:2.5rem">
+      <h3 data-l="en">Always <code>/</code>, converted per provider</h3>
+      <h3 data-l="pt">Sempre <code>/</code>, convertido por provider</h3>
+      <p data-l="en">You write every name with <code>/</code>, whatever store sits behind the client. One convention in your code, and nothing to rename when the provider changes. Each provider then converts the resolved name into the form its service accepts.</p>
+      <p data-l="pt">Você escreve todo nome com <code>/</code>, seja qual for o cofre por trás do client. Uma convenção só no seu código, e nada para renomear quando o provider muda. Cada provider então converte o nome resolvido para o formato que o seu serviço aceita.</p>
+      <p data-l="en">GCP does not accept <code>/</code> in a secret or parameter ID, so both GCP providers drop the leading slash and join the levels with <code>_</code>. AWS takes the name as it is.</p>
+      <p data-l="pt">O GCP não aceita <code>/</code> no ID de um segredo ou parâmetro, então os dois providers do GCP removem a barra inicial e juntam os níveis com <code>_</code>. A AWS recebe o nome como ele é.</p>
+      <div class="code">
+        <div class="code-bar"><span data-l="en">one name, as each provider reads it</span><span data-l="pt">um nome, como cada provider lê</span></div>
+        <pre><span class="c" data-l="en">your code              </span><span class="c" data-l="pt">seu código             </span><span class="n">/prod/billing/database/password</span>
+<span class="c">aws-secrets-manager    </span>/prod/billing/database/password
+<span class="c">aws-parameter-store    </span>/prod/billing/database/password
+<span class="c">gcp-secret-manager     </span>prod_billing_database_password
+<span class="c">gcp-parameter-manager  </span>prod_billing_database_password</pre>
+      </div>
+      <p class="note" data-l="en">The separator is a provider option, <code data-c="py">physical_name_separator</code><code data-c="ts">physicalNameSeparator</code> — GCP also accepts <code>-</code>, AWS also <code>_</code> and <code>-</code>. A naming convention that is not the kernel's goes through <code data-c="py">resolve_name</code><code data-c="ts">resolveName</code> on the GCP providers. See <a href="#providers">Providers</a>.</p>
+      <p class="note" data-l="pt">O separador é uma opção do provider, <code data-c="py">physical_name_separator</code><code data-c="ts">physicalNameSeparator</code> — o GCP também aceita <code>-</code>, a AWS também <code>_</code> e <code>-</code>. Uma convenção de nomes que não é a do kernel passa por <code data-c="py">resolve_name</code><code data-c="ts">resolveName</code> nos providers do GCP. Veja <a href="#providers">Providers</a>.</p>
+    </div>
   </section>
 
   <!-- ══ 03 · per-call ══════════════════════════════════════════════════ -->

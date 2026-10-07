@@ -48,6 +48,11 @@ claim needs the code that proves it, visible without a click.
 3. **How a name is built** — `env / project / prefix / name` resolving to
    `/prod/billing/database/password`. Rules: `env` and `project` are single
    segments and reject a slash; `prefix` and the name accept `/`. All optional.
+   The caller always writes `/`, whatever the provider, so the code has one
+   convention and nothing to rename when the store changes; each provider converts
+   the resolved name into what its service accepts. Show it with GCP, which drops
+   the leading slash and joins with `_` (`prod_billing_database_password`), next to
+   AWS, which keeps the name as is.
 4. **Changing the name for one call** — `omit_env` / `omit_project` /
    `omit_prefix` drop a part, and `env` / `project` / `prefix` replace one.
    Omitting wins over replacing. Replacing `env` is never implicit and never a

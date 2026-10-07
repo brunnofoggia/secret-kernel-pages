@@ -157,41 +157,10 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
     </aside>
   </section>
 
-  <!-- ══ 01 · scope ═════════════════════════════════════════════════════ -->
-  <section id="scope">
-    <div class="sec-head">
-      <div class="sec-num">01</div>
-      <div>
-        <h2 data-l="en">What it refuses to do</h2>
-        <h2 data-l="pt">O que ele se recusa a fazer</h2>
-        <p data-l="en">The scope is the feature. A narrow contract is one you can reason about.</p>
-        <p data-l="pt">O escopo é a feature. Um contrato estreito é um contrato sobre o qual você consegue raciocinar.</p>
-      </div>
-    </div>
-    <div class="col prose">
-      <ul data-l="en">
-        <li><strong>Read-only.</strong> No write, no delete, no rotation, no batch read, no explicit historical version.</li>
-        <li><strong>Latest version only.</strong> When a provider supports versions, the kernel always reads the current one.</li>
-        <li><strong>Cross-environment reads are opt-in, one call at a time.</strong> The client's <code>env</code> applies unless a call says otherwise. Replacing it is never implicit and never a default, and <code data-c="py">omit_env</code><code data-c="ts">omitEnv</code> still wins over it — a service reading another environment is usually a defect, but the caller sometimes knows better than the process context.</li>
-        <li><strong>Provider options never leak.</strong> <code>region</code> belongs to AWS, <code data-c="py">project_id</code><code data-c="ts">projectId</code> to GCP. The shared contract knows neither.</li>
-        <li><strong>Failures are never cached.</strong> A missing secret that appears later is found on the next read.</li>
-      </ul>
-      <ul data-l="pt">
-        <li><strong>Somente leitura.</strong> Sem escrita, remoção, rotação, leitura em lote ou versão histórica explícita.</li>
-        <li><strong>Apenas a última versão.</strong> Quando o provider suporta versões, o kernel sempre lê a atual.</li>
-        <li><strong>Leitura entre ambientes é opt-in, uma chamada por vez.</strong> O <code>env</code> do client vale a menos que uma chamada diga o contrário. Substituí-lo nunca é implícito nem default, e <code data-c="py">omit_env</code><code data-c="ts">omitEnv</code> continua vencendo — um serviço lendo outro ambiente é normalmente um defeito, mas quem chama às vezes sabe mais que o contexto do processo.</li>
-        <li><strong>Opções de provider não vazam.</strong> <code>region</code> é da AWS, <code data-c="py">project_id</code><code data-c="ts">projectId</code> é do GCP. O contrato compartilhado não conhece nenhuma das duas.</li>
-        <li><strong>Falhas nunca são cacheadas.</strong> Um segredo ausente que aparece depois é encontrado na leitura seguinte.</li>
-      </ul>
-      <p class="note" data-l="en">Writing, rotating and versioning stay outside this contract by design.</p>
-      <p class="note" data-l="pt">Escrita, rotação e versionamento ficam fora deste contrato por decisão de projeto.</p>
-    </div>
-  </section>
-
-  <!-- ══ 02 · install ═══════════════════════════════════════════════════ -->
+  <!-- ══ 01 · install ═══════════════════════════════════════════════════ -->
   <section id="install">
     <div class="sec-head">
-      <div class="sec-num">02</div>
+      <div class="sec-num">01</div>
       <div>
         <h2 data-l="en">Install and first read</h2>
         <h2 data-l="pt">Instalação e primeira leitura</h2>
@@ -346,10 +315,10 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
     </div>
   </section>
 
-  <!-- ══ 03 · names ═════════════════════════════════════════════════════ -->
+  <!-- ══ 02 · names ═════════════════════════════════════════════════════ -->
   <section id="names">
     <div class="sec-head">
-      <div class="sec-num">03</div>
+      <div class="sec-num">02</div>
       <div>
         <h2 data-l="en">How a name is built</h2>
         <h2 data-l="pt">Como um nome é montado</h2>
@@ -406,10 +375,10 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
     </div>
   </section>
 
-  <!-- ══ 04 · per-call ══════════════════════════════════════════════════ -->
+  <!-- ══ 03 · per-call ══════════════════════════════════════════════════ -->
   <section id="per-call">
     <div class="sec-head">
-      <div class="sec-num">04</div>
+      <div class="sec-num">03</div>
       <div>
         <h2 data-l="en">Changing the name for one call</h2>
         <h2 data-l="pt">Mudando o nome para uma chamada</h2>
@@ -471,10 +440,10 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
     </div>
   </section>
 
-  <!-- ══ 05 · structured ════════════════════════════════════════════════ -->
+  <!-- ══ 04 · structured ════════════════════════════════════════════════ -->
   <section id="parse">
     <div class="sec-head">
-      <div class="sec-num">05</div>
+      <div class="sec-num">04</div>
       <div>
         <h2 data-l="en">Reading structured secrets</h2>
         <h2 data-l="pt">Lendo segredos estruturados</h2>
@@ -612,10 +581,10 @@ client = <span class="f">create_secret_client</span>(
     </div>
   </section>
 
-  <!-- ══ 06 · providers ═════════════════════════════════════════════════ -->
+  <!-- ══ 05 · providers ═════════════════════════════════════════════════ -->
   <section id="providers">
     <div class="sec-head">
-      <div class="sec-num">06</div>
+      <div class="sec-num">05</div>
       <div>
         <h2 data-l="en">Five providers, one call</h2>
         <h2 data-l="pt">Cinco providers, uma chamada</h2>
@@ -718,10 +687,10 @@ client = <span class="f">create_secret_client</span>(
     </div>
   </section>
 
-  <!-- ══ 07 · cache ═════════════════════════════════════════════════════ -->
+  <!-- ══ 06 · cache ═════════════════════════════════════════════════════ -->
   <section id="cache">
     <div class="sec-head">
-      <div class="sec-num">07</div>
+      <div class="sec-num">06</div>
       <div>
         <h2 data-l="en">Caching</h2>
         <h2 data-l="pt">Cache</h2>
@@ -783,10 +752,10 @@ client = <span class="f">create_secret_client</span>(
     </div>
   </section>
 
-  <!-- ══ 08 · errors ════════════════════════════════════════════════════ -->
+  <!-- ══ 07 · errors ════════════════════════════════════════════════════ -->
   <section id="errors">
     <div class="sec-head">
-      <div class="sec-num">08</div>
+      <div class="sec-num">07</div>
       <div>
         <h2 data-l="en">Errors are part of the contract</h2>
         <h2 data-l="pt">Erros fazem parte do contrato</h2>
@@ -868,10 +837,10 @@ client = <span class="f">create_secret_client</span>(
     </div>
   </section>
 
-  <!-- ══ 09 · observability & extension ═════════════════════════════════ -->
+  <!-- ══ 08 · observability & extension ═════════════════════════════════ -->
   <section id="extend">
     <div class="sec-head">
-      <div class="sec-num">09</div>
+      <div class="sec-num">08</div>
       <div>
         <h2 data-l="en">Observability, and your own provider</h2>
         <h2 data-l="pt">Observabilidade, e seu próprio provider</h2>
@@ -937,6 +906,37 @@ client = <span class="f">create_secret_client</span>(
 });</pre>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ══ 09 · scope ═════════════════════════════════════════════════════ -->
+  <section id="scope">
+    <div class="sec-head">
+      <div class="sec-num">09</div>
+      <div>
+        <h2 data-l="en">What it refuses to do</h2>
+        <h2 data-l="pt">O que ele se recusa a fazer</h2>
+        <p data-l="en">The scope is the feature. A narrow contract is one you can reason about.</p>
+        <p data-l="pt">O escopo é a feature. Um contrato estreito é um contrato sobre o qual você consegue raciocinar.</p>
+      </div>
+    </div>
+    <div class="col prose">
+      <ul data-l="en">
+        <li><strong>Read-only.</strong> No write, no delete, no rotation, no batch read, no explicit historical version.</li>
+        <li><strong>Latest version only.</strong> When a provider supports versions, the kernel always reads the current one.</li>
+        <li><strong>Cross-environment reads are opt-in, one call at a time.</strong> The client's <code>env</code> applies unless a call says otherwise. Replacing it is never implicit and never a default, and <code data-c="py">omit_env</code><code data-c="ts">omitEnv</code> still wins over it — a service reading another environment is usually a defect, but the caller sometimes knows better than the process context.</li>
+        <li><strong>Provider options never leak.</strong> <code>region</code> belongs to AWS, <code data-c="py">project_id</code><code data-c="ts">projectId</code> to GCP. The shared contract knows neither.</li>
+        <li><strong>Failures are never cached.</strong> A missing secret that appears later is found on the next read.</li>
+      </ul>
+      <ul data-l="pt">
+        <li><strong>Somente leitura.</strong> Sem escrita, remoção, rotação, leitura em lote ou versão histórica explícita.</li>
+        <li><strong>Apenas a última versão.</strong> Quando o provider suporta versões, o kernel sempre lê a atual.</li>
+        <li><strong>Leitura entre ambientes é opt-in, uma chamada por vez.</strong> O <code>env</code> do client vale a menos que uma chamada diga o contrário. Substituí-lo nunca é implícito nem default, e <code data-c="py">omit_env</code><code data-c="ts">omitEnv</code> continua vencendo — um serviço lendo outro ambiente é normalmente um defeito, mas quem chama às vezes sabe mais que o contexto do processo.</li>
+        <li><strong>Opções de provider não vazam.</strong> <code>region</code> é da AWS, <code data-c="py">project_id</code><code data-c="ts">projectId</code> é do GCP. O contrato compartilhado não conhece nenhuma das duas.</li>
+        <li><strong>Falhas nunca são cacheadas.</strong> Um segredo ausente que aparece depois é encontrado na leitura seguinte.</li>
+      </ul>
+      <p class="note" data-l="en">Writing, rotating and versioning stay outside this contract by design.</p>
+      <p class="note" data-l="pt">Escrita, rotação e versionamento ficam fora deste contrato por decisão de projeto.</p>
     </div>
   </section>
 

@@ -76,7 +76,9 @@ src/                       hand-authored, the only thing you edit
 └── assets/
     └── logos/*.svg        official brand marks, as downloaded
 dist/                      the built artifact — gitignored, never edited
+docs/                      the design records for this page
 site.config.json           the origin the site is served from
+CLAUDE.md                  what an agent reads first: these records and the family rules
 scripts/
 ├── build.mjs              src/ -> dist/
 ├── serve.mjs              serve dist/ for local preview
@@ -98,9 +100,9 @@ scripts/
 `probe.js` keeps the `.js` extension because it is injected into the page and
 runs in the browser; it is not a Node module.
 
-Design records, written before the code and kept because they explain it:
-`design-spec.md` (the shared brief), `direction-approved.md` (what was chosen and
-why), `brand-spec.md` (which marks are used and where they came from).
+Design records, written before the code and kept because they explain it, in
+`docs/`: `design-spec.md` (the shared brief), `direction-approved.md` (what was
+chosen and why), `brand-spec.md` (which marks are used and where they came from).
 
 ### What is not here
 
@@ -167,7 +169,7 @@ At eight viewport widths from 1440 down to 360, the verifier checks:
 - horizontal overflow, and any element escaping the viewport (code blocks and
   wide tables are exempt — they scroll inside their own container);
 - that both toggles actually swap content, rather than only flipping an attribute;
-- that no rendered text falls below 12px, the floor `design-spec.md` sets;
+- that no rendered text falls below 12px, the floor `docs/design-spec.md` sets;
 - that no interactive target is under 24px tall (WCAG 2.2 AA, Target Size Minimum);
 - that the built page carries all seven brand symbols and every `<use>` resolves.
 

@@ -84,13 +84,9 @@ claim needs the code that proves it, visible without a click.
    `provider_class`.
 10. **Scope** — what the contract refuses to do (read-only, latest version only,
     cross-environment reads opt-in per call, provider options never leak,
-    failures never cached), stated as a feature.
-
-    > Moved on 2026-10-07. This used to be item 2, right after the hero. A list
-    > of refusals as the first section reads as a list of missing features to
-    > the reader of §3, who arrives asking whether the library fits and what it
-    > costs to try. The hero already carries the one-contract claim; the
-    > boundary lands better once the reader has seen what the contract does do.
+    failures never cached), stated as a feature. Last before the changelog, per
+    `lib-family/docs/paginas.md` §8.7; until 2026-10-07 it was item 2, right
+    after the hero.
 11. **Changelog** — short and factual, and the only place on the page that states
     a version number. It follows the code toggle, because the two implementations
     release independently. It should read as a short honest list, not a marketing

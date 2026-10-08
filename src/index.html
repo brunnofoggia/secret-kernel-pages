@@ -25,6 +25,7 @@
   <div class="masthead-in">
     <a class="wordmark" href="#top"><span>secret<span class="slash">/</span>kernel</span><span class="ver">0.1.0a</span></a>
     <nav aria-label="Sections">
+      <a href="#why"><span data-l="en">Why</span><span data-l="pt">Por quê</span></a>
       <a href="#install"><span data-l="en">Install</span><span data-l="pt">Instalação</span></a>
       <a href="#names"><span data-l="en">Names</span><span data-l="pt">Nomes</span></a>
       <a href="#providers">Providers</a>
@@ -49,11 +50,11 @@
   <!-- ══ hero ═══════════════════════════════════════════════════════════ -->
   <section class="hero">
     <div class="hero-main">
-      <p class="eyebrow" data-l="en">Python &amp; TypeScript · read-only secrets</p>
-      <p class="eyebrow" data-l="pt">Python &amp; TypeScript · segredos somente leitura</p>
+      <p class="eyebrow" data-l="en">Python &amp; TypeScript · one contract, many providers</p>
+      <p class="eyebrow" data-l="pt">Python &amp; TypeScript · um contrato, muitos providers</p>
 
-      <h1 data-l="en">One contract.<br>Any <em>secret</em> store.</h1>
-      <h1 data-l="pt">Um contrato.<br>Qualquer cofre de <em>segredos</em>.</h1>
+      <h1 data-l="en">Secret vault,<br><em>quick and easy</em>.</h1>
+      <h1 data-l="pt">Ler segredos,<br><em>rápido e fácil</em>.</h1>
 
       <p class="lede" data-l="en">Your code asks for <strong>database/password</strong>. Whether that lives in AWS Secrets Manager, GCP Parameter Manager or a dictionary in a test does not change the call — only which distribution you install.</p>
       <p class="lede" data-l="pt">Seu código pede <strong>database/password</strong>. Se isso mora no AWS Secrets Manager, no GCP Parameter Manager ou num dicionário de teste, a chamada não muda — muda apenas qual distribuição você instala.</p>
@@ -105,15 +106,15 @@ client = <span class="f">create_secret_client</span>(
 secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
 <span class="c"># secret.value — reads /prod/billing/database/password</span></pre>
         <pre data-c="ts"><span class="k">import</span> {
-  SecretProvider,
-  <span class="f">createSecretClient</span>,
+    SecretProvider,
+    <span class="f">createSecretClient</span>,
 } <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
 
 <span class="k">const</span> client = <span class="k">await</span> <span class="f">createSecretClient</span>({
-  provider: SecretProvider.AwsParameterStore,
-  env: <span class="s">'prod'</span>,
-  project: <span class="s">'billing'</span>,
-  options: { region: <span class="s">'us-east-1'</span> },
+    provider: SecretProvider.AwsParameterStore,
+    env: <span class="s">'prod'</span>,
+    project: <span class="s">'billing'</span>,
+    options: { region: <span class="s">'us-east-1'</span> },
 });
 
 <span class="k">const</span> secret = <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'database/password'</span>);
@@ -157,10 +158,206 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
     </aside>
   </section>
 
-  <!-- ══ 01 · install ═══════════════════════════════════════════════════ -->
-  <section id="install">
+  <!-- ══ 01 · why ═══════════════════════════════════════════════════════ -->
+  <section id="why">
     <div class="sec-head">
       <div class="sec-num">01</div>
+      <div>
+        <h2 data-l="en">Why use Secret Kernel</h2>
+        <h2 data-l="pt">Por que usar o Secret Kernel</h2>
+        <p data-l="en">One contract in front of five providers, and what that buys you.</p>
+        <p data-l="pt">Um contrato na frente de cinco providers, e o que você ganha com isso.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="prose">
+        <ul data-l="en">
+          <li><strong>Ask by name, get the value.</strong> One call returns the decrypted secret. There is no provider SDK to learn.</li>
+          <li><strong>Every provider behaves the same.</strong> The naming rules, the per-call options and the errors do not change with the provider: a missing secret is <code>SecretNotFoundError</code>, code <code>scrt_not_found</code>, on AWS, on GCP and in memory. All five pass the same contract test suite.</li>
+          <li><strong>Change providers, not code.</strong> Moving from AWS to GCP changes the provider, its options and the installed package. Every <code data-c="py">get_secret</code><code data-c="ts">getSecret</code> call stays as written.</li>
+          <li><strong>Tests without the cloud.</strong> The <code>in-memory</code> provider follows the same contract, so tests and CI make the same calls the service makes, with no network and no credentials.</li>
+          <li><strong>Python and TypeScript, one contract.</strong> Each follows its own convention — <code>get_secret</code>, <code>getSecret</code> — and both share the behavior, the defaults and the error codes.</li>
+        </ul>
+        <ul data-l="pt">
+          <li><strong>Peça pelo nome, receba o valor.</strong> Uma chamada devolve o segredo já descriptografado. Não há SDK de provider para aprender.</li>
+          <li><strong>Todo provider se comporta igual.</strong> As regras de nome, as opções por chamada e os erros não mudam com o provider: um segredo ausente é <code>SecretNotFoundError</code>, código <code>scrt_not_found</code>, na AWS, no GCP e em memória. Os cinco passam pela mesma suíte de testes de contrato.</li>
+          <li><strong>Troque o provider, não o código.</strong> Sair da AWS para o GCP muda o provider, suas opções e o pacote instalado. Toda chamada a <code data-c="py">get_secret</code><code data-c="ts">getSecret</code> continua como foi escrita.</li>
+          <li><strong>Testes sem nuvem.</strong> O provider <code>in-memory</code> segue o mesmo contrato, então testes e CI fazem as mesmas chamadas que o serviço, sem rede e sem credencial.</li>
+          <li><strong>Python e TypeScript, um contrato.</strong> Cada um segue a convenção da sua linguagem — <code>get_secret</code>, <code>getSecret</code> — e os dois compartilham comportamento, defaults e códigos de erro.</li>
+        </ul>
+      </div>
+      <!-- One client, three providers. Lines that swap a parameter are .swap,
+           code only one pane has is .only, a comment line is .info; keep them
+           marked when a pane changes. -->
+      <div class="code compare" data-panes>
+        <div class="code-bar">
+          <svg aria-hidden="true" data-c="py"><use href="#logo-python"/></svg>
+          <svg aria-hidden="true" data-c="ts"><use href="#logo-typescript"/></svg>
+          <div class="switch" role="group" aria-label="Provider">
+            <button type="button" data-show-pane="aws" aria-pressed="true"><svg aria-hidden="true"><use href="#logo-aws"/></svg>AWS</button>
+            <button type="button" data-show-pane="gcp" aria-pressed="false"><svg aria-hidden="true"><use href="#logo-googlecloud"/></svg>GCP</button>
+            <button type="button" data-show-pane="in-memory" aria-pressed="false">In-memory</button>
+          </div>
+        </div>
+        <pre class="on" data-c="py" data-pane="aws"><span class="k">from</span> secret_kernel.contracts <span class="k">import</span> SecretNotFoundError
+<span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
+    CreateSecretClientConfig,
+    <span class="f">create_secret_client</span>,
+)
+<span class="swap"><span class="k">from</span> secret_kernel.provider_aws_parameter_store <span class="k">import</span> (</span>
+<span class="swap">    AwsParameterStoreProviderOptions,</span>
+)
+
+client = <span class="f">create_secret_client</span>(
+    CreateSecretClientConfig(
+<span class="swap">        provider=<span class="s">"aws-parameter-store"</span>,</span>
+        env=<span class="s">"prod"</span>,
+        project=<span class="s">"billing"</span>,
+<span class="swap">        options=AwsParameterStoreProviderOptions(</span>
+<span class="swap">            region=<span class="s">"us-east-1"</span>,</span>
+        ),
+    )
+)
+
+<span class="k">try</span>:
+    secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
+<span class="k">except</span> SecretNotFoundError <span class="k">as</span> error:
+    error.code  <span class="c"># "scrt_not_found", on any provider</span></pre>
+        <pre data-c="py" data-pane="gcp"><span class="k">from</span> secret_kernel.contracts <span class="k">import</span> SecretNotFoundError
+<span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
+    CreateSecretClientConfig,
+    <span class="f">create_secret_client</span>,
+)
+<span class="swap"><span class="k">from</span> secret_kernel.provider_gcp_parameter_manager <span class="k">import</span> (</span>
+<span class="swap">    GcpParameterManagerProviderOptions,</span>
+)
+
+client = <span class="f">create_secret_client</span>(
+    CreateSecretClientConfig(
+<span class="swap">        provider=<span class="s">"gcp-parameter-manager"</span>,</span>
+        env=<span class="s">"prod"</span>,
+        project=<span class="s">"billing"</span>,
+<span class="swap">        options=GcpParameterManagerProviderOptions(</span>
+<span class="swap">            project_id=<span class="s">"my-gcp-project"</span>,</span>
+        ),
+    )
+)
+
+<span class="k">try</span>:
+    secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
+<span class="k">except</span> SecretNotFoundError <span class="k">as</span> error:
+    error.code  <span class="c"># "scrt_not_found", on any provider</span></pre>
+        <pre data-c="py" data-pane="in-memory"><span class="k">from</span> secret_kernel.contracts <span class="k">import</span> SecretNotFoundError
+<span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
+    CreateSecretClientConfig,
+    <span class="f">create_secret_client</span>,
+)
+<span class="swap"><span class="k">from</span> secret_kernel.provider_in_memory <span class="k">import</span> (</span>
+<span class="swap">    InMemoryProviderOptions,</span>
+)
+
+client = <span class="f">create_secret_client</span>(
+    CreateSecretClientConfig(
+<span class="swap">        provider=<span class="s">"in-memory"</span>,</span>
+        env=<span class="s">"prod"</span>,
+        project=<span class="s">"billing"</span>,
+<span class="swap">        options=InMemoryProviderOptions(</span>
+<span class="swap">            env_secrets=<span class="n">True</span>,</span>
+        ),
+    )
+)
+
+
+<span class="only"><span class="k">def</span> <span class="f">load_env</span>() -&gt; <span class="n">None</span>:</span>
+<span class="info">    <span class="c"># .env</span></span>
+<span class="info">    <span class="c"># SECRET_KERNEL_PROD_BILLING_DATABASE_PASSWORD=s3cr3t</span></span>
+<span class="info">    <span class="c"># SECRET_KERNEL_PROD_BILLING_API_TOKEN=local-token</span></span>
+<span class="only">    <span class="k">from</span> dotenv <span class="k">import</span> load_dotenv</span>
+<span class="only">    <span class="f">load_dotenv</span>()</span>
+
+
+<span class="k">try</span>:
+<span class="only">    <span class="f">load_env</span>()</span>
+    secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
+<span class="k">except</span> SecretNotFoundError <span class="k">as</span> error:
+    error.code  <span class="c"># "scrt_not_found", on any provider</span></pre>
+        <pre class="on" data-c="ts" data-pane="aws"><span class="k">import</span> { SecretNotFoundError } <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
+<span class="k">import</span> {
+    SecretProvider,
+    <span class="f">createSecretClient</span>,
+} <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
+
+<span class="k">const</span> client = <span class="k">await</span> <span class="f">createSecretClient</span>({
+<span class="swap">    provider: SecretProvider.AwsParameterStore,</span>
+    env: <span class="s">'prod'</span>,
+    project: <span class="s">'billing'</span>,
+<span class="swap">    options: { region: <span class="s">'us-east-1'</span> },</span>
+});
+
+<span class="k">try</span> {
+    <span class="k">const</span> secret = <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'database/password'</span>);
+} <span class="k">catch</span> (error) {
+    <span class="k">if</span> (error <span class="k">instanceof</span> SecretNotFoundError) {
+        error.code; <span class="c">// 'scrt_not_found', on any provider</span>
+    }
+}</pre>
+        <pre data-c="ts" data-pane="gcp"><span class="k">import</span> { SecretNotFoundError } <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
+<span class="k">import</span> {
+    SecretProvider,
+    <span class="f">createSecretClient</span>,
+} <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
+
+<span class="k">const</span> client = <span class="k">await</span> <span class="f">createSecretClient</span>({
+<span class="swap">    provider: SecretProvider.GcpParameterManager,</span>
+    env: <span class="s">'prod'</span>,
+    project: <span class="s">'billing'</span>,
+<span class="swap">    options: { projectId: <span class="s">'my-gcp-project'</span> },</span>
+});
+
+<span class="k">try</span> {
+    <span class="k">const</span> secret = <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'database/password'</span>);
+} <span class="k">catch</span> (error) {
+    <span class="k">if</span> (error <span class="k">instanceof</span> SecretNotFoundError) {
+        error.code; <span class="c">// 'scrt_not_found', on any provider</span>
+    }
+}</pre>
+        <pre data-c="ts" data-pane="in-memory"><span class="k">import</span> { SecretNotFoundError } <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
+<span class="k">import</span> {
+    SecretProvider,
+    <span class="f">createSecretClient</span>,
+} <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
+
+<span class="k">const</span> client = <span class="k">await</span> <span class="f">createSecretClient</span>({
+<span class="swap">    provider: SecretProvider.InMemory,</span>
+    env: <span class="s">'prod'</span>,
+    project: <span class="s">'billing'</span>,
+<span class="swap">    options: { envSecrets: <span class="n">true</span> },</span>
+});
+
+<span class="only"><span class="k">function</span> <span class="f">loadEnv</span>() {</span>
+<span class="info">    <span class="c">// .env</span></span>
+<span class="info">    <span class="c">// SECRET_KERNEL_PROD_BILLING_DATABASE_PASSWORD=s3cr3t</span></span>
+<span class="info">    <span class="c">// SECRET_KERNEL_PROD_BILLING_API_TOKEN=local-token</span></span>
+<span class="only">    process.<span class="f">loadEnvFile</span>();</span>
+<span class="only">}</span>
+
+<span class="k">try</span> {
+<span class="only">    <span class="f">loadEnv</span>();</span>
+    <span class="k">const</span> secret = <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'database/password'</span>);
+} <span class="k">catch</span> (error) {
+    <span class="k">if</span> (error <span class="k">instanceof</span> SecretNotFoundError) {
+        error.code; <span class="c">// 'scrt_not_found', on any provider</span>
+    }
+}</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 02 · install ═══════════════════════════════════════════════════ -->
+  <section id="install">
+    <div class="sec-head">
+      <div class="sec-num">02</div>
       <div>
         <h2 data-l="en">Install and first read</h2>
         <h2 data-l="pt">Instalação e primeira leitura</h2>
@@ -190,135 +387,452 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
     <div class="step-band">
       <h3 data-l="en">Step 2 · add a provider and read</h3>
       <h3 data-l="pt">Passo 2 · adicione um provider e leia</h3>
-      <p data-l="en">Pick where the secret lives. The call is identical either way — only the provider alias and its typed options change, which is the whole point of the contract.</p>
-      <p data-l="pt">Escolha onde o segredo mora. A chamada é idêntica nos dois casos — mudam apenas o alias do provider e suas opções tipadas, que é justamente o propósito do contrato.</p>
+      <p data-l="en">Pick where the secret lives. The call is identical on all five — only the provider alias and its typed options change, which is the whole point of the contract.</p>
+      <p data-l="pt">Escolha onde o segredo mora. A chamada é idêntica nos cinco — mudam apenas o alias do provider e suas opções tipadas, que é justamente o propósito do contrato.</p>
     </div>
 
-    <div class="row sub">
-      <div class="prose">
-        <div class="subtopic">
-          <span class="bullet" aria-hidden="true">•</span>
-          <code>in-memory</code>
-        </div>
-        <p data-l="en">For local development, CI and tests. Reads preloaded values or environment variables, so nothing needs a cloud account.</p>
-        <p data-l="pt">Para desenvolvimento local, CI e testes. Lê valores pré-carregados ou variáveis de ambiente, então nada precisa de conta em nuvem.</p>
-        <p data-l="en">With <code data-c="py">env_secrets</code><code data-c="ts">envSecrets</code>, the key is the resolved name without the leading slash, non-alphanumerics replaced by <code>_</code>, uppercased and prefixed: <code>/dev/my-app/database</code> becomes <code>SECRET_KERNEL_DEV_MY_APP_DATABASE</code>. Preloaded secrets win over the environment.</p>
-        <p data-l="pt">Com <code data-c="py">env_secrets</code><code data-c="ts">envSecrets</code>, a chave é o nome resolvido sem a barra inicial, não-alfanuméricos trocados por <code>_</code>, em maiúsculas e com prefixo: <code>/dev/my-app/database</code> vira <code>SECRET_KERNEL_DEV_MY_APP_DATABASE</code>. Segredos pré-carregados vencem o ambiente.</p>
+    <!-- One pane per provider; the picker swaps prose and code together. The
+         samples share the skeleton of the Why block and are marked the same
+         way: .swap for a swapped parameter, .only for code one sample adds,
+         .info for a comment line. -->
+    <div data-panes>
+      <div class="picker" role="group" aria-label="Provider">
+        <button type="button" data-show-pane="in-memory" aria-pressed="true">in-memory</button>
+        <span class="dot" aria-hidden="true">•</span>
+        <button type="button" data-show-pane="aws-parameter-store" aria-pressed="false">aws-parameter-store</button>
+        <span class="dot" aria-hidden="true">•</span>
+        <button type="button" data-show-pane="aws-secrets-manager" aria-pressed="false">aws-secrets-manager</button>
+        <span class="dot" aria-hidden="true">•</span>
+        <button type="button" data-show-pane="gcp-parameter-manager" aria-pressed="false">gcp-parameter-manager</button>
+        <span class="dot" aria-hidden="true">•</span>
+        <button type="button" data-show-pane="gcp-secret-manager" aria-pressed="false">gcp-secret-manager</button>
       </div>
-      <div>
-        <div class="code">
-          <div class="code-bar"><span data-c="py">uv</span><span data-c="ts">npm</span><span class="grow">shell</span></div>
-          <pre data-c="py"><span class="pr">$</span> uv add secret-kernel-provider-in-memory</pre>
-          <pre data-c="ts"><span class="pr">$</span> npm install @secret-kernel/provider-in-memory</pre>
+
+      <div class="row sub on" data-pane="in-memory">
+        <div class="prose">
+          <p data-l="en">For local development, CI and tests. Reads preloaded values or environment variables, so nothing needs a cloud account.</p>
+          <p data-l="pt">Para desenvolvimento local, CI e testes. Lê valores pré-carregados ou variáveis de ambiente, então nada precisa de conta em nuvem.</p>
+          <p data-l="en">With <code data-c="py">env_secrets</code><code data-c="ts">envSecrets</code>, the key is the resolved name without the leading slash, non-alphanumerics replaced by <code>_</code>, uppercased and prefixed: <code>/dev/my-app/database</code> becomes <code>SECRET_KERNEL_DEV_MY_APP_DATABASE</code>. Preloaded secrets win over the environment.</p>
+          <p data-l="pt">Com <code data-c="py">env_secrets</code><code data-c="ts">envSecrets</code>, a chave é o nome resolvido sem a barra inicial, não-alfanuméricos trocados por <code>_</code>, em maiúsculas e com prefixo: <code>/dev/my-app/database</code> vira <code>SECRET_KERNEL_DEV_MY_APP_DATABASE</code>. Segredos pré-carregados vencem o ambiente.</p>
         </div>
-        <div class="code">
-          <div class="code-bar">
-            <svg aria-hidden="true" data-c="py"><use href="#logo-python"/></svg>
-            <svg aria-hidden="true" data-c="ts"><use href="#logo-typescript"/></svg>
-            <span data-c="py">in-memory</span><span data-c="ts">in-memory</span>
+        <div>
+          <div class="code">
+            <div class="code-bar"><span data-c="py">uv</span><span data-c="ts">npm</span><span class="grow">shell</span></div>
+            <pre data-c="py"><span class="pr">$</span> uv add secret-kernel-provider-in-memory</pre>
+            <pre data-c="ts"><span class="pr">$</span> npm install @secret-kernel/provider-in-memory</pre>
           </div>
-          <pre data-c="py"><span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
+          <div class="code compare">
+            <div class="code-bar">
+              <svg aria-hidden="true" data-c="py"><use href="#logo-python"/></svg>
+              <svg aria-hidden="true" data-c="ts"><use href="#logo-typescript"/></svg>
+              <span>in-memory</span>
+            </div>
+            <pre data-c="py"><span class="k">from</span> secret_kernel.contracts <span class="k">import</span> SecretNotFoundError
+<span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
     CreateSecretClientConfig,
     <span class="f">create_secret_client</span>,
 )
-<span class="k">from</span> secret_kernel.provider_in_memory <span class="k">import</span> (
-    InMemoryProviderOptions,
+<span class="swap"><span class="k">from</span> secret_kernel.provider_in_memory <span class="k">import</span> (</span>
+<span class="swap">    InMemoryProviderOptions,</span>
 )
 
 client = <span class="f">create_secret_client</span>(
     CreateSecretClientConfig(
-        provider=<span class="s">"in-memory"</span>,
-        env=<span class="s">"dev"</span>,
-        project=<span class="s">"my-app"</span>,
-        options=InMemoryProviderOptions(
-            secrets={<span class="s">"/dev/my-app/database/password"</span>: <span class="s">"s3cr3t"</span>},
-            env_secrets=<span class="n">True</span>,
+<span class="swap">        provider=<span class="s">"in-memory"</span>,</span>
+        env=<span class="s">"prod"</span>,
+        project=<span class="s">"billing"</span>,
+<span class="swap">        options=InMemoryProviderOptions(</span>
+<span class="swap">            env_secrets=<span class="n">True</span>,</span>
         ),
     )
 )
 
-secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
-<span class="c"># secret.value == "s3cr3t"</span></pre>
-          <pre data-c="ts"><span class="k">import</span> {
-  SecretProvider,
-  <span class="f">createSecretClient</span>,
+
+<span class="only"><span class="k">def</span> <span class="f">load_env</span>() -&gt; <span class="n">None</span>:</span>
+<span class="info">    <span class="c"># .env</span></span>
+<span class="info">    <span class="c"># SECRET_KERNEL_PROD_BILLING_DATABASE_PASSWORD=s3cr3t</span></span>
+<span class="info">    <span class="c"># SECRET_KERNEL_PROD_BILLING_API_TOKEN=local-token</span></span>
+<span class="only">    <span class="k">from</span> dotenv <span class="k">import</span> load_dotenv</span>
+<span class="only">    <span class="f">load_dotenv</span>()</span>
+
+
+<span class="k">try</span>:
+<span class="only">    <span class="f">load_env</span>()</span>
+    secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
+<span class="k">except</span> SecretNotFoundError <span class="k">as</span> error:
+    error.code  <span class="c"># "scrt_not_found", on any provider</span></pre>
+            <pre data-c="ts"><span class="k">import</span> { SecretNotFoundError } <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
+<span class="k">import</span> {
+    SecretProvider,
+    <span class="f">createSecretClient</span>,
 } <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
 
 <span class="k">const</span> client = <span class="k">await</span> <span class="f">createSecretClient</span>({
-  provider: SecretProvider.InMemory,
-  env: <span class="s">'dev'</span>,
-  project: <span class="s">'my-app'</span>,
-  options: {
-    secrets: { <span class="s">'/dev/my-app/database/password'</span>: <span class="s">'s3cr3t'</span> },
-    envSecrets: <span class="n">true</span>,
-  },
+<span class="swap">    provider: SecretProvider.InMemory,</span>
+    env: <span class="s">'prod'</span>,
+    project: <span class="s">'billing'</span>,
+<span class="swap">    options: { envSecrets: <span class="n">true</span> },</span>
 });
 
-<span class="k">const</span> secret = <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'database/password'</span>);
-<span class="c">// secret.value === 's3cr3t'</span></pre>
-        </div>
-      </div>
-    </div>
+<span class="only"><span class="k">function</span> <span class="f">loadEnv</span>() {</span>
+<span class="info">    <span class="c">// .env</span></span>
+<span class="info">    <span class="c">// SECRET_KERNEL_PROD_BILLING_DATABASE_PASSWORD=s3cr3t</span></span>
+<span class="info">    <span class="c">// SECRET_KERNEL_PROD_BILLING_API_TOKEN=local-token</span></span>
+<span class="only">    process.<span class="f">loadEnvFile</span>();</span>
+<span class="only">}</span>
 
-    <div class="row sub">
-      <div class="prose">
-        <div class="subtopic">
-          <svg aria-hidden="true"><use href="#logo-aws"/></svg>
-          <code>aws-parameter-store</code>
-        </div>
-        <p data-l="en">For a real store. Reads <code>SecureString</code> parameters, the low-cost option in AWS.</p>
-        <p data-l="pt">Para um cofre de verdade. Lê parâmetros <code>SecureString</code>, a opção de baixo custo na AWS.</p>
-        <p data-l="en">Pass <code>credentials</code> to be explicit, or leave it out and the AWS SDK's own chain applies. Explicit credentials take precedence.</p>
-        <p data-l="pt">Passe <code>credentials</code> para ser explícito, ou omita e a própria cadeia do SDK da AWS se aplica. Credenciais explícitas têm precedência.</p>
-        <p data-l="en">Only the provider and its options differ from the block above. <code data-c="py">get_secret</code><code data-c="ts">getSecret</code> is the same call.</p>
-        <p data-l="pt">Só o provider e suas opções diferem do bloco acima. <code data-c="py">get_secret</code><code data-c="ts">getSecret</code> é a mesma chamada.</p>
-      </div>
-      <div>
-        <div class="code">
-          <div class="code-bar"><span data-c="py">uv</span><span data-c="ts">npm</span><span class="grow">shell</span></div>
-          <pre data-c="py"><span class="pr">$</span> uv add secret-kernel-provider-aws-parameter-store</pre>
-          <pre data-c="ts"><span class="pr">$</span> npm install @secret-kernel/provider-aws-parameter-store</pre>
-        </div>
-        <div class="code">
-          <div class="code-bar">
-            <svg aria-hidden="true"><use href="#logo-aws"/></svg>
-            <span data-c="py">aws-parameter-store</span><span data-c="ts">aws-parameter-store</span>
+<span class="k">try</span> {
+<span class="only">    <span class="f">loadEnv</span>();</span>
+    <span class="k">const</span> secret = <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'database/password'</span>);
+} <span class="k">catch</span> (error) {
+    <span class="k">if</span> (error <span class="k">instanceof</span> SecretNotFoundError) {
+        error.code; <span class="c">// 'scrt_not_found', on any provider</span>
+    }
+}</pre>
           </div>
-          <pre data-c="py"><span class="k">from</span> secret_kernel.provider_aws_parameter_store <span class="k">import</span> (
-    AwsParameterStoreProviderOptions,
+        </div>
+      </div>
+
+      <div class="row sub" data-pane="aws-parameter-store">
+        <div class="prose">
+          <p data-l="en">For a real store. Reads <code>SecureString</code> parameters, the low-cost option in AWS.</p>
+          <p data-l="pt">Para um cofre de verdade. Lê parâmetros <code>SecureString</code>, a opção de baixo custo na AWS.</p>
+          <p data-l="en">Pass <code>credentials</code> to be explicit, or leave it out and the AWS SDK's own chain applies. Explicit credentials take precedence.</p>
+          <p data-l="pt">Passe <code>credentials</code> para ser explícito, ou omita e a própria cadeia do SDK da AWS se aplica. Credenciais explícitas têm precedência.</p>
+        </div>
+        <div>
+          <div class="code">
+            <div class="code-bar"><span data-c="py">uv</span><span data-c="ts">npm</span><span class="grow">shell</span></div>
+            <pre data-c="py"><span class="pr">$</span> uv add secret-kernel-provider-aws-parameter-store</pre>
+            <pre data-c="ts"><span class="pr">$</span> npm install @secret-kernel/provider-aws-parameter-store</pre>
+          </div>
+          <div class="code compare">
+            <div class="code-bar">
+              <svg aria-hidden="true"><use href="#logo-aws"/></svg>
+              <span>aws-parameter-store</span>
+            </div>
+            <pre data-c="py"><span class="k">from</span> secret_kernel.contracts <span class="k">import</span> SecretNotFoundError
+<span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
+    CreateSecretClientConfig,
+    <span class="f">create_secret_client</span>,
+)
+<span class="swap"><span class="k">from</span> secret_kernel.provider_aws_parameter_store <span class="k">import</span> (</span>
+<span class="only">    AwsCredentials,</span>
+<span class="swap">    AwsParameterStoreProviderOptions,</span>
 )
 
 client = <span class="f">create_secret_client</span>(
     CreateSecretClientConfig(
-        provider=<span class="s">"aws-parameter-store"</span>,
+<span class="swap">        provider=<span class="s">"aws-parameter-store"</span>,</span>
         env=<span class="s">"prod"</span>,
         project=<span class="s">"billing"</span>,
-        options=AwsParameterStoreProviderOptions(
-            region=<span class="s">"us-east-1"</span>,
+<span class="swap">        options=AwsParameterStoreProviderOptions(</span>
+<span class="swap">            region=<span class="s">"us-east-1"</span>,</span>
+<span class="swap">            credentials=AwsCredentials(</span>
+<span class="swap">                access_key_id=<span class="s">"AKIAIOSFODNN7EXAMPLE"</span>,</span>
+<span class="swap">                secret_access_key=(</span>
+<span class="swap">                    <span class="s">"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"</span></span>
+<span class="swap">                ),</span>
+<span class="swap">            ),</span>
         ),
     )
 )
 
-secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
-<span class="c"># reads /prod/billing/database/password</span></pre>
-          <pre data-c="ts"><span class="k">const</span> client = <span class="k">await</span> <span class="f">createSecretClient</span>({
-  provider: SecretProvider.AwsParameterStore,
-  env: <span class="s">'prod'</span>,
-  project: <span class="s">'billing'</span>,
-  options: { region: <span class="s">'us-east-1'</span> },
+<span class="k">try</span>:
+    secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
+<span class="info">    <span class="c"># reads /prod/billing/database/password</span></span>
+<span class="k">except</span> SecretNotFoundError <span class="k">as</span> error:
+    error.code  <span class="c"># "scrt_not_found", on any provider</span></pre>
+            <pre data-c="ts"><span class="k">import</span> { SecretNotFoundError } <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
+<span class="k">import</span> {
+    SecretProvider,
+    <span class="f">createSecretClient</span>,
+} <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
+
+<span class="k">const</span> client = <span class="k">await</span> <span class="f">createSecretClient</span>({
+<span class="swap">    provider: SecretProvider.AwsParameterStore,</span>
+    env: <span class="s">'prod'</span>,
+    project: <span class="s">'billing'</span>,
+<span class="swap">    options: {</span>
+<span class="swap">        region: <span class="s">'us-east-1'</span>,</span>
+<span class="swap">        credentials: {</span>
+<span class="swap">            accessKeyId: <span class="s">'AKIAIOSFODNN7EXAMPLE'</span>,</span>
+<span class="swap">            secretAccessKey:</span>
+<span class="swap">                <span class="s">'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'</span>,</span>
+<span class="swap">        },</span>
+<span class="swap">    },</span>
 });
 
-<span class="k">const</span> secret = <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'database/password'</span>);
-<span class="c">// reads /prod/billing/database/password</span></pre>
+<span class="k">try</span> {
+    <span class="k">const</span> secret = <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'database/password'</span>);
+<span class="info">    <span class="c">// reads /prod/billing/database/password</span></span>
+} <span class="k">catch</span> (error) {
+    <span class="k">if</span> (error <span class="k">instanceof</span> SecretNotFoundError) {
+        error.code; <span class="c">// 'scrt_not_found', on any provider</span>
+    }
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="row sub" data-pane="aws-secrets-manager">
+        <div class="prose">
+          <p data-l="en">For AWS secrets that need rotation and a dedicated lifecycle. Reads the <code>AWSCURRENT</code> stage.</p>
+          <p data-l="pt">Para segredos da AWS que precisam de rotação e ciclo de vida próprio. Lê o estágio <code>AWSCURRENT</code>.</p>
+          <p data-l="en">Same options as <code>aws-parameter-store</code>. A binary-only secret raises <code>SecretCapabilityNotSupportedError</code>: binary payloads are outside the base contract.</p>
+          <p data-l="pt">Mesmas opções do <code>aws-parameter-store</code>. Um segredo apenas binário levanta <code>SecretCapabilityNotSupportedError</code>: payloads binários ficam fora do contrato base.</p>
+        </div>
+        <div>
+          <div class="code">
+            <div class="code-bar"><span data-c="py">uv</span><span data-c="ts">npm</span><span class="grow">shell</span></div>
+            <pre data-c="py"><span class="pr">$</span> uv add secret-kernel-provider-aws-secrets-manager</pre>
+            <pre data-c="ts"><span class="pr">$</span> npm install @secret-kernel/provider-aws-secrets-manager</pre>
+          </div>
+          <div class="code compare">
+            <div class="code-bar">
+              <svg aria-hidden="true"><use href="#logo-aws"/></svg>
+              <span>aws-secrets-manager</span>
+            </div>
+            <pre data-c="py"><span class="k">from</span> secret_kernel.contracts <span class="k">import</span> SecretNotFoundError
+<span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
+    CreateSecretClientConfig,
+    <span class="f">create_secret_client</span>,
+)
+<span class="swap"><span class="k">from</span> secret_kernel.provider_aws_secrets_manager <span class="k">import</span> (</span>
+<span class="only">    AwsCredentials,</span>
+<span class="swap">    AwsSecretsManagerProviderOptions,</span>
+)
+
+client = <span class="f">create_secret_client</span>(
+    CreateSecretClientConfig(
+<span class="swap">        provider=<span class="s">"aws-secrets-manager"</span>,</span>
+        env=<span class="s">"prod"</span>,
+        project=<span class="s">"billing"</span>,
+<span class="swap">        options=AwsSecretsManagerProviderOptions(</span>
+<span class="swap">            region=<span class="s">"us-east-1"</span>,</span>
+<span class="swap">            credentials=AwsCredentials(</span>
+<span class="swap">                access_key_id=<span class="s">"AKIAIOSFODNN7EXAMPLE"</span>,</span>
+<span class="swap">                secret_access_key=(</span>
+<span class="swap">                    <span class="s">"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"</span></span>
+<span class="swap">                ),</span>
+<span class="swap">            ),</span>
+        ),
+    )
+)
+
+<span class="k">try</span>:
+    secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
+<span class="info">    <span class="c"># reads /prod/billing/database/password, stage AWSCURRENT</span></span>
+<span class="k">except</span> SecretNotFoundError <span class="k">as</span> error:
+    error.code  <span class="c"># "scrt_not_found", on any provider</span></pre>
+            <pre data-c="ts"><span class="k">import</span> { SecretNotFoundError } <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
+<span class="k">import</span> {
+    SecretProvider,
+    <span class="f">createSecretClient</span>,
+} <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
+
+<span class="k">const</span> client = <span class="k">await</span> <span class="f">createSecretClient</span>({
+<span class="swap">    provider: SecretProvider.AwsSecretsManager,</span>
+    env: <span class="s">'prod'</span>,
+    project: <span class="s">'billing'</span>,
+<span class="swap">    options: {</span>
+<span class="swap">        region: <span class="s">'us-east-1'</span>,</span>
+<span class="swap">        credentials: {</span>
+<span class="swap">            accessKeyId: <span class="s">'AKIAIOSFODNN7EXAMPLE'</span>,</span>
+<span class="swap">            secretAccessKey:</span>
+<span class="swap">                <span class="s">'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'</span>,</span>
+<span class="swap">        },</span>
+<span class="swap">    },</span>
+});
+
+<span class="k">try</span> {
+    <span class="k">const</span> secret = <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'database/password'</span>);
+<span class="info">    <span class="c">// reads /prod/billing/database/password, stage AWSCURRENT</span></span>
+} <span class="k">catch</span> (error) {
+    <span class="k">if</span> (error <span class="k">instanceof</span> SecretNotFoundError) {
+        error.code; <span class="c">// 'scrt_not_found', on any provider</span>
+    }
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="row sub" data-pane="gcp-parameter-manager">
+        <div class="prose">
+          <p data-l="en">For low-cost secrets in GCP. Reads the rendered payload of the latest version.</p>
+          <p data-l="pt">Para segredos de baixo custo no GCP. Lê o payload renderizado da última versão.</p>
+          <p data-l="en"><code data-c="py">project_id</code><code data-c="ts">projectId</code> has no default; <code>location</code> defaults to <code>global</code>. GCP does not accept <code>/</code> in a name, so the resolved name is joined with <code>_</code>.</p>
+          <p data-l="pt"><code data-c="py">project_id</code><code data-c="ts">projectId</code> não tem padrão; <code>location</code> tem padrão <code>global</code>. O GCP não aceita <code>/</code> num nome, então o nome resolvido é unido com <code>_</code>.</p>
+          <p data-l="en"><code>credentials</code> is the service account key file, as Google ships it. Leave it out and the Google SDK's own defaults apply.</p>
+          <p data-l="pt"><code>credentials</code> é o arquivo de chave da service account, como o Google o entrega. Omita e os próprios padrões do SDK do Google se aplicam.</p>
+        </div>
+        <div>
+          <div class="code">
+            <div class="code-bar"><span data-c="py">uv</span><span data-c="ts">npm</span><span class="grow">shell</span></div>
+            <pre data-c="py"><span class="pr">$</span> uv add secret-kernel-provider-gcp-parameter-manager</pre>
+            <pre data-c="ts"><span class="pr">$</span> npm install @secret-kernel/provider-gcp-parameter-manager</pre>
+          </div>
+          <div class="code compare">
+            <div class="code-bar">
+              <svg aria-hidden="true"><use href="#logo-googlecloud"/></svg>
+              <span>gcp-parameter-manager</span>
+            </div>
+            <pre data-c="py"><span class="only"><span class="k">import</span> json</span>
+<span class="only"><span class="k">from</span> pathlib <span class="k">import</span> Path</span>
+
+<span class="k">from</span> secret_kernel.contracts <span class="k">import</span> SecretNotFoundError
+<span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
+    CreateSecretClientConfig,
+    <span class="f">create_secret_client</span>,
+)
+<span class="swap"><span class="k">from</span> secret_kernel.provider_gcp_parameter_manager <span class="k">import</span> (</span>
+<span class="swap">    GcpParameterManagerProviderOptions,</span>
+)
+
+client = <span class="f">create_secret_client</span>(
+    CreateSecretClientConfig(
+<span class="swap">        provider=<span class="s">"gcp-parameter-manager"</span>,</span>
+        env=<span class="s">"prod"</span>,
+        project=<span class="s">"billing"</span>,
+<span class="swap">        options=GcpParameterManagerProviderOptions(</span>
+<span class="swap">            project_id=<span class="s">"my-gcp-project"</span>,</span>
+<span class="swap">            credentials=json.<span class="f">loads</span>(</span>
+<span class="swap">                Path(<span class="s">"service-account.json"</span>).<span class="f">read_text</span>()</span>
+<span class="swap">            ),</span>
+        ),
+    )
+)
+
+<span class="k">try</span>:
+    secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
+<span class="info">    <span class="c"># reads projects/my-gcp-project/locations/global/</span></span>
+<span class="info">    <span class="c">#   parameters/prod_billing_database_password/</span></span>
+<span class="info">    <span class="c">#   versions/latest</span></span>
+<span class="k">except</span> SecretNotFoundError <span class="k">as</span> error:
+    error.code  <span class="c"># "scrt_not_found", on any provider</span></pre>
+            <pre data-c="ts"><span class="only"><span class="k">import</span> { readFileSync } <span class="k">from</span> <span class="s">'node:fs'</span>;</span>
+<span class="k">import</span> { SecretNotFoundError } <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
+<span class="k">import</span> {
+    SecretProvider,
+    <span class="f">createSecretClient</span>,
+} <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
+
+<span class="k">const</span> client = <span class="k">await</span> <span class="f">createSecretClient</span>({
+<span class="swap">    provider: SecretProvider.GcpParameterManager,</span>
+    env: <span class="s">'prod'</span>,
+    project: <span class="s">'billing'</span>,
+<span class="swap">    options: {</span>
+<span class="swap">        projectId: <span class="s">'my-gcp-project'</span>,</span>
+<span class="swap">        credentials: JSON.<span class="f">parse</span>(</span>
+<span class="swap">            <span class="f">readFileSync</span>(<span class="s">'service-account.json'</span>, <span class="s">'utf8'</span>),</span>
+<span class="swap">        ),</span>
+<span class="swap">    },</span>
+});
+
+<span class="k">try</span> {
+    <span class="k">const</span> secret = <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'database/password'</span>);
+<span class="info">    <span class="c">// reads projects/my-gcp-project/locations/global/</span></span>
+<span class="info">    <span class="c">//   parameters/prod_billing_database_password/</span></span>
+<span class="info">    <span class="c">//   versions/latest</span></span>
+} <span class="k">catch</span> (error) {
+    <span class="k">if</span> (error <span class="k">instanceof</span> SecretNotFoundError) {
+        error.code; <span class="c">// 'scrt_not_found', on any provider</span>
+    }
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="row sub" data-pane="gcp-secret-manager">
+        <div class="prose">
+          <p data-l="en">For GCP secrets that need rotation and a dedicated lifecycle. Reads the latest version.</p>
+          <p data-l="pt">Para segredos do GCP que precisam de rotação e ciclo de vida próprio. Lê a última versão.</p>
+          <p data-l="en"><code data-c="py">project_id</code><code data-c="ts">projectId</code> has no default. GCP does not accept <code>/</code> in a name, so the resolved name is joined with <code>_</code>.</p>
+          <p data-l="pt"><code data-c="py">project_id</code><code data-c="ts">projectId</code> não tem padrão. O GCP não aceita <code>/</code> num nome, então o nome resolvido é unido com <code>_</code>.</p>
+          <p data-l="en"><code>credentials</code> is the service account key file, as Google ships it. Leave it out and the Google SDK's own defaults apply.</p>
+          <p data-l="pt"><code>credentials</code> é o arquivo de chave da service account, como o Google o entrega. Omita e os próprios padrões do SDK do Google se aplicam.</p>
+        </div>
+        <div>
+          <div class="code">
+            <div class="code-bar"><span data-c="py">uv</span><span data-c="ts">npm</span><span class="grow">shell</span></div>
+            <pre data-c="py"><span class="pr">$</span> uv add secret-kernel-provider-gcp-secret-manager</pre>
+            <pre data-c="ts"><span class="pr">$</span> npm install @secret-kernel/provider-gcp-secret-manager</pre>
+          </div>
+          <div class="code compare">
+            <div class="code-bar">
+              <svg aria-hidden="true"><use href="#logo-googlecloud"/></svg>
+              <span>gcp-secret-manager</span>
+            </div>
+            <pre data-c="py"><span class="only"><span class="k">import</span> json</span>
+<span class="only"><span class="k">from</span> pathlib <span class="k">import</span> Path</span>
+
+<span class="k">from</span> secret_kernel.contracts <span class="k">import</span> SecretNotFoundError
+<span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
+    CreateSecretClientConfig,
+    <span class="f">create_secret_client</span>,
+)
+<span class="swap"><span class="k">from</span> secret_kernel.provider_gcp_secret_manager <span class="k">import</span> (</span>
+<span class="swap">    GcpSecretManagerProviderOptions,</span>
+)
+
+client = <span class="f">create_secret_client</span>(
+    CreateSecretClientConfig(
+<span class="swap">        provider=<span class="s">"gcp-secret-manager"</span>,</span>
+        env=<span class="s">"prod"</span>,
+        project=<span class="s">"billing"</span>,
+<span class="swap">        options=GcpSecretManagerProviderOptions(</span>
+<span class="swap">            project_id=<span class="s">"my-gcp-project"</span>,</span>
+<span class="swap">            credentials=json.<span class="f">loads</span>(</span>
+<span class="swap">                Path(<span class="s">"service-account.json"</span>).<span class="f">read_text</span>()</span>
+<span class="swap">            ),</span>
+        ),
+    )
+)
+
+<span class="k">try</span>:
+    secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
+<span class="info">    <span class="c"># reads projects/my-gcp-project/secrets/</span></span>
+<span class="info">    <span class="c">#   prod_billing_database_password/versions/latest</span></span>
+<span class="k">except</span> SecretNotFoundError <span class="k">as</span> error:
+    error.code  <span class="c"># "scrt_not_found", on any provider</span></pre>
+            <pre data-c="ts"><span class="only"><span class="k">import</span> { readFileSync } <span class="k">from</span> <span class="s">'node:fs'</span>;</span>
+<span class="k">import</span> { SecretNotFoundError } <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
+<span class="k">import</span> {
+    SecretProvider,
+    <span class="f">createSecretClient</span>,
+} <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
+
+<span class="k">const</span> client = <span class="k">await</span> <span class="f">createSecretClient</span>({
+<span class="swap">    provider: SecretProvider.GcpSecretManager,</span>
+    env: <span class="s">'prod'</span>,
+    project: <span class="s">'billing'</span>,
+<span class="swap">    options: {</span>
+<span class="swap">        projectId: <span class="s">'my-gcp-project'</span>,</span>
+<span class="swap">        credentials: JSON.<span class="f">parse</span>(</span>
+<span class="swap">            <span class="f">readFileSync</span>(<span class="s">'service-account.json'</span>, <span class="s">'utf8'</span>),</span>
+<span class="swap">        ),</span>
+<span class="swap">    },</span>
+});
+
+<span class="k">try</span> {
+    <span class="k">const</span> secret = <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'database/password'</span>);
+<span class="info">    <span class="c">// reads projects/my-gcp-project/secrets/</span></span>
+<span class="info">    <span class="c">//   prod_billing_database_password/versions/latest</span></span>
+} <span class="k">catch</span> (error) {
+    <span class="k">if</span> (error <span class="k">instanceof</span> SecretNotFoundError) {
+        error.code; <span class="c">// 'scrt_not_found', on any provider</span>
+    }
+}</pre>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ══ 02 · names ═════════════════════════════════════════════════════ -->
+  <!-- ══ 03 · names ═════════════════════════════════════════════════════ -->
   <section id="names">
     <div class="sec-head">
-      <div class="sec-num">02</div>
+      <div class="sec-num">03</div>
       <div>
         <h2 data-l="en">How a name is built</h2>
         <h2 data-l="pt">Como um nome é montado</h2>
@@ -394,10 +908,10 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
     </div>
   </section>
 
-  <!-- ══ 03 · per-call ══════════════════════════════════════════════════ -->
+  <!-- ══ 04 · per-call ══════════════════════════════════════════════════ -->
   <section id="per-call">
     <div class="sec-head">
-      <div class="sec-num">03</div>
+      <div class="sec-num">04</div>
       <div>
         <h2 data-l="en">Changing the name for one call</h2>
         <h2 data-l="pt">Mudando o nome para uma chamada</h2>
@@ -452,17 +966,17 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
 
 <span class="c">// /license-key — belongs to no environment or project</span>
 <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'license-key'</span>, {
-  omitEnv: <span class="n">true</span>,
-  omitProject: <span class="n">true</span>,
+    omitEnv: <span class="n">true</span>,
+    omitProject: <span class="n">true</span>,
 });</pre>
       </div>
     </div>
   </section>
 
-  <!-- ══ 04 · structured ════════════════════════════════════════════════ -->
+  <!-- ══ 05 · structured ════════════════════════════════════════════════ -->
   <section id="parse">
     <div class="sec-head">
-      <div class="sec-num">04</div>
+      <div class="sec-num">05</div>
       <div>
         <h2 data-l="en">Reading structured secrets</h2>
         <h2 data-l="pt">Lendo segredos estruturados</h2>
@@ -514,15 +1028,15 @@ pairs = <span class="k">await</span> client.<span class="f">get_secret</span>(
 <span class="k">type</span> DbConfig = { host: string; port: number };
 
 <span class="k">const</span> config = <span class="k">await</span> client.<span class="f">getSecret</span>&lt;DbConfig&gt;(
-  <span class="s">'database/config'</span>,
-  { parse: SecretParseMode.<span class="n">Json</span> },
+    <span class="s">'database/config'</span>,
+    { parse: SecretParseMode.<span class="n">Json</span> },
 );
 
 <span class="c">// { user: 'app', password: 's3cr3t' }</span>
 <span class="c">// from "user=app;password=s3cr3t"</span>
 <span class="k">const</span> pairs = <span class="k">await</span> client.<span class="f">getSecret</span>(
-  <span class="s">'database/credentials'</span>,
-  { parse: SecretParseMode.<span class="n">KeyValue</span> },
+    <span class="s">'database/credentials'</span>,
+    { parse: SecretParseMode.<span class="n">KeyValue</span> },
 );</pre>
       </div>
     </div>
@@ -585,25 +1099,28 @@ client = <span class="f">create_secret_client</span>(
     ),
 )</pre>
         <pre data-c="ts"><span class="k">const</span> client = <span class="k">await</span> <span class="f">createSecretClient</span>({
-  provider: SecretProvider.AwsParameterStore,
-  env: <span class="s">'prod'</span>,
-  parseOptions: { pairSeparator: <span class="s">'|'</span>, keyValueSeparator: <span class="s">':'</span> },
-  options: { region: <span class="s">'us-east-1'</span> },
+    provider: SecretProvider.AwsParameterStore,
+    env: <span class="s">'prod'</span>,
+    parseOptions: {
+        pairSeparator: <span class="s">'|'</span>,
+        keyValueSeparator: <span class="s">':'</span>,
+    },
+    options: { region: <span class="s">'us-east-1'</span> },
 });
 
 <span class="c">// only the pair separator differs here; ':' is inherited</span>
 <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'legacy'</span>, {
-  parse: SecretParseMode.<span class="n">KeyValue</span>,
-  parseOptions: { pairSeparator: <span class="s">';'</span> },
+    parse: SecretParseMode.<span class="n">KeyValue</span>,
+    parseOptions: { pairSeparator: <span class="s">';'</span> },
 });</pre>
       </div>
     </div>
   </section>
 
-  <!-- ══ 05 · providers ═════════════════════════════════════════════════ -->
+  <!-- ══ 06 · providers ═════════════════════════════════════════════════ -->
   <section id="providers">
     <div class="sec-head">
-      <div class="sec-num">05</div>
+      <div class="sec-num">06</div>
       <div>
         <h2 data-l="en">Five providers, one call</h2>
         <h2 data-l="pt">Cinco providers, uma chamada</h2>
@@ -658,8 +1175,14 @@ client = <span class="f">create_secret_client</span>(
 
     <div class="row" style="margin-top:2.5rem">
       <div class="prose">
-        <h3 data-l="en">Credentials</h3>
-        <h3 data-l="pt">Credenciais</h3>
+        <h3 data-l="en">Defaults</h3>
+        <h3 data-l="pt">Padrões</h3>
+        <p data-l="en"><code>region</code> on both AWS providers defaults to <code>us-east-1</code>. The default is the kernel's, not the SDK's: <code>AWS_REGION</code> and the AWS profile are not consulted, so pass the region you mean. <code>location</code> on GCP Parameter Manager defaults to <code>global</code>. <code data-c="py">project_id</code><code data-c="ts">projectId</code> on both GCP providers has no default.</p>
+        <p data-l="pt"><code>region</code> nos dois providers da AWS tem padrão <code>us-east-1</code>. O padrão é do kernel, não do SDK: <code>AWS_REGION</code> e o perfil da AWS não são consultados, então passe a região que você quer. <code>location</code> no GCP Parameter Manager tem padrão <code>global</code>. <code data-c="py">project_id</code><code data-c="ts">projectId</code> nos dois providers do GCP não tem padrão.</p>
+        <p data-l="en">A value you pass must say something. <code data-c="py">None</code><code data-c="ts">undefined</code> or blank text raises <code>SecretKernelConfigurationError</code> instead of falling back to the default, so an unset environment variable fails when the client is built rather than reading from the wrong place.</p>
+        <p data-l="pt">Um valor que você passa precisa dizer algo. <code data-c="py">None</code><code data-c="ts">undefined</code> ou texto em branco levanta <code>SecretKernelConfigurationError</code> em vez de cair no padrão, então uma variável de ambiente não definida falha quando o client é construído, e não lendo do lugar errado.</p>
+        <h3 style="margin-top:2rem" data-l="en">Credentials</h3>
+        <h3 style="margin-top:2rem" data-l="pt">Credenciais</h3>
         <p data-l="en">Credentials are <strong>explicit</strong> when you pass them, and fall back to the cloud SDK's own chain when you do not. Explicit credentials take precedence.</p>
         <p data-l="pt">As credenciais são <strong>explícitas</strong> quando você as passa, e caem para a própria cadeia do SDK da nuvem quando você não passa. Credenciais explícitas têm precedência.</p>
         <p data-l="en">Injecting a <code>client</code> keeps the SDK client under your lifecycle — the kernel closes only what it created.</p>
@@ -691,13 +1214,13 @@ client = <span class="f">create_secret_client</span>(
 <span class="c"># reads projects/my-gcp-project/secrets/</span>
 <span class="c">#   prod_billing_database_password/versions/latest</span></pre>
         <pre data-c="ts"><span class="k">const</span> client = <span class="k">await</span> <span class="f">createSecretClient</span>({
-  provider: SecretProvider.GcpSecretManager,
-  env: <span class="s">'prod'</span>,
-  project: <span class="s">'billing'</span>,
-  options: {
-    projectId: <span class="s">'my-gcp-project'</span>,
-    physicalNameSeparator: <span class="s">'_'</span>,
-  },
+    provider: SecretProvider.GcpSecretManager,
+    env: <span class="s">'prod'</span>,
+    project: <span class="s">'billing'</span>,
+    options: {
+        projectId: <span class="s">'my-gcp-project'</span>,
+        physicalNameSeparator: <span class="s">'_'</span>,
+    },
 });
 
 <span class="c">// reads projects/my-gcp-project/secrets/</span>
@@ -706,10 +1229,10 @@ client = <span class="f">create_secret_client</span>(
     </div>
   </section>
 
-  <!-- ══ 06 · cache ═════════════════════════════════════════════════════ -->
+  <!-- ══ 07 · cache ═════════════════════════════════════════════════════ -->
   <section id="cache">
     <div class="sec-head">
-      <div class="sec-num">06</div>
+      <div class="sec-num">07</div>
       <div>
         <h2 data-l="en">Caching</h2>
         <h2 data-l="pt">Cache</h2>
@@ -757,38 +1280,42 @@ client = <span class="f">create_secret_client</span>(
     )
 )</pre>
         <pre data-c="ts"><span class="k">const</span> client = <span class="k">await</span> <span class="f">createSecretClient</span>({
-  provider: SecretProvider.AwsSecretsManager,
-  env: <span class="s">'prod'</span>,
-  cache: {
-    enabled: <span class="n">true</span>,
-    ttlMs: <span class="n">300_000</span>,
-    maxEntries: <span class="n">100</span>,
-    encryptInMemory: <span class="n">true</span>,
-  },
-  options: { region: <span class="s">'us-east-1'</span> },
+    provider: SecretProvider.AwsSecretsManager,
+    env: <span class="s">'prod'</span>,
+    cache: {
+        enabled: <span class="n">true</span>,
+        ttlMs: <span class="n">300_000</span>,
+        maxEntries: <span class="n">100</span>,
+        encryptInMemory: <span class="n">true</span>,
+    },
+    options: { region: <span class="s">'us-east-1'</span> },
 });</pre>
       </div>
     </div>
   </section>
 
-  <!-- ══ 07 · errors ════════════════════════════════════════════════════ -->
+  <!-- ══ 08 · errors ════════════════════════════════════════════════════ -->
   <section id="errors">
     <div class="sec-head">
-      <div class="sec-num">07</div>
+      <div class="sec-num">08</div>
       <div>
         <h2 data-l="en">Errors are part of the contract</h2>
         <h2 data-l="pt">Erros fazem parte do contrato</h2>
-        <p data-l="en">Every error carries <code>provider</code>, <code data-c="py">secret_name</code><code data-c="ts">secretName</code>, <code>code</code>, <code>ref</code> and <code>cause</code>.</p>
-        <p data-l="pt">Todo erro carrega <code>provider</code>, <code data-c="py">secret_name</code><code data-c="ts">secretName</code>, <code>code</code>, <code>ref</code> e <code>cause</code>.</p>
+        <p data-l="en">Every error carries <code>name</code>, <code>code</code>, <code>provider</code>, <code data-c="py">secret_name</code><code data-c="ts">secretName</code>, <code data-c="py">provider_code</code><code data-c="ts">providerCode</code> and <code>cause</code>.</p>
+        <p data-l="pt">Todo erro carrega <code>name</code>, <code>code</code>, <code>provider</code>, <code data-c="py">secret_name</code><code data-c="ts">secretName</code>, <code data-c="py">provider_code</code><code data-c="ts">providerCode</code> e <code>cause</code>.</p>
       </div>
     </div>
 
     <div class="row">
       <div class="prose">
-        <p data-l="en">Only <strong>not-found</strong> and <strong>permission</strong> are normalized. Every other failure keeps the message the SDK produced and gains <code>provider</code>, <code>ref</code> and <code>code</code>, with the original exception in <code>cause</code>.</p>
-        <p data-l="pt">Só <strong>não-encontrado</strong> e <strong>permissão</strong> são normalizados. Toda outra falha preserva a mensagem que o SDK produziu e ganha <code>provider</code>, <code>ref</code> e <code>code</code>, com a exceção original em <code>cause</code>.</p>
-        <p data-l="en">This is why a missing secret raises <code>SecretNotFoundError</code> whichever provider is behind the contract — and why a provider-specific failure still tells you which SDK produced it.</p>
-        <p data-l="pt">É por isso que um segredo ausente levanta <code>SecretNotFoundError</code> qualquer que seja o provider por trás do contrato — e por isso que uma falha específica de provider ainda diz qual SDK a produziu.</p>
+        <p data-l="en">Three fields identify a failure, and each answers a different question. <code>name</code> is the class, and moves when the class is renamed. <code>code</code> is the kernel's own — <code>scrt_not_found</code> — frozen, always present, and spelled the same in both languages. <code data-c="py">provider_code</code><code data-c="ts">providerCode</code> is the vendor's — <code>AccessDeniedException</code> on AWS, <code>PERMISSION_DENIED</code> on GCP — and is there only when the SDK gave one.</p>
+        <p data-l="pt">Três campos identificam uma falha, e cada um responde a uma pergunta diferente. <code>name</code> é a classe, e muda quando a classe é renomeada. <code>code</code> é do próprio kernel — <code>scrt_not_found</code> — congelado, sempre presente e escrito igual nas duas linguagens. <code data-c="py">provider_code</code><code data-c="ts">providerCode</code> é do fornecedor — <code>AccessDeniedException</code> na AWS, <code>PERMISSION_DENIED</code> no GCP — e só existe quando o SDK deu um.</p>
+        <p data-l="en">Catch by class inside your own process. Compare <code>code</code> at a boundary, where a partner writes the string into a comparison of their own and a renamed class would break them in silence.</p>
+        <p data-l="pt">Capture pela classe dentro do seu próprio processo. Compare <code>code</code> numa fronteira, onde um parceiro escreve a string numa comparação dele e uma classe renomeada o quebraria em silêncio.</p>
+        <p data-l="en">Only <strong>not-found</strong> and <strong>permission</strong> are normalized. Every other failure keeps the message the SDK produced and gains <code>provider</code>, <code data-c="py">secret_name</code><code data-c="ts">secretName</code> and, when the SDK offered one, <code data-c="py">provider_code</code><code data-c="ts">providerCode</code>, with the original error in <code>cause</code>.</p>
+        <p data-l="pt">Só <strong>não-encontrado</strong> e <strong>permissão</strong> são normalizados. Toda outra falha preserva a mensagem que o SDK produziu e ganha <code>provider</code>, <code data-c="py">secret_name</code><code data-c="ts">secretName</code> e, quando o SDK ofereceu um, <code data-c="py">provider_code</code><code data-c="ts">providerCode</code>, com o erro original em <code>cause</code>.</p>
+        <p data-l="en">A normalized message names the provider and the secret twice: the name your code asked for, and in parentheses the ID the provider looked up — on GCP, the one to search for in the console.</p>
+        <p data-l="pt">Uma mensagem normalizada nomeia o provider e nomeia o segredo duas vezes: o nome que o seu código pediu e, entre parênteses, o ID que o provider procurou — no GCP, o que você busca no console.</p>
       </div>
       <div class="code">
         <div class="code-bar">
@@ -797,41 +1324,52 @@ client = <span class="f">create_secret_client</span>(
           <span data-l="en">handling</span><span data-l="pt">tratamento</span>
         </div>
         <pre data-c="py"><span class="k">from</span> secret_kernel.contracts <span class="k">import</span> (
+    SecretKernelError,
     SecretNotFoundError,
-    SecretParseError,
 )
 
 <span class="k">try</span>:
-    secret = <span class="k">await</span> client.<span class="f">get_secret</span>(
-        <span class="s">"database/config"</span>,
-        GetSecretOptions(parse=SecretParseMode.<span class="n">JSON</span>),
-    )
-<span class="k">except</span> SecretNotFoundError <span class="k">as</span> error:
-    logger.warning(<span class="s">"missing %s on %s"</span>, error.ref, error.provider)
-    <span class="k">raise</span>
-<span class="k">except</span> SecretParseError <span class="k">as</span> error:
-    logger.error(
-        <span class="s">"unparseable %s"</span>, error.ref, exc_info=error.__cause__
-    )
-    <span class="k">raise</span></pre>
+    secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
+<span class="k">except</span> SecretNotFoundError:
+    <span class="c"># in your process: the class</span>
+    secret = <span class="n">None</span>
+<span class="k">except</span> SecretKernelError <span class="k">as</span> error:
+    <span class="c"># at a boundary: the code</span>
+    respond(<span class="n">503</span>, {<span class="s">"code"</span>: error.code})
+
+<span class="c"># a missing secret, env "prod", on GCP</span>
+<span class="c"># str(error)         Secret not found in gcp-secret-manager:</span>
+<span class="c">#                    database/password (full name:</span>
+<span class="c">#                    prod_database_password)</span>
+<span class="c"># error.name         SecretNotFoundError</span>
+<span class="c"># error.code         scrt_not_found</span>
+<span class="c"># error.secret_name  database/password</span></pre>
         <pre data-c="ts"><span class="k">import</span> {
-  SecretNotFoundError, SecretParseError,
+    SecretKernelError, SecretNotFoundError,
 } <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
 
+<span class="k">let</span> secret;
 <span class="k">try</span> {
-  <span class="k">const</span> secret = <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'database/config'</span>, {
-    parse: SecretParseMode.<span class="n">Json</span>,
-  });
+    secret = <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'database/password'</span>);
 } <span class="k">catch</span> (error) {
-  <span class="k">if</span> (error <span class="k">instanceof</span> SecretNotFoundError) {
-    logger.warn(<span class="s">`missing ${error.ref} on ${error.provider}`</span>);
-  } <span class="k">else if</span> (error <span class="k">instanceof</span> SecretParseError) {
-    logger.error(<span class="s">`unparseable ${error.ref}`</span>, {
-      cause: error.cause,
-    });
-  }
-  <span class="k">throw</span> error;
-}</pre>
+    <span class="k">if</span> (error <span class="k">instanceof</span> SecretNotFoundError) {
+        <span class="c">// in your process: the class</span>
+        secret = <span class="n">undefined</span>;
+    } <span class="k">else if</span> (error <span class="k">instanceof</span> SecretKernelError) {
+        <span class="c">// at a boundary: the code</span>
+        respond(<span class="n">503</span>, { code: error.code });
+    } <span class="k">else</span> {
+        <span class="k">throw</span> error;
+    }
+}
+
+<span class="c">// a missing secret, env 'prod', on GCP</span>
+<span class="c">// error.message     Secret not found in gcp-secret-manager:</span>
+<span class="c">//                   database/password (full name:</span>
+<span class="c">//                   prod_database_password)</span>
+<span class="c">// error.name        SecretNotFoundError</span>
+<span class="c">// error.code        scrt_not_found</span>
+<span class="c">// error.secretName  database/password</span></pre>
       </div>
     </div>
 
@@ -840,40 +1378,45 @@ client = <span class="f">create_secret_client</span>(
         <thead>
           <tr>
             <th data-l="en">Class</th><th data-l="pt">Classe</th>
+            <th data-l="en">Code</th><th data-l="pt">Código</th>
             <th data-l="en">Raised when</th><th data-l="pt">Levantado quando</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td><code>SecretNotFoundError</code></td><td data-l="en">The secret or parameter does not exist.</td><td data-l="pt">O segredo ou parâmetro não existe.</td></tr>
-          <tr><td><code>SecretPermissionError</code></td><td data-l="en">The provider refused the read.</td><td data-l="pt">O provider recusou a leitura.</td></tr>
-          <tr><td><code>SecretParseError</code></td><td data-l="en">The secret was read but the requested parse failed.</td><td data-l="pt">O segredo foi lido, mas o parse pedido falhou.</td></tr>
-          <tr><td><code>InvalidSecretNameError</code></td><td data-l="en">The resolved name is empty or unusable.</td><td data-l="pt">O nome resolvido está vazio ou inutilizável.</td></tr>
-          <tr><td><code>SecretCapabilityNotSupportedError</code></td><td data-l="en">The provider cannot serve the request under the base contract.</td><td data-l="pt">O provider não consegue atender ao pedido dentro do contrato base.</td></tr>
-          <tr><td><code>SecretConfigurationError</code></td><td data-l="en">Required, invalid or mutually exclusive configuration.</td><td data-l="pt">Configuração obrigatória, inválida ou mutuamente exclusiva.</td></tr>
-          <tr><td><code>SecretProviderError</code></td><td data-l="en">Any other provider failure.</td><td data-l="pt">Qualquer outra falha do provider.</td></tr>
+          <tr><td><code>SecretNotFoundError</code></td><td><code>scrt_not_found</code></td><td data-l="en">The secret or parameter does not exist.</td><td data-l="pt">O segredo ou parâmetro não existe.</td></tr>
+          <tr><td><code>SecretPermissionError</code></td><td><code>scrt_permission_denied</code></td><td data-l="en">The provider refused the read.</td><td data-l="pt">O provider recusou a leitura.</td></tr>
+          <tr><td><code>SecretParseError</code></td><td><code>scrt_parse_failed</code></td><td data-l="en">The secret was read but the requested parse failed.</td><td data-l="pt">O segredo foi lido, mas o parse pedido falhou.</td></tr>
+          <tr><td><code>InvalidSecretNameError</code></td><td><code>scrt_invalid_name</code></td><td data-l="en">The resolved name is empty or unusable.</td><td data-l="pt">O nome resolvido está vazio ou inutilizável.</td></tr>
+          <tr><td><code>SecretCapabilityNotSupportedError</code></td><td><code>scrt_capability_not_supported</code></td><td data-l="en">The provider cannot serve the request under the base contract.</td><td data-l="pt">O provider não consegue atender ao pedido dentro do contrato base.</td></tr>
+          <tr><td><code>SecretKernelConfigurationError</code></td><td><code>scrt_invalid_configuration</code></td><td data-l="en">Required, invalid or mutually exclusive configuration.</td><td data-l="pt">Configuração obrigatória, inválida ou mutuamente exclusiva.</td></tr>
+          <tr><td><code>SecretProviderError</code></td><td><code>scrt_unexpected</code></td><td data-l="en">Any other provider failure.</td><td data-l="pt">Qualquer outra falha do provider.</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <!-- ══ 08 · observability & extension ═════════════════════════════════ -->
+  <!-- ══ 09 · observability & extension ═════════════════════════════════ -->
   <section id="extend">
     <div class="sec-head">
-      <div class="sec-num">08</div>
+      <div class="sec-num">09</div>
       <div>
         <h2 data-l="en">Observability, and your own provider</h2>
         <h2 data-l="pt">Observabilidade, e seu próprio provider</h2>
-        <p data-l="en">Silent unless you ask, and open to a store the kernel has never heard of.</p>
-        <p data-l="pt">Silencioso a menos que você peça, e aberto a um cofre que o kernel nunca viu.</p>
+        <p data-l="en">Silent until you attach a logger, and open to a store the kernel has never heard of.</p>
+        <p data-l="pt">Silencioso até você anexar um logger, e aberto a um cofre que o kernel nunca viu.</p>
       </div>
     </div>
 
     <div class="row">
       <div class="prose">
-        <h3 data-l="en">Lifecycle events</h3>
-        <h3 data-l="pt">Eventos de ciclo de vida</h3>
-        <p data-l="en">Pass a <code>logger</code> to receive lifecycle events, or <code>debug</code> to send them to the console. Without either, the client is silent.</p>
-        <p data-l="pt">Passe um <code>logger</code> para receber eventos de ciclo de vida, ou <code>debug</code> para mandá-los ao console. Sem nenhum dos dois, o client fica silencioso.</p>
+        <h3 data-l="en">Logging</h3>
+        <h3 data-l="pt">Logs</h3>
+        <p data-l="en">Pass a <code>logger</code> and the client writes one plain sentence per event: the secret it is reading, a cache hit or miss, a missing secret at <code data-c="py">warning</code><code data-c="ts">warn</code>, and a refused or failed read at <code>error</code>, carrying the error's own message. No line carries the secret value.</p>
+        <p data-l="pt">Passe um <code>logger</code> e o client escreve uma frase simples por evento: o segredo que está lendo, um acerto ou falta no cache, um segredo ausente em <code data-c="py">warning</code><code data-c="ts">warn</code>, e uma leitura recusada ou que falhou em <code>error</code>, com a mensagem do próprio erro. Nenhuma linha carrega o valor do segredo.</p>
+        <p data-l="en">One string per call, so the standard logger fits as it is — <code data-c="py">logging.getLogger(...)</code><code data-c="ts">console</code>, with no adapter.</p>
+        <p data-l="pt">Uma string por chamada, então o logger padrão serve como está — <code data-c="py">logging.getLogger(...)</code><code data-c="ts">console</code>, sem adapter.</p>
+        <p data-l="en">The logger is the only sink. Without one the client is silent: there is no <code>debug</code> flag and no console fallback, because where a line lands and what it may expose belongs to the application that attached the logger. A level your logger does not implement is dropped, never raised.</p>
+        <p data-l="pt">O logger é o único destino. Sem ele, o client fica em silêncio: não existe flag <code>debug</code> nem fallback para o console, porque onde uma linha cai e o que ela pode expor é decisão da aplicação que anexou o logger. Um nível que o seu logger não implementa é descartado, nunca levantado.</p>
         <h3 style="margin-top:2rem" data-l="en">Bring your own provider</h3>
         <h3 style="margin-top:2rem" data-l="pt">Traga seu próprio provider</h3>
         <p data-l="en">The factory accepts a provider class directly, so a store this package has never heard of is used through the same contract. The factory asserts the class declares the requested <code data-c="py">provider_name</code><code data-c="ts">providerName</code>.</p>
@@ -888,24 +1431,34 @@ client = <span class="f">create_secret_client</span>(
             <svg aria-hidden="true" data-c="ts"><use href="#logo-typescript"/></svg>
             <span data-l="en">logging</span><span data-l="pt">logging</span>
           </div>
-          <pre data-c="py">client = <span class="f">create_secret_client</span>(
+          <pre data-c="py"><span class="k">import</span> logging
+
+client = <span class="f">create_secret_client</span>(
     CreateSecretClientConfig(
         provider=<span class="s">"gcp-secret-manager"</span>,
         env=<span class="s">"prod"</span>,
-        logger=my_logger,   <span class="c"># .debug(message, context)</span>
+        logger=logging.<span class="f">getLogger</span>(<span class="s">"my-app"</span>),
         options=GcpSecretManagerProviderOptions(
             project_id=<span class="s">"my-project"</span>,
         ),
     )
-)</pre>
+)
+
+<span class="c"># DEBUG    Reading secret /prod/database/password</span>
+<span class="c"># DEBUG    Reading /prod/database/password from the provider</span>
+<span class="c"># WARNING  Secret not found in gcp-secret-manager:</span>
+<span class="c">#          database/password (full name: prod_database_password)</span></pre>
           <pre data-c="ts"><span class="k">const</span> client = <span class="k">await</span> <span class="f">createSecretClient</span>({
-  provider: SecretProvider.GcpSecretManager,
-  env: <span class="s">'prod'</span>,
-  logger: {
-    debug: (message, context) =&gt; myLogger.debug(message, context),
-  },
-  options: { projectId: <span class="s">'my-project'</span> },
-});</pre>
+    provider: SecretProvider.GcpSecretManager,
+    env: <span class="s">'prod'</span>,
+    logger: console,
+    options: { projectId: <span class="s">'my-project'</span> },
+});
+
+<span class="c">// debug  Reading secret /prod/database/password</span>
+<span class="c">// debug  Reading /prod/database/password from the provider</span>
+<span class="c">// warn   Secret not found in gcp-secret-manager:</span>
+<span class="c">//        database/password (full name: prod_database_password)</span></pre>
         </div>
         <div class="code">
           <div class="code-bar">
@@ -920,18 +1473,18 @@ client = <span class="f">create_secret_client</span>(
     )
 )</pre>
           <pre data-c="ts"><span class="k">await</span> <span class="f">createSecretClient</span>({
-  provider: <span class="s">'my-vault'</span>,
-  providerClass: MyVaultClient,
+    provider: <span class="s">'my-vault'</span>,
+    providerClass: MyVaultClient,
 });</pre>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ══ 09 · scope ═════════════════════════════════════════════════════ -->
+  <!-- ══ 10 · scope ═════════════════════════════════════════════════════ -->
   <section id="scope">
     <div class="sec-head">
-      <div class="sec-num">09</div>
+      <div class="sec-num">10</div>
       <div>
         <h2 data-l="en">What it refuses to do</h2>
         <h2 data-l="pt">O que ele se recusa a fazer</h2>
@@ -959,13 +1512,13 @@ client = <span class="f">create_secret_client</span>(
     </div>
   </section>
 
-  <!-- ══ 10 · changelog ═════════════════════════════════════════════════ -->
+  <!-- ══ 11 · changelog ═════════════════════════════════════════════════ -->
   <!-- #changelog is the Changelog URL in the published package metadata of
        secret-kernel-py (0.1.0a4 onwards). Renaming this id breaks every package
        page on PyPI, so it does not get renamed. -->
   <section id="changelog">
     <div class="sec-head">
-      <div class="sec-num">10</div>
+      <div class="sec-num">11</div>
       <div>
         <h2 data-l="en">Changelog</h2>
         <h2 data-l="pt">Changelog</h2>
@@ -979,16 +1532,71 @@ client = <span class="f">create_secret_client</span>(
       <!-- Python -->
       <div class="release" data-c="py">
         <div>
-          <span class="release-v">0.1.0a5</span>
-          <span class="release-d">2026-08-28</span>
+          <span class="release-v">0.1.0a7</span>
+          <span class="release-d">2026-09-25</span>
           <span class="release-tag" data-l="en">tagged, not on PyPI yet</span>
           <span class="release-tag" data-l="pt">tagueado, ainda fora do PyPI</span>
         </div>
         <div class="release-body">
           <h4 data-l="en">Changed · breaking</h4>
           <h4 data-l="pt">Alterado · breaking</h4>
-          <p data-l="en">The AWS providers name their SDK configuration <code>client_options</code>, which is what the GCP providers and the TypeScript side already called it. It was <code>client_config</code>, so one argument carried two names across a family of nine distributions — a difference <code>snake_case</code> does not explain and a reader cannot derive from its counterpart. Breaking only for a caller passing that option by keyword.</p>
-          <p data-l="pt">Os providers da AWS chamam sua configuração de SDK de <code>client_options</code>, que é como os providers do GCP e o lado TypeScript já chamavam. Era <code>client_config</code>, então um argumento carregava dois nomes numa família de nove distribuições — uma diferença que <code>snake_case</code> não explica e que quem lê não deduz da contraparte. Breaking apenas para quem passa essa opção por keyword.</p>
+          <ul data-l="en">
+            <li><strong><code>code</code> changed owner.</strong> It held the vendor's identifier, which moved to <code>provider_code</code>. <code>code</code> is now the kernel's own, always present and frozen: <code>scrt_not_found</code>, <code>scrt_permission_denied</code>, <code>scrt_parse_failed</code>, <code>scrt_invalid_name</code>, <code>scrt_capability_not_supported</code>, <code>scrt_invalid_configuration</code>, <code>scrt_unexpected</code>. <code>SecretErrorCode</code> is a <code>StrEnum</code> of those seven.</li>
+            <li>A normalized failure names the secret you asked for and, in parentheses, the ID the provider looked up: <code>database/password (full name: dev_billing_database_password)</code>.</li>
+            <li>Errors are built from one <code>SecretKernelErrorOptions</code>, and <code>resolve_secret_full_name</code> takes <code>(client_options, secret_name, options)</code> — the same call shape as TypeScript.</li>
+            <li>Helpers drop the <code>secret</code> prefix where the rest of the name is already this kernel's vocabulary — <code>normalize_provider_error</code>, <code>assert_client_contract</code> and six more. Breaking for a custom provider importing them.</li>
+            <li><code>replace_secret_path_separator</code> never returns a leading separator. The AWS providers keep the resolved name themselves, so what they send is unchanged.</li>
+            <li><code>SecretConfigurationError</code> is now <code>SecretKernelConfigurationError</code>, with no alias. Its <code>code</code> stays <code>scrt_invalid_configuration</code>.</li>
+            <li><code>region</code> on both AWS providers defaults to <code>us-east-1</code>, and <code>AWS_REGION</code> or the AWS profile is no longer consulted. Breaking for a caller who left it out and relied on boto3 to find it. <code>location</code> keeps its <code>global</code> default.</li>
+            <li><code>region</code>, <code>location</code> or <code>project_id</code> given as <code>None</code> or blank text raises <code>SecretKernelConfigurationError</code> instead of falling back to the default.</li>
+          </ul>
+          <ul data-l="pt">
+            <li><strong><code>code</code> mudou de dono.</strong> Ele guardava o identificador do fornecedor, que foi para <code>provider_code</code>. <code>code</code> agora é do próprio kernel, sempre presente e congelado: <code>scrt_not_found</code>, <code>scrt_permission_denied</code>, <code>scrt_parse_failed</code>, <code>scrt_invalid_name</code>, <code>scrt_capability_not_supported</code>, <code>scrt_invalid_configuration</code>, <code>scrt_unexpected</code>. <code>SecretErrorCode</code> é um <code>StrEnum</code> desses sete.</li>
+            <li>Uma falha normalizada nomeia o segredo que você pediu e, entre parênteses, o ID que o provider procurou: <code>database/password (full name: dev_billing_database_password)</code>.</li>
+            <li>Erros são construídos a partir de um único <code>SecretKernelErrorOptions</code>, e <code>resolve_secret_full_name</code> recebe <code>(client_options, secret_name, options)</code> — o mesmo formato de chamada do TypeScript.</li>
+            <li>Helpers perdem o prefixo <code>secret</code> onde o resto do nome já é vocabulário deste kernel — <code>normalize_provider_error</code>, <code>assert_client_contract</code> e mais seis. Breaking para um provider customizado que os importa.</li>
+            <li><code>replace_secret_path_separator</code> nunca devolve um separador inicial. Os providers da AWS mantêm o nome resolvido por conta própria, então o que eles enviam não muda.</li>
+            <li><code>SecretConfigurationError</code> agora é <code>SecretKernelConfigurationError</code>, sem alias. O <code>code</code> continua <code>scrt_invalid_configuration</code>.</li>
+            <li><code>region</code> nos dois providers da AWS tem padrão <code>us-east-1</code>, e <code>AWS_REGION</code> ou o perfil da AWS deixam de ser consultados. Breaking para quem omitia a região e contava com o boto3 para achá-la. <code>location</code> mantém o padrão <code>global</code>.</li>
+            <li><code>region</code>, <code>location</code> ou <code>project_id</code> passados como <code>None</code> ou texto em branco levantam <code>SecretKernelConfigurationError</code> em vez de cair no padrão.</li>
+          </ul>
+          <h4 data-l="en">Changed</h4>
+          <h4 data-l="pt">Alterado</h4>
+          <ul data-l="en"><li>Every third-party dependency declares a lower bound, the current release that supports Python 3.12; the three cloud SDKs had none.</li></ul>
+          <ul data-l="pt"><li>Toda dependência de terceiros declara um limite inferior, o release atual que suporta Python 3.12; os três SDKs de nuvem não tinham nenhum.</li></ul>
+          <h4 data-l="en">Fixed</h4>
+          <h4 data-l="pt">Corrigido</h4>
+          <ul data-l="en"><li>Configuration errors name the provider by its canonical name — <code>aws-parameter-store</code>, not <code>AWS Parameter Store</code> — in the message and in <code>provider</code>.</li></ul>
+          <ul data-l="pt"><li>Erros de configuração nomeiam o provider pelo nome canônico — <code>aws-parameter-store</code>, não <code>AWS Parameter Store</code> — na mensagem e em <code>provider</code>.</li></ul>
+        </div>
+      </div>
+
+      <div class="release" data-c="py">
+        <div>
+          <span class="release-v">0.1.0a6</span>
+          <span class="release-d">2026-08-29</span>
+          <span class="release-tag" data-l="en">tagged, not on PyPI yet</span>
+          <span class="release-tag" data-l="pt">tagueado, ainda fora do PyPI</span>
+        </div>
+        <div class="release-body">
+          <h4 data-l="en">Changed · breaking</h4>
+          <h4 data-l="pt">Alterado · breaking</h4>
+          <ul data-l="en">
+            <li>A normalized failure names the provider and the secret: <code>Permission denied for aws-secrets-manager secret: /dev/billing/database/password</code>, where it said <code>Secret provider denied the read.</code></li>
+            <li><strong>A log line is one string, and the logger is the only sink.</strong> The context argument and the <code>debug</code> option are gone, and failures are logged — a missing secret at <code>warning</code>, a refused or failed read at <code>error</code>. <code>logging.getLogger("my-app")</code> is a drop-in.</li>
+            <li>Every error carries its class name in <code>name</code>.</li>
+            <li>The public surface matches TypeScript name for name: <code>DEFAULT_CLIENT_CONFIG</code>, <code>AwsSecretsManagerClient</code>, <code>SecretProvider</code>. The contract suite exports only <code>assert_secret_client_contract</code> and <code>CreateClient</code>.</li>
+          </ul>
+          <ul data-l="pt">
+            <li>Uma falha normalizada nomeia o provider e o segredo: <code>Permission denied for aws-secrets-manager secret: /dev/billing/database/password</code>, onde dizia <code>Secret provider denied the read.</code></li>
+            <li><strong>Uma linha de log é uma string, e o logger é o único destino.</strong> O argumento de contexto e a opção <code>debug</code> saíram, e falhas são logadas — um segredo ausente em <code>warning</code>, uma leitura recusada ou que falhou em <code>error</code>. <code>logging.getLogger("my-app")</code> serve direto.</li>
+            <li>Todo erro carrega o nome da sua classe em <code>name</code>.</li>
+            <li>A superfície pública bate com a do TypeScript nome a nome: <code>DEFAULT_CLIENT_CONFIG</code>, <code>AwsSecretsManagerClient</code>, <code>SecretProvider</code>. A suíte de contrato exporta só <code>assert_secret_client_contract</code> e <code>CreateClient</code>.</li>
+          </ul>
+          <h4 data-l="en">Added</h4>
+          <h4 data-l="pt">Adicionado</h4>
+          <ul data-l="en"><li>The factory declares one extra per provider, plus <code>all</code>, and no longer depends on <code>secret-kernel-core</code>.</li></ul>
+          <ul data-l="pt"><li>A factory declara um extra por provider, mais <code>all</code>, e não depende mais de <code>secret-kernel-core</code>.</li></ul>
         </div>
       </div>
 
@@ -1050,6 +1658,74 @@ client = <span class="f">create_secret_client</span>(
       </div>
 
       <!-- TypeScript -->
+      <div class="release" data-c="ts">
+        <div>
+          <span class="release-v">0.1.0-alpha.7</span>
+          <span class="release-tag" data-l="en">tagged, not on npm yet</span>
+          <span class="release-tag" data-l="pt">tagueado, ainda fora do npm</span>
+        </div>
+        <div class="release-body">
+          <h4 data-l="en">Changed · breaking</h4>
+          <h4 data-l="pt">Alterado · breaking</h4>
+          <ul data-l="en">
+            <li><strong><code>code</code> changed owner.</strong> It held the vendor's identifier, which moved to <code>providerCode</code>. <code>code</code> is now the kernel's own, always present and frozen — the same seven <code>scrt_*</code> values as Python. <code>SecretErrorCode</code> is the constant map of them and the union of its values.</li>
+            <li>A normalized failure names the secret you asked for and, in parentheses, the ID the provider looked up: <code>database/password (full name: dev_billing_database_password)</code>.</li>
+            <li><code>close()</code> is required on <code>SecretProviderReader</code> and <code>SecretClient</code>, as it already was in Python.</li>
+            <li>Helpers drop the <code>Secret</code> prefix where the rest of the name is already this kernel's vocabulary — <code>normalizeProviderError</code>, <code>defineProviderContractTests</code> and six more. Breaking for a custom provider importing them.</li>
+            <li><code>SecretConfigurationError</code> is now <code>SecretKernelConfigurationError</code>, with no alias. Its <code>code</code> stays <code>scrt_invalid_configuration</code>.</li>
+            <li><code>region</code> on both AWS providers may be omitted and defaults to <code>us-east-1</code>; <code>location</code> on GCP Parameter Manager may be omitted and defaults to <code>global</code>. Both were required. The default is the kernel's: <code>AWS_REGION</code> is not consulted.</li>
+            <li><code>region</code>, <code>location</code> or <code>projectId</code> given as <code>undefined</code>, <code>null</code> or blank text throws <code>SecretKernelConfigurationError</code> instead of falling back to the default.</li>
+          </ul>
+          <ul data-l="pt">
+            <li><strong><code>code</code> mudou de dono.</strong> Ele guardava o identificador do fornecedor, que foi para <code>providerCode</code>. <code>code</code> agora é do próprio kernel, sempre presente e congelado — os mesmos sete valores <code>scrt_*</code> do Python. <code>SecretErrorCode</code> é o mapa constante deles e a união dos seus valores.</li>
+            <li>Uma falha normalizada nomeia o segredo que você pediu e, entre parênteses, o ID que o provider procurou: <code>database/password (full name: dev_billing_database_password)</code>.</li>
+            <li><code>close()</code> é obrigatório em <code>SecretProviderReader</code> e <code>SecretClient</code>, como já era no Python.</li>
+            <li>Helpers perdem o prefixo <code>Secret</code> onde o resto do nome já é vocabulário deste kernel — <code>normalizeProviderError</code>, <code>defineProviderContractTests</code> e mais seis. Breaking para um provider customizado que os importa.</li>
+            <li><code>SecretConfigurationError</code> agora é <code>SecretKernelConfigurationError</code>, sem alias. O <code>code</code> continua <code>scrt_invalid_configuration</code>.</li>
+            <li><code>region</code> nos dois providers da AWS pode ser omitido e tem padrão <code>us-east-1</code>; <code>location</code> no GCP Parameter Manager pode ser omitido e tem padrão <code>global</code>. Os dois eram obrigatórios. O padrão é do kernel: <code>AWS_REGION</code> não é consultado.</li>
+            <li><code>region</code>, <code>location</code> ou <code>projectId</code> passados como <code>undefined</code>, <code>null</code> ou texto em branco lançam <code>SecretKernelConfigurationError</code> em vez de cair no padrão.</li>
+          </ul>
+          <h4 data-l="en">Fixed</h4>
+          <h4 data-l="pt">Corrigido</h4>
+          <ul data-l="en">
+            <li>A cache at <code>maxEntries</code> no longer evicts an unrelated secret when one it already holds is read again.</li>
+            <li>Configuration errors name the provider by its canonical name, and a GCP provider created without options throws <code>SecretKernelConfigurationError</code> instead of a plain <code>Error</code>.</li>
+          </ul>
+          <ul data-l="pt">
+            <li>Um cache em <code>maxEntries</code> não descarta mais um segredo não relacionado quando um que ele já guarda é lido de novo.</li>
+            <li>Erros de configuração nomeiam o provider pelo nome canônico, e um provider do GCP criado sem opções lança <code>SecretKernelConfigurationError</code> em vez de um <code>Error</code> comum.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="release" data-c="ts">
+        <div>
+          <span class="release-v">0.1.0-alpha.6</span>
+          <span class="release-tag" data-l="en">tagged, not on npm yet</span>
+          <span class="release-tag" data-l="pt">tagueado, ainda fora do npm</span>
+        </div>
+        <div class="release-body">
+          <p data-l="en">There is no <code>0.1.0-alpha.5</code>: the number was skipped so this release matches <code>0.1.0a6</code> in Python.</p>
+          <p data-l="pt">Não existe <code>0.1.0-alpha.5</code>: o número foi pulado para que este release case com o <code>0.1.0a6</code> do Python.</p>
+          <h4 data-l="en">Changed · breaking</h4>
+          <h4 data-l="pt">Alterado · breaking</h4>
+          <ul data-l="en">
+            <li><strong>Provider failures are wrapped instead of rethrown raw.</strong> Every failure other than not-found and permission keeps the SDK's message and gains <code>provider</code>, <code>secretName</code> and <code>code</code>, with the original error in <code>cause</code> — the model Python always had.</li>
+            <li>A binary-only secret raises <code>SecretCapabilityNotSupportedError</code> instead of a plain <code>Error</code>.</li>
+            <li>A normalized failure names the provider and the secret: <code>Permission denied for aws-secrets-manager secret: /dev/billing/database/password</code>.</li>
+            <li><strong>A log line is one string, and the logger is the only sink.</strong> The context argument and the <code>debug</code> option are gone, and failures are logged — a missing secret at <code>warn</code>, a refused or failed read at <code>error</code>. <code>logger: console</code> is a drop-in.</li>
+            <li>The <code>createClient</code> alias is gone from every provider, and <code>SecretMetadata</code> names the shape of <code>metadata</code>.</li>
+          </ul>
+          <ul data-l="pt">
+            <li><strong>Falhas de provider são embrulhadas em vez de relançadas cruas.</strong> Toda falha que não seja não-encontrado ou permissão preserva a mensagem do SDK e ganha <code>provider</code>, <code>secretName</code> e <code>code</code>, com o erro original em <code>cause</code> — o modelo que o Python sempre teve.</li>
+            <li>Um segredo apenas binário levanta <code>SecretCapabilityNotSupportedError</code> em vez de um <code>Error</code> comum.</li>
+            <li>Uma falha normalizada nomeia o provider e o segredo: <code>Permission denied for aws-secrets-manager secret: /dev/billing/database/password</code>.</li>
+            <li><strong>Uma linha de log é uma string, e o logger é o único destino.</strong> O argumento de contexto e a opção <code>debug</code> saíram, e falhas são logadas — um segredo ausente em <code>warn</code>, uma leitura recusada ou que falhou em <code>error</code>. <code>logger: console</code> serve direto.</li>
+            <li>O alias <code>createClient</code> saiu de todos os providers, e <code>SecretMetadata</code> nomeia o formato de <code>metadata</code>.</li>
+          </ul>
+        </div>
+      </div>
+
       <div class="release" data-c="ts">
         <div>
           <span class="release-v">0.1.0-alpha.4</span>

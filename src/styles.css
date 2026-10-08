@@ -31,6 +31,12 @@
   --warn: #e8c273;
   --warn-rgb: 232, 194, 115;
 
+  /* Gutter marks in a compare block: a parameter that swaps between samples,
+     code that only one sample has, and a comment line, which only informs. */
+  --mark-swap: #6cc884;
+  --mark-only: #e8857f;
+  --mark-info: var(--sky);
+
   --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
   --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
@@ -265,8 +271,8 @@ li strong { color: var(--cream); font-weight: 500; }
 .row:first-of-type { border-top: 0; padding-top: 0; }
 .row > * { min-width: 0; }
 
-/* A step that carries subtopics: the band introduces it, and each subtopic
-   below is a normal prose/code row labelled by its provider alias. */
+/* A step that carries panes: the band introduces it, the picker chooses a
+   provider, and each pane below is a normal prose/code row. */
 .step-band {
   padding: 2.75rem 0 0;
   border-top: 1px solid var(--rule-soft);
@@ -278,26 +284,32 @@ li strong { color: var(--cream); font-weight: 500; }
   color: var(--cream-dim);
 }
 .row.sub { border-top: 0; padding: 1.75rem 0; }
-.subtopic {
+
+/* Provider names centred and separated by bullets; the picked one carries
+   the accent and an underline. */
+.picker {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  gap: 0.55rem;
-  margin-bottom: 0.9rem;
+  row-gap: 0.25rem;
+  padding: 2rem 0 0.5rem;
 }
-.subtopic svg { width: 16px; height: 16px; fill: var(--sky); flex: none; }
-.subtopic .bullet {
-  width: 16px;
-  flex: none;
-  text-align: center;
-  color: var(--sky);
-  font-family: var(--mono);
-}
-.subtopic code {
-  padding: 0;
+.picker button {
+  appearance: none;
   background: none;
-  color: var(--cream);
-  font: 500 14px/1 var(--mono);
+  border: 0;
+  border-bottom: 1px solid transparent;
+  cursor: pointer;
+  min-height: 32px;
+  padding: 0.35rem 0.1rem;
+  color: var(--cream-faint);
+  font: 500 13px/1 var(--mono);
+  transition: color 0.18s, border-color 0.18s;
 }
+.picker button:hover { color: var(--cream); }
+.picker button[aria-pressed='true'] { color: var(--sky); border-bottom-color: var(--sky); }
+.picker .dot { padding: 0 0.75rem; color: var(--cream-faint); }
 
 /* ── hero ───────────────────────────────────────────────────────────────── */
 .hero {
@@ -516,6 +528,35 @@ pre {
 .c { color: var(--cream-faint); font-style: italic; }
 .pr { color: var(--cream-faint); }
 
+/* A set of panes shows one at a time: the one marked .on in the markup, which
+   is what a reader without JavaScript gets, and then whichever was picked. */
+[data-pane]:not(.on) { display: none; }
+
+/* In a compare block the gutter marks how a sample departs from the others,
+   the way an editor marks a changed line: green where a parameter swaps, red
+   where the code exists only in this sample, blue on a comment line. */
+.compare pre { padding-left: 1.6rem; }
+/* Three panes and a copy button do not fit one row on a phone. */
+.compare .code-bar { flex-wrap: wrap; row-gap: 0.5rem; }
+.code-bar .switch { flex: none; }
+.swap,
+.only,
+.info { position: relative; }
+.swap::before,
+.only::before,
+.info::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -0.95rem;
+  width: 3px;
+  border-radius: 1px;
+  background: var(--mark-swap);
+}
+.only::before { background: var(--mark-only); }
+.info::before { background: var(--mark-info); }
+
 /* ── tables ─────────────────────────────────────────────────────────────── */
 .table-wrap {
   overflow-x: auto;
@@ -584,6 +625,7 @@ td code { white-space: nowrap; }
   color: var(--cream-faint);
 }
 .release-body ul { margin-bottom: 0; }
+.release-body ul + h4 { margin-top: 1.4rem; }
 .release-body li { font-size: 15.5px; }
 
 /* ── footer ─────────────────────────────────────────────────────────────── */
@@ -626,6 +668,9 @@ td code { white-space: nowrap; }
 @media (max-width: 1000px) {
   .row { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; }
   .masthead nav { display: none; }
+  /* Below this the five names wrap, and a bullet would dangle at a row end. */
+  .picker { column-gap: 1.25rem; }
+  .picker .dot { display: none; }
 }
 
 @media (max-width: 900px) {
@@ -664,6 +709,7 @@ td code { white-space: nowrap; }
 
 @media (pointer: coarse) {
   .switch button,
+  .picker button,
   .copy,
   .dist,
   .footer-col a,

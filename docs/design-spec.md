@@ -42,10 +42,22 @@ claim needs the code that proves it, visible without a click.
 
 ## 4. Content — sections in order
 
-1. **Hero** — one-sentence purpose, the `get_secret` / `getSecret` line, install
-   command, links to PyPI / npm / GitHub.
-2. **Install + first read** — copy-pasteable, per language.
-3. **How a name is built** — `env / project / prefix / name` resolving to
+1. **Hero** — the subtitle and title of `lib-family/docs/paginas.md` §8.8:
+   "Python & TypeScript · one contract, many providers" over "Secret vault, quick
+   and easy." / "Ler segredos, rápido e fácil.". Then the one-sentence purpose, the
+   `get_secret` / `getSecret` line, install command, links to PyPI / npm / GitHub.
+2. **Why use Secret Kernel** — what one contract in front of five providers buys
+   the reader, each benefit a bold lead and one sentence: ask by name and get the
+   value; every provider behaves the same (`scrt_not_found` on all of them, and all
+   five pass one contract suite); change providers, not code; tests without the
+   cloud; Python and TypeScript, one contract. Beside them, the compare block of
+   paginas.md §8.9 with AWS, GCP and `in-memory`, the last loading a `.env` in
+   `load_env()`. Added on 2026-10-08, per paginas.md §8.7.
+3. **Install + first read** — copy-pasteable, per language. Step 2 picks one of the
+   five providers with the picker of paginas.md §8.9, and each pane is a complete
+   sample on the Why skeleton: the AWS ones with the fake `EXAMPLE` keys of the AWS
+   docs, the GCP ones reading the service account key file.
+4. **How a name is built** — `env / project / prefix / name` resolving to
    `/prod/billing/database/password`. Rules: `env` and `project` are single
    segments and reject a slash; `prefix` and the name accept `/`. All optional.
    The caller always writes `/`, whatever the provider, so the code has one
@@ -53,7 +65,7 @@ claim needs the code that proves it, visible without a click.
    the resolved name into what its service accepts. Show it with GCP, which drops
    the leading slash and joins with `_` (`prod_billing_database_password`), next to
    AWS, which keeps the name as is.
-4. **Changing the name for one call** — `omit_env` / `omit_project` /
+5. **Changing the name for one call** — `omit_env` / `omit_project` /
    `omit_prefix` drop a part, and `env` / `project` / `prefix` replace one.
    Omitting wins over replacing. Replacing `env` is never implicit and never a
    default, and the site must say why it is nonetheless offered: a service reading
@@ -66,35 +78,47 @@ claim needs the code that proves it, visible without a click.
    > true of the Python API when this spec was written and never true of the
    > TypeScript one, which carried `env?` in `GetSecretBaseOptions` from the
    > start. Both now agree.
-5. **Reading structured secrets** — default string; `JSON`; `KEY_VALUE` with
+6. **Reading structured secrets** — default string; `JSON`; `KEY_VALUE` with
    `pair_separator` / `key_value_separator` / `keys` / `trim`; client-level
    conventions merged field by field by a per-call override.
-6. **Providers** — the five, each with its distribution/package name, what it is
+7. **Providers** — the five, each with its distribution/package name, what it is
    for, and its typed options. AWS: `region`, `credentials`. GCP: `project_id`,
-   `location`. Provider options never leak into the shared contract.
-7. **Caching** — off by default; keyed by resolved name; stores the decrypted
+   `location`. Provider options never leak into the shared contract. The defaults
+   are the kernel's: `region` is `us-east-1` without consulting `AWS_REGION`,
+   `location` is `global`, `project_id` has none; a value passed as `None` or blank
+   raises `SecretKernelConfigurationError` instead of taking the default.
+8. **Caching** — off by default; keyed by resolved name; stores the decrypted
    string *before* parsing, so the same secret read as JSON and as text costs one
    provider call; failures are never cached; optional AES-256-GCM
    `encrypt_in_memory` with an honest statement of what it does and does not
    protect against.
-8. **Errors** — the seven classes and when each is raised. Only not-found and
-   permission are normalized; everything else keeps the SDK's message and gains
-   `provider`, `ref`, `code`, `cause`.
-9. **Observability + bring your own provider** — `logger`, `debug`,
-   `provider_class`.
-10. **Scope** — what the contract refuses to do (read-only, latest version only,
+9. **Errors** — the seven classes, the frozen `scrt_*` code each carries, and when
+   each is raised. Three fields identify a failure: `name` (the class), `code` (the
+   kernel's, frozen, the same string in both languages) and `provider_code` (the
+   vendor's, only when the SDK gave one). Catch by class in-process, compare `code` at
+   a boundary. Only not-found and permission are normalized, and their message names
+   the requested secret plus `(full name: …)`; everything else keeps the SDK's message
+   and gains `provider`, `secret_name`, `provider_code`, with the original in `cause`.
+
+   > Corrected on 2026-10-07 for `0.1.0a7` / `0.1.0-alpha.7`. This item listed a
+   > `ref` field, which neither implementation has ever had, and `code` as the
+   > vendor's identifier, which moved to `provider_code`.
+10. **Observability + bring your own provider** — `logger` as the only sink, one
+    string per line, the stdlib logger as a drop-in; `provider_class`. There is no
+    `debug` flag since `0.1.0a6` / `0.1.0-alpha.6`.
+11. **Scope** — what the contract refuses to do (read-only, latest version only,
     cross-environment reads opt-in per call, provider options never leak,
     failures never cached), stated as a feature. Last before the changelog, per
     `lib-family/docs/paginas.md` §8.7; until 2026-10-07 it was item 2, right
     after the hero.
-11. **Changelog** — short and factual, and the only place on the page that states
+12. **Changelog** — short and factual, and the only place on the page that states
     a version number. It follows the code toggle, because the two implementations
     release independently. It should read as a short honest list, not a marketing
     timeline.
 
     The `#changelog` anchor is the `Changelog` URL in the published package
     metadata of `secret-kernel-py`, so the id is a public contract.
-12. **Footer** — docs links (API reference, architecture decisions, structure,
+13. **Footer** — docs links (API reference, architecture decisions, structure,
     maintenance, release), license MIT.
 
 ## 5. Two toggles, both persistent

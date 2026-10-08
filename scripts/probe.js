@@ -129,7 +129,7 @@ window.__probe = function () {
    * #changelog is the Changelog link in the published package metadata of
    * secret-kernel-py, and the others are linked from the masthead. Renaming one
    * silently breaks whatever points at it, so the set is asserted here. */
-  var REQUIRED_IDS = ['top', 'install', 'names', 'per-call', 'parse',
+  var REQUIRED_IDS = ['top', 'why', 'install', 'names', 'per-call', 'parse',
     'providers', 'cache', 'errors', 'extend', 'scope', 'changelog'];
   out.missingIds = REQUIRED_IDS.filter(function (id) {
     return !document.getElementById(id);

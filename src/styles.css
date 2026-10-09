@@ -705,6 +705,19 @@ td code { white-space: nowrap; }
   .slots { gap: 0.5rem; }
   .release { grid-template-columns: 1fr; gap: 0.75rem; }
   pre { font-size: 12.5px; }
+  /* Four columns squeeze the rule to a word per line, so it takes a line of its
+     own below the three short cells, and its header goes. */
+  .parts, .parts thead, .parts tbody { display: block; }
+  .parts tr { display: grid; grid-template-columns: 6.5rem 6.5rem minmax(0, 1fr); }
+  .parts th { white-space: normal; }
+  .parts th:nth-last-child(-n+2) { display: none; }
+  .parts td { border-bottom: 0; padding-bottom: 0.25rem; }
+  .parts td:nth-last-child(-n+2) {
+    grid-column: 1 / -1;
+    padding: 0.25rem 0.9rem 0.8rem;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .parts tr:last-child td { border-bottom: 0; }
 }
 
 @media (pointer: coarse) {

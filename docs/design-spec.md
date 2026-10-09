@@ -57,11 +57,15 @@ claim needs the code that proves it, visible without a click.
    five providers with the picker of paginas.md §8.9, and each pane is a complete
    sample on the Why skeleton: the AWS ones with the fake `EXAMPLE` keys of the AWS
    docs, the GCP ones reading the service account key file.
-4. **How a name is built** — `env / project / prefix / name` resolving to
-   `/prod/billing/database/password`. Rules: `env` and `project` are single
-   segments and reject a slash; `prefix` and the name accept `/`. All optional.
-   The caller always writes `/`, whatever the provider, so the code has one
-   convention and nothing to rename when the store changes; each provider converts
+4. **How a name is built** — opens with the client and the call that build it,
+   `env` and `project` on the client and the name in the call, then
+   `env / project / prefix / name` resolving to `/prod/billing/database/password`.
+   A table gives each part, whether it is optional and whether it accepts a slash:
+   `env` and `project` are single segments and reject a slash; `prefix` and the
+   name accept `/`; `env`, `project` and `prefix` are optional, the name is not.
+   The caller always writes `/` when a name has levels, whatever the provider, so
+   the code has one convention and nothing to rename when the provider changes;
+   each provider converts
    the resolved name into what its service accepts. Show it with GCP, which drops
    the leading slash and joins with `_` (`prod_billing_database_password`), next to
    AWS, which keeps the name as is.
@@ -132,7 +136,8 @@ claim needs the code that proves it, visible without a click.
   takes `CreateSecretClientConfig` + option dataclasses; TypeScript
   `await createSecretClient({...})` is async and takes plain object literals and
   the `SecretProvider` enum.
-- **Language of the prose**: EN ↔ PT-BR.
+- **Language of the prose**: EN ↔ PT-BR. In PT-BR a provider is a *cofre*, and the
+  first mention names the code's `provider`, per `lib-family/docs/paginas.md` §8.11.
 
 Both in vanilla JS, remembered in `localStorage`. Default: EN + Python.
 

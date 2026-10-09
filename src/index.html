@@ -28,7 +28,7 @@
       <a href="#why"><span data-l="en">Why</span><span data-l="pt">Por quê</span></a>
       <a href="#install"><span data-l="en">Install</span><span data-l="pt">Instalação</span></a>
       <a href="#names"><span data-l="en">Names</span><span data-l="pt">Nomes</span></a>
-      <a href="#providers">Providers</a>
+      <a href="#providers"><span data-l="en">Providers</span><span data-l="pt">Cofres</span></a>
       <a href="#cache"><span data-l="en">Cache</span><span data-l="pt">Cache</span></a>
       <a href="#changelog">Changelog</a>
     </nav>
@@ -51,7 +51,7 @@
   <section class="hero">
     <div class="hero-main">
       <p class="eyebrow" data-l="en">Python &amp; TypeScript · one contract, many providers</p>
-      <p class="eyebrow" data-l="pt">Python &amp; TypeScript · um contrato, muitos providers</p>
+      <p class="eyebrow" data-l="pt">Python &amp; TypeScript · um contrato, muitos cofres</p>
 
       <h1 data-l="en">Secret vault,<br><em>quick and easy</em>.</h1>
       <h1 data-l="pt">Ler segredos,<br><em>rápido e fácil</em>.</h1>
@@ -136,7 +136,7 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
       <div class="mn-block">
         <div class="mn-k" data-l="en">Distributions</div>
         <div class="mn-k" data-l="pt">Distribuições</div>
-        <div class="mn-v">contracts<br>core<br>factory<br>testing<br><em data-l="en">+ 5 providers</em><em data-l="pt">+ 5 providers</em></div>
+        <div class="mn-v">contracts<br>core<br>factory<br>testing<br><em data-l="en">+ 5 providers</em><em data-l="pt">+ 5 cofres</em></div>
       </div>
       <div class="mn-block">
         <div class="mn-k" data-l="en">Scope</div>
@@ -166,7 +166,7 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
         <h2 data-l="en">Why use Secret Kernel</h2>
         <h2 data-l="pt">Por que usar o Secret Kernel</h2>
         <p data-l="en">One contract in front of five providers, and what that buys you.</p>
-        <p data-l="pt">Um contrato na frente de cinco providers, e o que você ganha com isso.</p>
+        <p data-l="pt">Um contrato na frente de cinco cofres (no código, o <code>provider</code>), e o que você ganha com isso.</p>
       </div>
     </div>
 
@@ -180,10 +180,10 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
           <li><strong>Python and TypeScript, one contract.</strong> Each follows its own convention — <code>get_secret</code>, <code>getSecret</code> — and both share the behavior, the defaults and the error codes.</li>
         </ul>
         <ul data-l="pt">
-          <li><strong>Peça pelo nome, receba o valor.</strong> Uma chamada devolve o segredo já descriptografado. Não há SDK de provider para aprender.</li>
-          <li><strong>Todo provider se comporta igual.</strong> As regras de nome, as opções por chamada e os erros não mudam com o provider: um segredo ausente é <code>SecretNotFoundError</code>, código <code>scrt_not_found</code>, na AWS, no GCP e em memória. Os cinco passam pela mesma suíte de testes de contrato.</li>
-          <li><strong>Troque o provider, não o código.</strong> Sair da AWS para o GCP muda o provider, suas opções e o pacote instalado. Toda chamada a <code data-c="py">get_secret</code><code data-c="ts">getSecret</code> continua como foi escrita.</li>
-          <li><strong>Testes sem nuvem.</strong> O provider <code>in-memory</code> segue o mesmo contrato, então testes e CI fazem as mesmas chamadas que o serviço, sem rede e sem credencial.</li>
+          <li><strong>Peça pelo nome, receba o valor.</strong> Uma chamada devolve o segredo já descriptografado. Não há SDK de cofre para aprender.</li>
+          <li><strong>Todo cofre se comporta igual.</strong> As regras de nome, as opções por chamada e os erros não mudam com o cofre: um segredo ausente é <code>SecretNotFoundError</code>, código <code>scrt_not_found</code>, na AWS, no GCP e em memória. Os cinco passam pela mesma suíte de testes de contrato.</li>
+          <li><strong>Troque o cofre, não o código.</strong> Sair da AWS para o GCP muda o cofre, suas opções e o pacote instalado. Toda chamada a <code data-c="py">get_secret</code><code data-c="ts">getSecret</code> continua como foi escrita.</li>
+          <li><strong>Testes sem nuvem.</strong> O cofre <code>in-memory</code> segue o mesmo contrato, então testes e CI fazem as mesmas chamadas que o serviço, sem rede e sem credencial.</li>
           <li><strong>Python e TypeScript, um contrato.</strong> Cada um segue a convenção da sua linguagem — <code>get_secret</code>, <code>getSecret</code> — e os dois compartilham comportamento, defaults e códigos de erro.</li>
         </ul>
       </div>
@@ -362,7 +362,7 @@ client = <span class="f">create_secret_client</span>(
         <h2 data-l="en">Install and first read</h2>
         <h2 data-l="pt">Instalação e primeira leitura</h2>
         <p data-l="en">Nothing is bundled. Install the contract, the shared core, the factory and the one provider you need.</p>
-        <p data-l="pt">Nada vem embutido. Instale o contrato, o core compartilhado, a factory e o único provider de que você precisa.</p>
+        <p data-l="pt">Nada vem embutido. Instale o contrato, o core compartilhado, a factory e o pacote do único cofre de que você precisa.</p>
       </div>
     </div>
 
@@ -371,7 +371,7 @@ client = <span class="f">create_secret_client</span>(
         <h3 data-l="en">Step 1 · install the base</h3>
         <h3 data-l="pt">Passo 1 · instale a base</h3>
         <p data-l="en">The contract, the shared core and the factory. No provider yet — that is step 2, and it is a separate distribution so an AWS-only service never pulls a GCP SDK.</p>
-        <p data-l="pt">O contrato, o core compartilhado e a factory. Nenhum provider ainda — isso é o passo 2, e ele é uma distribuição separada, então um serviço só-AWS nunca baixa um SDK do GCP.</p>
+        <p data-l="pt">O contrato, o core compartilhado e a factory. Nenhum cofre ainda — isso é o passo 2, e ele é uma distribuição separada, então um serviço só-AWS nunca baixa um SDK do GCP.</p>
         <p data-l="en"><code>contracts</code> depends on nothing. A consumer that only declares types or catches errors installs that one package alone.</p>
         <p data-l="pt"><code>contracts</code> não depende de nada. Quem só declara tipos ou captura erros instala apenas esse pacote.</p>
       </div>
@@ -386,9 +386,9 @@ client = <span class="f">create_secret_client</span>(
 
     <div class="step-band">
       <h3 data-l="en">Step 2 · add a provider and read</h3>
-      <h3 data-l="pt">Passo 2 · adicione um provider e leia</h3>
+      <h3 data-l="pt">Passo 2 · adicione um cofre e leia</h3>
       <p data-l="en">Pick where the secret lives. The call is identical on all five — only the provider alias and its typed options change, which is the whole point of the contract.</p>
-      <p data-l="pt">Escolha onde o segredo mora. A chamada é idêntica nos cinco — mudam apenas o alias do provider e suas opções tipadas, que é justamente o propósito do contrato.</p>
+      <p data-l="pt">Escolha onde o segredo mora. A chamada é idêntica nos cinco — mudam apenas o alias do cofre e suas opções tipadas, que é justamente o propósito do contrato.</p>
     </div>
 
     <!-- One pane per provider; the picker swaps prose and code together. The
@@ -495,8 +495,8 @@ client = <span class="f">create_secret_client</span>(
 
       <div class="row sub" data-pane="aws-parameter-store">
         <div class="prose">
-          <p data-l="en">For a real store. Reads <code>SecureString</code> parameters, the low-cost option in AWS.</p>
-          <p data-l="pt">Para um cofre de verdade. Lê parâmetros <code>SecureString</code>, a opção de baixo custo na AWS.</p>
+          <p data-l="en">For low-cost secrets in AWS. Reads <code>SecureString</code> parameters.</p>
+          <p data-l="pt">Para segredos de baixo custo na AWS. Lê parâmetros <code>SecureString</code>.</p>
           <p data-l="en">Pass <code>credentials</code> to be explicit, or leave it out and the AWS SDK's own chain applies. Explicit credentials take precedence.</p>
           <p data-l="pt">Passe <code>credentials</code> para ser explícito, ou omita e a própria cadeia do SDK da AWS se aplica. Credenciais explícitas têm precedência.</p>
         </div>
@@ -842,6 +842,31 @@ client = <span class="f">create_secret_client</span>(
     </div>
     <div class="col prose">
       <div class="code">
+        <div class="code-bar">
+          <svg aria-hidden="true" data-c="py"><use href="#logo-python"/></svg>
+          <svg aria-hidden="true" data-c="ts"><use href="#logo-typescript"/></svg>
+          <span data-l="en">the client and the call</span><span data-l="pt">o client e a chamada</span>
+        </div>
+        <pre data-c="py">client = <span class="f">create_secret_client</span>(
+    CreateSecretClientConfig(
+        provider=<span class="s">"aws-parameter-store"</span>,
+        env=<span class="s">"prod"</span>,
+        project=<span class="s">"billing"</span>,
+    )
+)
+
+secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
+<span class="c"># reads /prod/billing/database/password</span></pre>
+        <pre data-c="ts"><span class="k">const</span> client = <span class="k">await</span> <span class="f">createSecretClient</span>({
+    provider: SecretProvider.AwsParameterStore,
+    env: <span class="s">'prod'</span>,
+    project: <span class="s">'billing'</span>,
+});
+
+<span class="k">const</span> secret = <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'database/password'</span>);
+<span class="c">// reads /prod/billing/database/password</span></pre>
+      </div>
+      <div class="code">
         <div class="code-bar">env / project / prefix / name</div>
         <pre><span class="c">/prod  /billing  /—       /database/password</span>
 <span class="n">/prod/billing/database/password</span></pre>
@@ -851,10 +876,11 @@ client = <span class="f">create_secret_client</span>(
     </div>
 
     <div class="table-wrap" style="margin-top:2rem">
-      <table>
+      <table class="parts">
         <thead>
           <tr>
             <th data-l="en">Part</th><th data-l="pt">Parte</th>
+            <th data-l="en">Optional</th><th data-l="pt">Opcional</th>
             <th data-l="en">Accepts a slash</th><th data-l="pt">Aceita barra</th>
             <th data-l="en">Rule</th><th data-l="pt">Regra</th>
           </tr>
@@ -862,12 +888,14 @@ client = <span class="f">create_secret_client</span>(
         <tbody>
           <tr>
             <td><code>env</code></td>
+            <td data-l="en">Yes</td><td data-l="pt">Sim</td>
             <td data-l="en">No</td><td data-l="pt">Não</td>
             <td data-l="en">The deployment context — <code>prod</code>, <code>staging</code>. A single segment. A slash here would silently add a level, and the caller would only find out through a secret that cannot be found.</td>
             <td data-l="pt">O contexto de deploy — <code>prod</code>, <code>staging</code>. Um único segmento. Uma barra aqui adicionaria um nível silenciosamente, e quem chamou só descobriria por um segredo que não é encontrado.</td>
           </tr>
           <tr>
             <td><code>project</code></td>
+            <td data-l="en">Yes</td><td data-l="pt">Sim</td>
             <td data-l="en">No</td><td data-l="pt">Não</td>
             <td data-l="en">Groups a set of secrets, usually one service or application. Same rule as <code>env</code>.</td>
             <td data-l="pt">Agrupa um conjunto de segredos, normalmente um serviço ou aplicação. Mesma regra do <code>env</code>.</td>
@@ -875,11 +903,13 @@ client = <span class="f">create_secret_client</span>(
           <tr>
             <td><code>prefix</code></td>
             <td data-l="en">Yes</td><td data-l="pt">Sim</td>
+            <td data-l="en">Yes</td><td data-l="pt">Sim</td>
             <td data-l="en">Adds any further levels you want. A string or a list of segments. A per-call prefix <em>replaces</em> the client's rather than adding to it.</td>
             <td data-l="pt">Adiciona quantos níveis você quiser. Uma string ou uma lista de segmentos. Um prefix por chamada <em>substitui</em> o do client em vez de somar a ele.</td>
           </tr>
           <tr>
             <td data-l="en"><code>name</code></td><td data-l="pt"><code>name</code></td>
+            <td data-l="en">No</td><td data-l="pt">Não</td>
             <td data-l="en">Yes</td><td data-l="pt">Sim</td>
             <td data-l="en">What the call asks for. Accepts <code>/</code>, because adding levels is exactly what it is for.</td>
             <td data-l="pt">O que a chamada pede. Aceita <code>/</code>, porque adicionar níveis é exatamente para isso que serve.</td>
@@ -889,22 +919,22 @@ client = <span class="f">create_secret_client</span>(
     </div>
 
     <div class="col prose" style="margin-top:2.5rem">
-      <h3 data-l="en">Always <code>/</code>, converted per provider</h3>
-      <h3 data-l="pt">Sempre <code>/</code>, convertido por provider</h3>
-      <p data-l="en">You write every name with <code>/</code>, whatever store sits behind the client. One convention in your code, and nothing to rename when the provider changes. Each provider then converts the resolved name into the form its service accepts.</p>
-      <p data-l="pt">Você escreve todo nome com <code>/</code>, seja qual for o cofre por trás do client. Uma convenção só no seu código, e nada para renomear quando o provider muda. Cada provider então converte o nome resolvido para o formato que o seu serviço aceita.</p>
+      <h3 data-l="en">Always use <code>/</code> as the separator</h3>
+      <h3 data-l="pt">Use sempre <code>/</code> como separador</h3>
+      <p data-l="en">When you want separators in a name or a prefix — they are not required — use <code>/</code>, whatever the provider. One convention in your code, and nothing to rename when the provider changes. Each provider then converts the resolved name into the form its service accepts.</p>
+      <p data-l="pt">Quando quiser usar separadores no nome ou no prefix — eles não são obrigatórios —, use <code>/</code>, seja qual for o cofre. Assim o seu código escreve os nomes de um jeito só, e nada precisa ser renomeado quando você troca de cofre. Cada cofre então converte o nome resolvido para o formato que o seu serviço aceita.</p>
       <p data-l="en">GCP does not accept <code>/</code> in a secret or parameter ID, so both GCP providers drop the leading slash and join the levels with <code>_</code>. AWS takes the name as it is.</p>
-      <p data-l="pt">O GCP não aceita <code>/</code> no ID de um segredo ou parâmetro, então os dois providers do GCP removem a barra inicial e juntam os níveis com <code>_</code>. A AWS recebe o nome como ele é.</p>
+      <p data-l="pt">O GCP não aceita <code>/</code> no ID de um segredo ou parâmetro, então os dois cofres do GCP removem a barra inicial e juntam os níveis com <code>_</code>. A AWS recebe o nome como ele é.</p>
       <div class="code">
-        <div class="code-bar"><span data-l="en">one name, as each provider reads it</span><span data-l="pt">um nome, como cada provider lê</span></div>
+        <div class="code-bar"><span data-l="en">one name, as each provider reads it</span><span data-l="pt">um nome, como cada cofre lê</span></div>
         <pre><span class="c" data-l="en">your code              </span><span class="c" data-l="pt">seu código             </span><span class="n">/prod/billing/database/password</span>
 <span class="c">aws-secrets-manager    </span>/prod/billing/database/password
 <span class="c">aws-parameter-store    </span>/prod/billing/database/password
 <span class="c">gcp-secret-manager     </span>prod_billing_database_password
 <span class="c">gcp-parameter-manager  </span>prod_billing_database_password</pre>
       </div>
-      <p class="note" data-l="en">The separator is a provider option, <code data-c="py">physical_name_separator</code><code data-c="ts">physicalNameSeparator</code> — GCP also accepts <code>-</code>, AWS also <code>_</code> and <code>-</code>. A naming convention that is not the kernel's goes through <code data-c="py">resolve_name</code><code data-c="ts">resolveName</code> on the GCP providers. See <a href="#providers">Providers</a>.</p>
-      <p class="note" data-l="pt">O separador é uma opção do provider, <code data-c="py">physical_name_separator</code><code data-c="ts">physicalNameSeparator</code> — o GCP também aceita <code>-</code>, a AWS também <code>_</code> e <code>-</code>. Uma convenção de nomes que não é a do kernel passa por <code data-c="py">resolve_name</code><code data-c="ts">resolveName</code> nos providers do GCP. Veja <a href="#providers">Providers</a>.</p>
+      <p class="note" data-l="en">The separator a provider uses in its service is a provider option, <code data-c="py">physical_name_separator</code><code data-c="ts">physicalNameSeparator</code> — GCP also accepts <code>-</code>, AWS also <code>_</code> and <code>-</code>. A naming convention that is not the kernel's goes through <code data-c="py">resolve_name</code><code data-c="ts">resolveName</code> on the GCP providers. See <a href="#providers">Providers</a>.</p>
+      <p class="note" data-l="pt">O separador que cada cofre usa é uma opção dele, <code data-c="py">physical_name_separator</code><code data-c="ts">physicalNameSeparator</code> — o GCP também aceita <code>-</code>, a AWS também <code>_</code> e <code>-</code>. Uma convenção de nomes que não é a do kernel passa por <code data-c="py">resolve_name</code><code data-c="ts">resolveName</code> nos cofres do GCP. Veja <a href="#providers">Cofres</a>.</p>
     </div>
   </section>
 
@@ -981,7 +1011,7 @@ client = <span class="f">create_secret_client</span>(
         <h2 data-l="en">Reading structured secrets</h2>
         <h2 data-l="pt">Lendo segredos estruturados</h2>
         <p data-l="en">A secret is a string by default. Ask for a parse mode and the value follows.</p>
-        <p data-l="pt">Um segredo é uma string por padrão. Peça um modo de parse e o valor acompanha.</p>
+        <p data-l="pt">Um segredo é uma string por padrão. Peça um modo de parse e o valor será convertido.</p>
       </div>
     </div>
 
@@ -1123,9 +1153,9 @@ client = <span class="f">create_secret_client</span>(
       <div class="sec-num">06</div>
       <div>
         <h2 data-l="en">Five providers, one call</h2>
-        <h2 data-l="pt">Cinco providers, uma chamada</h2>
+        <h2 data-l="pt">Cinco cofres, uma chamada</h2>
         <p data-l="en">Provider options are typed per provider and never leak into the shared contract.</p>
-        <p data-l="pt">As opções de provider são tipadas por provider e nunca vazam para o contrato compartilhado.</p>
+        <p data-l="pt">As opções são tipadas por cofre e nunca vazam para o contrato compartilhado.</p>
       </div>
     </div>
 
@@ -1133,7 +1163,7 @@ client = <span class="f">create_secret_client</span>(
       <table>
         <thead>
           <tr>
-            <th>Provider</th>
+            <th data-l="en">Provider</th><th data-l="pt">Cofre</th>
             <th data-l="en">Distribution</th><th data-l="pt">Distribuição</th>
             <th data-l="en">Use for</th><th data-l="pt">Usar para</th>
           </tr>
@@ -1178,7 +1208,7 @@ client = <span class="f">create_secret_client</span>(
         <h3 data-l="en">Defaults</h3>
         <h3 data-l="pt">Padrões</h3>
         <p data-l="en"><code>region</code> on both AWS providers defaults to <code>us-east-1</code>. The default is the kernel's, not the SDK's: <code>AWS_REGION</code> and the AWS profile are not consulted, so pass the region you mean. <code>location</code> on GCP Parameter Manager defaults to <code>global</code>. <code data-c="py">project_id</code><code data-c="ts">projectId</code> on both GCP providers has no default.</p>
-        <p data-l="pt"><code>region</code> nos dois providers da AWS tem padrão <code>us-east-1</code>. O padrão é do kernel, não do SDK: <code>AWS_REGION</code> e o perfil da AWS não são consultados, então passe a região que você quer. <code>location</code> no GCP Parameter Manager tem padrão <code>global</code>. <code data-c="py">project_id</code><code data-c="ts">projectId</code> nos dois providers do GCP não tem padrão.</p>
+        <p data-l="pt"><code>region</code> nos dois cofres da AWS tem padrão <code>us-east-1</code>. O padrão é do kernel, não do SDK: <code>AWS_REGION</code> e o perfil da AWS não são consultados, então passe a região que você quer. <code>location</code> no GCP Parameter Manager tem padrão <code>global</code>. <code data-c="py">project_id</code><code data-c="ts">projectId</code> nos dois cofres do GCP não tem padrão.</p>
         <p data-l="en">A value you pass must say something. <code data-c="py">None</code><code data-c="ts">undefined</code> or blank text raises <code>SecretKernelConfigurationError</code> instead of falling back to the default, so an unset environment variable fails when the client is built rather than reading from the wrong place.</p>
         <p data-l="pt">Um valor que você passa precisa dizer algo. <code data-c="py">None</code><code data-c="ts">undefined</code> ou texto em branco levanta <code>SecretKernelConfigurationError</code> em vez de cair no padrão, então uma variável de ambiente não definida falha quando o client é construído, e não lendo do lugar errado.</p>
         <h3 style="margin-top:2rem" data-l="en">Credentials</h3>
@@ -1188,7 +1218,7 @@ client = <span class="f">create_secret_client</span>(
         <p data-l="en">Injecting a <code>client</code> keeps the SDK client under your lifecycle — the kernel closes only what it created.</p>
         <p data-l="pt">Injetar um <code>client</code> mantém o client do SDK sob o seu ciclo de vida — o kernel fecha apenas o que ele mesmo criou.</p>
         <p data-l="en">Providers that cannot store <code>/</code> flatten the resolved name with a separator: AWS accepts <code>/</code>, <code>_</code> and <code>-</code> and defaults to <code>/</code>; GCP accepts <code>_</code> and <code>-</code> and defaults to <code>_</code>.</p>
-        <p data-l="pt">Providers que não conseguem guardar <code>/</code> achatam o nome resolvido com um separador: a AWS aceita <code>/</code>, <code>_</code> e <code>-</code> e usa <code>/</code> como padrão; o GCP aceita <code>_</code> e <code>-</code> e usa <code>_</code>.</p>
+        <p data-l="pt">Cofres que não conseguem guardar <code>/</code> achatam o nome resolvido com um separador: a AWS aceita <code>/</code>, <code>_</code> e <code>-</code> e usa <code>/</code> como padrão; o GCP aceita <code>_</code> e <code>-</code> e usa <code>_</code>.</p>
       </div>
       <div class="code">
         <div class="code-bar">
@@ -1237,14 +1267,14 @@ client = <span class="f">create_secret_client</span>(
         <h2 data-l="en">Caching</h2>
         <h2 data-l="pt">Cache</h2>
         <p data-l="en">Reads hit the provider every time unless you enable the cache.</p>
-        <p data-l="pt">As leituras vão ao provider todas as vezes, a menos que você habilite o cache.</p>
+        <p data-l="pt">As leituras vão ao cofre todas as vezes, a menos que você habilite o cache.</p>
       </div>
     </div>
 
     <div class="row">
       <div class="prose">
         <p data-l="en">The cache stores the decrypted string keyed by the resolved name, <strong>before any parsing</strong>, so the same secret read as JSON and as text costs one provider call.</p>
-        <p data-l="pt">O cache guarda a string descriptografada chaveada pelo nome resolvido, <strong>antes de qualquer parse</strong>, então o mesmo segredo lido como JSON e como texto custa uma chamada ao provider.</p>
+        <p data-l="pt">O cache guarda a string descriptografada chaveada pelo nome resolvido, <strong>antes de qualquer parse</strong>, então o mesmo segredo lido como JSON e como texto custa uma chamada ao cofre.</p>
         <p data-l="en">A value served from cache reports no <code>version</code> and no <code>metadata</code>: the cache stores the string only.</p>
         <p data-l="pt">Um valor servido do cache não reporta <code>version</code> nem <code>metadata</code>: o cache guarda apenas a string.</p>
         <p class="note" data-l="en">Failures are never cached. A missing secret that appears later is found on the next read.</p>
@@ -1315,7 +1345,7 @@ client = <span class="f">create_secret_client</span>(
         <p data-l="en">Only <strong>not-found</strong> and <strong>permission</strong> are normalized. Every other failure keeps the message the SDK produced and gains <code>provider</code>, <code data-c="py">secret_name</code><code data-c="ts">secretName</code> and, when the SDK offered one, <code data-c="py">provider_code</code><code data-c="ts">providerCode</code>, with the original error in <code>cause</code>.</p>
         <p data-l="pt">Só <strong>não-encontrado</strong> e <strong>permissão</strong> são normalizados. Toda outra falha preserva a mensagem que o SDK produziu e ganha <code>provider</code>, <code data-c="py">secret_name</code><code data-c="ts">secretName</code> e, quando o SDK ofereceu um, <code data-c="py">provider_code</code><code data-c="ts">providerCode</code>, com o erro original em <code>cause</code>.</p>
         <p data-l="en">A normalized message names the provider and the secret twice: the name your code asked for, and in parentheses the ID the provider looked up — on GCP, the one to search for in the console.</p>
-        <p data-l="pt">Uma mensagem normalizada nomeia o provider e nomeia o segredo duas vezes: o nome que o seu código pediu e, entre parênteses, o ID que o provider procurou — no GCP, o que você busca no console.</p>
+        <p data-l="pt">Uma mensagem normalizada nomeia o cofre e nomeia o segredo duas vezes: o nome que o seu código pediu e, entre parênteses, o ID que o cofre procurou — no GCP, o que você busca no console.</p>
       </div>
       <div class="code">
         <div class="code-bar">
@@ -1384,12 +1414,12 @@ client = <span class="f">create_secret_client</span>(
         </thead>
         <tbody>
           <tr><td><code>SecretNotFoundError</code></td><td><code>scrt_not_found</code></td><td data-l="en">The secret or parameter does not exist.</td><td data-l="pt">O segredo ou parâmetro não existe.</td></tr>
-          <tr><td><code>SecretPermissionError</code></td><td><code>scrt_permission_denied</code></td><td data-l="en">The provider refused the read.</td><td data-l="pt">O provider recusou a leitura.</td></tr>
+          <tr><td><code>SecretPermissionError</code></td><td><code>scrt_permission_denied</code></td><td data-l="en">The provider refused the read.</td><td data-l="pt">O cofre recusou a leitura.</td></tr>
           <tr><td><code>SecretParseError</code></td><td><code>scrt_parse_failed</code></td><td data-l="en">The secret was read but the requested parse failed.</td><td data-l="pt">O segredo foi lido, mas o parse pedido falhou.</td></tr>
           <tr><td><code>InvalidSecretNameError</code></td><td><code>scrt_invalid_name</code></td><td data-l="en">The resolved name is empty or unusable.</td><td data-l="pt">O nome resolvido está vazio ou inutilizável.</td></tr>
-          <tr><td><code>SecretCapabilityNotSupportedError</code></td><td><code>scrt_capability_not_supported</code></td><td data-l="en">The provider cannot serve the request under the base contract.</td><td data-l="pt">O provider não consegue atender ao pedido dentro do contrato base.</td></tr>
+          <tr><td><code>SecretCapabilityNotSupportedError</code></td><td><code>scrt_capability_not_supported</code></td><td data-l="en">The provider cannot serve the request under the base contract.</td><td data-l="pt">O cofre não consegue atender ao pedido dentro do contrato base.</td></tr>
           <tr><td><code>SecretKernelConfigurationError</code></td><td><code>scrt_invalid_configuration</code></td><td data-l="en">Required, invalid or mutually exclusive configuration.</td><td data-l="pt">Configuração obrigatória, inválida ou mutuamente exclusiva.</td></tr>
-          <tr><td><code>SecretProviderError</code></td><td><code>scrt_unexpected</code></td><td data-l="en">Any other provider failure.</td><td data-l="pt">Qualquer outra falha do provider.</td></tr>
+          <tr><td><code>SecretProviderError</code></td><td><code>scrt_unexpected</code></td><td data-l="en">Any other provider failure.</td><td data-l="pt">Qualquer outra falha do cofre.</td></tr>
         </tbody>
       </table>
     </div>
@@ -1401,8 +1431,8 @@ client = <span class="f">create_secret_client</span>(
       <div class="sec-num">09</div>
       <div>
         <h2 data-l="en">Observability, and your own provider</h2>
-        <h2 data-l="pt">Observabilidade, e seu próprio provider</h2>
-        <p data-l="en">Silent until you attach a logger, and open to a store the kernel has never heard of.</p>
+        <h2 data-l="pt">Observabilidade, e seu próprio cofre</h2>
+        <p data-l="en">Silent until you attach a logger, and open to a provider the kernel has never heard of.</p>
         <p data-l="pt">Silencioso até você anexar um logger, e aberto a um cofre que o kernel nunca viu.</p>
       </div>
     </div>
@@ -1418,9 +1448,9 @@ client = <span class="f">create_secret_client</span>(
         <p data-l="en">The logger is the only sink. Without one the client is silent: there is no <code>debug</code> flag and no console fallback, because where a line lands and what it may expose belongs to the application that attached the logger. A level your logger does not implement is dropped, never raised.</p>
         <p data-l="pt">O logger é o único destino. Sem ele, o client fica em silêncio: não existe flag <code>debug</code> nem fallback para o console, porque onde uma linha cai e o que ela pode expor é decisão da aplicação que anexou o logger. Um nível que o seu logger não implementa é descartado, nunca levantado.</p>
         <h3 style="margin-top:2rem" data-l="en">Bring your own provider</h3>
-        <h3 style="margin-top:2rem" data-l="pt">Traga seu próprio provider</h3>
-        <p data-l="en">The factory accepts a provider class directly, so a store this package has never heard of is used through the same contract. The factory asserts the class declares the requested <code data-c="py">provider_name</code><code data-c="ts">providerName</code>.</p>
-        <p data-l="pt">A factory aceita uma classe de provider diretamente, então um cofre que este pacote nunca viu é usado pelo mesmo contrato. A factory verifica que a classe declara o <code data-c="py">provider_name</code><code data-c="ts">providerName</code> pedido.</p>
+        <h3 style="margin-top:2rem" data-l="pt">Traga seu próprio cofre</h3>
+        <p data-l="en">The factory accepts a provider class directly, so a provider this package has never heard of is used through the same contract. The factory asserts the class declares the requested <code data-c="py">provider_name</code><code data-c="ts">providerName</code>.</p>
+        <p data-l="pt">A factory aceita diretamente a classe de um cofre, então um cofre que este pacote nunca viu é usado pelo mesmo contrato. A factory verifica que a classe declara o <code data-c="py">provider_name</code><code data-c="ts">providerName</code> pedido.</p>
         <p data-l="en">The shared contract suite in the testing package runs every portable guarantee against it — decrypted reads, prefix composition, both parse modes, and <code>SecretNotFoundError</code> on a missing secret.</p>
         <p data-l="pt">A suíte de contrato compartilhada no pacote de testing roda todas as garantias portáveis contra ele — leituras descriptografadas, composição de prefix, os dois modos de parse, e <code>SecretNotFoundError</code> num segredo ausente.</p>
       </div>
@@ -1464,7 +1494,7 @@ client = <span class="f">create_secret_client</span>(
           <div class="code-bar">
             <svg aria-hidden="true" data-c="py"><use href="#logo-python"/></svg>
             <svg aria-hidden="true" data-c="ts"><use href="#logo-typescript"/></svg>
-            <span data-l="en">custom provider</span><span data-l="pt">provider customizado</span>
+            <span data-l="en">custom provider</span><span data-l="pt">cofre próprio</span>
           </div>
           <pre data-c="py"><span class="f">create_secret_client</span>(
     CreateSecretClientConfig(
@@ -1502,9 +1532,9 @@ client = <span class="f">create_secret_client</span>(
       </ul>
       <ul data-l="pt">
         <li><strong>Somente leitura.</strong> Sem escrita, remoção, rotação, leitura em lote ou versão histórica explícita.</li>
-        <li><strong>Apenas a última versão.</strong> Quando o provider suporta versões, o kernel sempre lê a atual.</li>
+        <li><strong>Apenas a última versão.</strong> Quando o cofre suporta versões, o kernel sempre lê a atual.</li>
         <li><strong>Leitura entre ambientes é opt-in, uma chamada por vez.</strong> O <code>env</code> do client vale a menos que uma chamada diga o contrário. Substituí-lo nunca é implícito nem default, e <code data-c="py">omit_env</code><code data-c="ts">omitEnv</code> continua vencendo — um serviço lendo outro ambiente é normalmente um defeito, mas quem chama às vezes sabe mais que o contexto do processo.</li>
-        <li><strong>Opções de provider não vazam.</strong> <code>region</code> é da AWS, <code data-c="py">project_id</code><code data-c="ts">projectId</code> é do GCP. O contrato compartilhado não conhece nenhuma das duas.</li>
+        <li><strong>Opções do cofre não vazam.</strong> <code>region</code> é da AWS, <code data-c="py">project_id</code><code data-c="ts">projectId</code> é do GCP. O contrato compartilhado não conhece nenhuma das duas.</li>
         <li><strong>Falhas nunca são cacheadas.</strong> Um segredo ausente que aparece depois é encontrado na leitura seguinte.</li>
       </ul>
       <p class="note" data-l="en">Writing, rotating and versioning stay outside this contract by design.</p>
@@ -1552,12 +1582,12 @@ client = <span class="f">create_secret_client</span>(
           </ul>
           <ul data-l="pt">
             <li><strong><code>code</code> mudou de dono.</strong> Ele guardava o identificador do fornecedor, que foi para <code>provider_code</code>. <code>code</code> agora é do próprio kernel, sempre presente e congelado: <code>scrt_not_found</code>, <code>scrt_permission_denied</code>, <code>scrt_parse_failed</code>, <code>scrt_invalid_name</code>, <code>scrt_capability_not_supported</code>, <code>scrt_invalid_configuration</code>, <code>scrt_unexpected</code>. <code>SecretErrorCode</code> é um <code>StrEnum</code> desses sete.</li>
-            <li>Uma falha normalizada nomeia o segredo que você pediu e, entre parênteses, o ID que o provider procurou: <code>database/password (full name: dev_billing_database_password)</code>.</li>
+            <li>Uma falha normalizada nomeia o segredo que você pediu e, entre parênteses, o ID que o cofre procurou: <code>database/password (full name: dev_billing_database_password)</code>.</li>
             <li>Erros são construídos a partir de um único <code>SecretKernelErrorOptions</code>, e <code>resolve_secret_full_name</code> recebe <code>(client_options, secret_name, options)</code> — o mesmo formato de chamada do TypeScript.</li>
-            <li>Helpers perdem o prefixo <code>secret</code> onde o resto do nome já é vocabulário deste kernel — <code>normalize_provider_error</code>, <code>assert_client_contract</code> e mais seis. Breaking para um provider customizado que os importa.</li>
-            <li><code>replace_secret_path_separator</code> nunca devolve um separador inicial. Os providers da AWS mantêm o nome resolvido por conta própria, então o que eles enviam não muda.</li>
+            <li>Helpers perdem o prefixo <code>secret</code> onde o resto do nome já é vocabulário deste kernel — <code>normalize_provider_error</code>, <code>assert_client_contract</code> e mais seis. Breaking para um cofre próprio que os importa.</li>
+            <li><code>replace_secret_path_separator</code> nunca devolve um separador inicial. Os cofres da AWS mantêm o nome resolvido por conta própria, então o que eles enviam não muda.</li>
             <li><code>SecretConfigurationError</code> agora é <code>SecretKernelConfigurationError</code>, sem alias. O <code>code</code> continua <code>scrt_invalid_configuration</code>.</li>
-            <li><code>region</code> nos dois providers da AWS tem padrão <code>us-east-1</code>, e <code>AWS_REGION</code> ou o perfil da AWS deixam de ser consultados. Breaking para quem omitia a região e contava com o boto3 para achá-la. <code>location</code> mantém o padrão <code>global</code>.</li>
+            <li><code>region</code> nos dois cofres da AWS tem padrão <code>us-east-1</code>, e <code>AWS_REGION</code> ou o perfil da AWS deixam de ser consultados. Breaking para quem omitia a região e contava com o boto3 para achá-la. <code>location</code> mantém o padrão <code>global</code>.</li>
             <li><code>region</code>, <code>location</code> ou <code>project_id</code> passados como <code>None</code> ou texto em branco levantam <code>SecretKernelConfigurationError</code> em vez de cair no padrão.</li>
           </ul>
           <h4 data-l="en">Changed</h4>
@@ -1567,7 +1597,7 @@ client = <span class="f">create_secret_client</span>(
           <h4 data-l="en">Fixed</h4>
           <h4 data-l="pt">Corrigido</h4>
           <ul data-l="en"><li>Configuration errors name the provider by its canonical name — <code>aws-parameter-store</code>, not <code>AWS Parameter Store</code> — in the message and in <code>provider</code>.</li></ul>
-          <ul data-l="pt"><li>Erros de configuração nomeiam o provider pelo nome canônico — <code>aws-parameter-store</code>, não <code>AWS Parameter Store</code> — na mensagem e em <code>provider</code>.</li></ul>
+          <ul data-l="pt"><li>Erros de configuração nomeiam o cofre pelo nome canônico — <code>aws-parameter-store</code>, não <code>AWS Parameter Store</code> — na mensagem e em <code>provider</code>.</li></ul>
         </div>
       </div>
 
@@ -1588,7 +1618,7 @@ client = <span class="f">create_secret_client</span>(
             <li>The public surface matches TypeScript name for name: <code>DEFAULT_CLIENT_CONFIG</code>, <code>AwsSecretsManagerClient</code>, <code>SecretProvider</code>. The contract suite exports only <code>assert_secret_client_contract</code> and <code>CreateClient</code>.</li>
           </ul>
           <ul data-l="pt">
-            <li>Uma falha normalizada nomeia o provider e o segredo: <code>Permission denied for aws-secrets-manager secret: /dev/billing/database/password</code>, onde dizia <code>Secret provider denied the read.</code></li>
+            <li>Uma falha normalizada nomeia o cofre e o segredo: <code>Permission denied for aws-secrets-manager secret: /dev/billing/database/password</code>, onde dizia <code>Secret provider denied the read.</code></li>
             <li><strong>Uma linha de log é uma string, e o logger é o único destino.</strong> O argumento de contexto e a opção <code>debug</code> saíram, e falhas são logadas — um segredo ausente em <code>warning</code>, uma leitura recusada ou que falhou em <code>error</code>. <code>logging.getLogger("my-app")</code> serve direto.</li>
             <li>Todo erro carrega o nome da sua classe em <code>name</code>.</li>
             <li>A superfície pública bate com a do TypeScript nome a nome: <code>DEFAULT_CLIENT_CONFIG</code>, <code>AwsSecretsManagerClient</code>, <code>SecretProvider</code>. A suíte de contrato exporta só <code>assert_secret_client_contract</code> e <code>CreateClient</code>.</li>
@@ -1596,7 +1626,7 @@ client = <span class="f">create_secret_client</span>(
           <h4 data-l="en">Added</h4>
           <h4 data-l="pt">Adicionado</h4>
           <ul data-l="en"><li>The factory declares one extra per provider, plus <code>all</code>, and no longer depends on <code>secret-kernel-core</code>.</li></ul>
-          <ul data-l="pt"><li>A factory declara um extra por provider, mais <code>all</code>, e não depende mais de <code>secret-kernel-core</code>.</li></ul>
+          <ul data-l="pt"><li>A factory declara um extra por cofre, mais <code>all</code>, e não depende mais de <code>secret-kernel-core</code>.</li></ul>
         </div>
       </div>
 
@@ -1640,7 +1670,7 @@ client = <span class="f">create_secret_client</span>(
           </ul>
           <ul data-l="pt">
             <li>O guard da referência de API agora checa <strong>nas duas direções</strong>. Ele afirmava que todo export está documentado e nunca que todo nome documentado ainda existe, então um nome que saiu da superfície pública ficava na referência indefinidamente.</li>
-            <li>As suítes de integração passam credenciais ao provider em vez de esperá-las no ambiente, do mesmo jeito que uma aplicação injeta configuração — o que também exercita a precedência documentada de credenciais explícitas sobre a cadeia do SDK.</li>
+            <li>As suítes de integração passam credenciais ao cofre em vez de esperá-las no ambiente, do mesmo jeito que uma aplicação injeta configuração — o que também exercita a precedência documentada de credenciais explícitas sobre a cadeia do SDK.</li>
           </ul>
         </div>
       </div>
@@ -1653,7 +1683,7 @@ client = <span class="f">create_secret_client</span>(
         </div>
         <div class="release-body">
           <p data-l="en">The contract, the shared core, the factory, the five providers and the shared contract suite. Tagged before changelog fragments were being kept, which is why there is nothing itemised here.</p>
-          <p data-l="pt">O contrato, o core compartilhado, a factory, os cinco providers e a suíte de contrato compartilhada. Tagueado antes de os fragmentos de changelog começarem a ser mantidos, e é por isso que não há itens detalhados aqui.</p>
+          <p data-l="pt">O contrato, o core compartilhado, a factory, os cinco cofres e a suíte de contrato compartilhada. Tagueado antes de os fragmentos de changelog começarem a ser mantidos, e é por isso que não há itens detalhados aqui.</p>
         </div>
       </div>
 
@@ -1678,11 +1708,11 @@ client = <span class="f">create_secret_client</span>(
           </ul>
           <ul data-l="pt">
             <li><strong><code>code</code> mudou de dono.</strong> Ele guardava o identificador do fornecedor, que foi para <code>providerCode</code>. <code>code</code> agora é do próprio kernel, sempre presente e congelado — os mesmos sete valores <code>scrt_*</code> do Python. <code>SecretErrorCode</code> é o mapa constante deles e a união dos seus valores.</li>
-            <li>Uma falha normalizada nomeia o segredo que você pediu e, entre parênteses, o ID que o provider procurou: <code>database/password (full name: dev_billing_database_password)</code>.</li>
+            <li>Uma falha normalizada nomeia o segredo que você pediu e, entre parênteses, o ID que o cofre procurou: <code>database/password (full name: dev_billing_database_password)</code>.</li>
             <li><code>close()</code> é obrigatório em <code>SecretProviderReader</code> e <code>SecretClient</code>, como já era no Python.</li>
-            <li>Helpers perdem o prefixo <code>Secret</code> onde o resto do nome já é vocabulário deste kernel — <code>normalizeProviderError</code>, <code>defineProviderContractTests</code> e mais seis. Breaking para um provider customizado que os importa.</li>
+            <li>Helpers perdem o prefixo <code>Secret</code> onde o resto do nome já é vocabulário deste kernel — <code>normalizeProviderError</code>, <code>defineProviderContractTests</code> e mais seis. Breaking para um cofre próprio que os importa.</li>
             <li><code>SecretConfigurationError</code> agora é <code>SecretKernelConfigurationError</code>, sem alias. O <code>code</code> continua <code>scrt_invalid_configuration</code>.</li>
-            <li><code>region</code> nos dois providers da AWS pode ser omitido e tem padrão <code>us-east-1</code>; <code>location</code> no GCP Parameter Manager pode ser omitido e tem padrão <code>global</code>. Os dois eram obrigatórios. O padrão é do kernel: <code>AWS_REGION</code> não é consultado.</li>
+            <li><code>region</code> nos dois cofres da AWS pode ser omitido e tem padrão <code>us-east-1</code>; <code>location</code> no GCP Parameter Manager pode ser omitido e tem padrão <code>global</code>. Os dois eram obrigatórios. O padrão é do kernel: <code>AWS_REGION</code> não é consultado.</li>
             <li><code>region</code>, <code>location</code> ou <code>projectId</code> passados como <code>undefined</code>, <code>null</code> ou texto em branco lançam <code>SecretKernelConfigurationError</code> em vez de cair no padrão.</li>
           </ul>
           <h4 data-l="en">Fixed</h4>
@@ -1693,7 +1723,7 @@ client = <span class="f">create_secret_client</span>(
           </ul>
           <ul data-l="pt">
             <li>Um cache em <code>maxEntries</code> não descarta mais um segredo não relacionado quando um que ele já guarda é lido de novo.</li>
-            <li>Erros de configuração nomeiam o provider pelo nome canônico, e um provider do GCP criado sem opções lança <code>SecretKernelConfigurationError</code> em vez de um <code>Error</code> comum.</li>
+            <li>Erros de configuração nomeiam o cofre pelo nome canônico, e um cofre do GCP criado sem opções lança <code>SecretKernelConfigurationError</code> em vez de um <code>Error</code> comum.</li>
           </ul>
         </div>
       </div>
@@ -1717,11 +1747,11 @@ client = <span class="f">create_secret_client</span>(
             <li>The <code>createClient</code> alias is gone from every provider, and <code>SecretMetadata</code> names the shape of <code>metadata</code>.</li>
           </ul>
           <ul data-l="pt">
-            <li><strong>Falhas de provider são embrulhadas em vez de relançadas cruas.</strong> Toda falha que não seja não-encontrado ou permissão preserva a mensagem do SDK e ganha <code>provider</code>, <code>secretName</code> e <code>code</code>, com o erro original em <code>cause</code> — o modelo que o Python sempre teve.</li>
+            <li><strong>Falhas do cofre são embrulhadas em vez de relançadas cruas.</strong> Toda falha que não seja não-encontrado ou permissão preserva a mensagem do SDK e ganha <code>provider</code>, <code>secretName</code> e <code>code</code>, com o erro original em <code>cause</code> — o modelo que o Python sempre teve.</li>
             <li>Um segredo apenas binário levanta <code>SecretCapabilityNotSupportedError</code> em vez de um <code>Error</code> comum.</li>
-            <li>Uma falha normalizada nomeia o provider e o segredo: <code>Permission denied for aws-secrets-manager secret: /dev/billing/database/password</code>.</li>
+            <li>Uma falha normalizada nomeia o cofre e o segredo: <code>Permission denied for aws-secrets-manager secret: /dev/billing/database/password</code>.</li>
             <li><strong>Uma linha de log é uma string, e o logger é o único destino.</strong> O argumento de contexto e a opção <code>debug</code> saíram, e falhas são logadas — um segredo ausente em <code>warn</code>, uma leitura recusada ou que falhou em <code>error</code>. <code>logger: console</code> serve direto.</li>
-            <li>O alias <code>createClient</code> saiu de todos os providers, e <code>SecretMetadata</code> nomeia o formato de <code>metadata</code>.</li>
+            <li>O alias <code>createClient</code> saiu de todos os pacotes de cofre, e <code>SecretMetadata</code> nomeia o formato de <code>metadata</code>.</li>
           </ul>
         </div>
       </div>
@@ -1758,7 +1788,7 @@ client = <span class="f">create_secret_client</span>(
         </div>
         <div class="release-body">
           <p data-l="en">The contract, the shared core, the factory, the five providers and the shared contract suite. Tagged before changelog fragments were being kept, which is why there is nothing itemised here.</p>
-          <p data-l="pt">O contrato, o core compartilhado, a factory, os cinco providers e a suíte de contrato compartilhada. Tagueado antes de os fragmentos de changelog começarem a ser mantidos, e é por isso que não há itens detalhados aqui.</p>
+          <p data-l="pt">O contrato, o core compartilhado, a factory, os cinco cofres e a suíte de contrato compartilhada. Tagueado antes de os fragmentos de changelog começarem a ser mantidos, e é por isso que não há itens detalhados aqui.</p>
         </div>
       </div>
   </section>
@@ -1813,7 +1843,7 @@ client = <span class="f">create_secret_client</span>(
         <ul>
           <li><span style="color:var(--cream-dim)" data-l="en">Read-only</span><span style="color:var(--cream-dim)" data-l="pt">Somente leitura</span></li>
           <li><span style="color:var(--cream-dim)" data-l="en">Latest version</span><span style="color:var(--cream-dim)" data-l="pt">Última versão</span></li>
-          <li><span style="color:var(--cream-dim)" data-l="en">5 providers · 9 distributions</span><span style="color:var(--cream-dim)" data-l="pt">5 providers · 9 distribuições</span></li>
+          <li><span style="color:var(--cream-dim)" data-l="en">5 providers · 9 distributions</span><span style="color:var(--cream-dim)" data-l="pt">5 cofres · 9 distribuições</span></li>
         </ul>
       </div>
     </div>

@@ -705,6 +705,9 @@ td code { white-space: nowrap; }
   .slots { gap: 0.5rem; }
   .release { grid-template-columns: 1fr; gap: 0.75rem; }
   pre { font-size: 12.5px; }
+  /* Two note columns are narrower than the longest alias, which would break at
+     its hyphen. */
+  .mn-wide { grid-column: 1 / -1; }
   /* Four columns squeeze the rule to a word per line, so it takes a line of its
      own below the three short cells, and its header goes. */
   .parts, .parts thead, .parts tbody { display: block; }

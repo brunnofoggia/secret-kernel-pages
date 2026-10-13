@@ -596,7 +596,6 @@ td code { white-space: nowrap; }
   grid-template-columns: 11rem 1fr;
   gap: 1.5rem;
 }
-.release:first-of-type { border-top: 0; padding-top: 0; }
 .release-v { font: 500 14px/1.6 var(--mono); color: var(--sky); }
 .release-d {
   display: block;

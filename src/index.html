@@ -122,8 +122,8 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
       </div>
 
       <div class="badge-row">
-        <a class="dist" href="https://pypi.org/project/secret-kernel-core/" data-c="py"><svg aria-hidden="true"><use href="#logo-pypi"/></svg>secret-kernel-*</a>
-        <a class="dist" href="https://www.npmjs.com/package/@secret-kernel/core" data-c="ts"><svg aria-hidden="true"><use href="#logo-npm"/></svg>@secret-kernel/*</a>
+        <a class="dist" href="https://pypi.org/project/secret-kernel-factory/" data-c="py"><svg aria-hidden="true"><use href="#logo-pypi"/></svg>secret-kernel-*</a>
+        <a class="dist" href="https://www.npmjs.com/package/@secret-kernel/factory" data-c="ts"><svg aria-hidden="true"><use href="#logo-npm"/></svg>@secret-kernel/*</a>
         <!-- HIDDEN: source links, private repositories (404 for the public).
              Uncomment to restore.
         <a class="dist" href="https://github.com/brunnofoggia/secret-kernel-py" data-c="py"><svg aria-hidden="true"><use href="#logo-github"/></svg><span data-l="en">Source</span><span data-l="pt">Código</span></a>
@@ -148,7 +148,7 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
         <div class="mn-k" data-l="en">Requires</div>
         <div class="mn-k" data-l="pt">Requer</div>
         <div class="mn-v" data-c="py">Python 3.12+</div>
-        <div class="mn-v" data-c="ts">Node 22+</div>
+        <div class="mn-v" data-c="ts">Node 22.13+</div>
       </div>
       <div class="mn-block">
         <div class="mn-k" data-l="en">License</div>
@@ -200,9 +200,9 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
             <button type="button" data-show-pane="in-memory" aria-pressed="false">In-memory</button>
           </div>
         </div>
-        <pre class="on" data-c="py" data-pane="aws"><span class="k">from</span> secret_kernel.contracts <span class="k">import</span> SecretNotFoundError
-<span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
+        <pre class="on" data-c="py" data-pane="aws"><span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
     CreateSecretClientConfig,
+    SecretNotFoundError,
     <span class="f">create_secret_client</span>,
 )
 <span class="swap"><span class="k">from</span> secret_kernel.provider_aws_parameter_store <span class="k">import</span> (</span>
@@ -224,9 +224,9 @@ client = <span class="f">create_secret_client</span>(
     secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
 <span class="k">except</span> SecretNotFoundError <span class="k">as</span> error:
     error.code  <span class="c"># "scrt_not_found", on any provider</span></pre>
-        <pre data-c="py" data-pane="gcp"><span class="k">from</span> secret_kernel.contracts <span class="k">import</span> SecretNotFoundError
-<span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
+        <pre data-c="py" data-pane="gcp"><span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
     CreateSecretClientConfig,
+    SecretNotFoundError,
     <span class="f">create_secret_client</span>,
 )
 <span class="swap"><span class="k">from</span> secret_kernel.provider_gcp_parameter_manager <span class="k">import</span> (</span>
@@ -248,9 +248,9 @@ client = <span class="f">create_secret_client</span>(
     secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
 <span class="k">except</span> SecretNotFoundError <span class="k">as</span> error:
     error.code  <span class="c"># "scrt_not_found", on any provider</span></pre>
-        <pre data-c="py" data-pane="in-memory"><span class="k">from</span> secret_kernel.contracts <span class="k">import</span> SecretNotFoundError
-<span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
+        <pre data-c="py" data-pane="in-memory"><span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
     CreateSecretClientConfig,
+    SecretNotFoundError,
     <span class="f">create_secret_client</span>,
 )
 <span class="swap"><span class="k">from</span> secret_kernel.provider_in_memory <span class="k">import</span> (</span>
@@ -282,8 +282,8 @@ client = <span class="f">create_secret_client</span>(
     secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
 <span class="k">except</span> SecretNotFoundError <span class="k">as</span> error:
     error.code  <span class="c"># "scrt_not_found", on any provider</span></pre>
-        <pre class="on" data-c="ts" data-pane="aws"><span class="k">import</span> { SecretNotFoundError } <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
-<span class="k">import</span> {
+        <pre class="on" data-c="ts" data-pane="aws"><span class="k">import</span> {
+    SecretNotFoundError,
     SecretProvider,
     <span class="f">createSecretClient</span>,
 } <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
@@ -302,8 +302,8 @@ client = <span class="f">create_secret_client</span>(
         error.code; <span class="c">// 'scrt_not_found', on any provider</span>
     }
 }</pre>
-        <pre data-c="ts" data-pane="gcp"><span class="k">import</span> { SecretNotFoundError } <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
-<span class="k">import</span> {
+        <pre data-c="ts" data-pane="gcp"><span class="k">import</span> {
+    SecretNotFoundError,
     SecretProvider,
     <span class="f">createSecretClient</span>,
 } <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
@@ -322,8 +322,8 @@ client = <span class="f">create_secret_client</span>(
         error.code; <span class="c">// 'scrt_not_found', on any provider</span>
     }
 }</pre>
-        <pre data-c="ts" data-pane="in-memory"><span class="k">import</span> { SecretNotFoundError } <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
-<span class="k">import</span> {
+        <pre data-c="ts" data-pane="in-memory"><span class="k">import</span> {
+    SecretNotFoundError,
     SecretProvider,
     <span class="f">createSecretClient</span>,
 } <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
@@ -361,26 +361,24 @@ client = <span class="f">create_secret_client</span>(
       <div>
         <h2 data-l="en">Install and first read</h2>
         <h2 data-l="pt">Instalação e primeira leitura</h2>
-        <p data-l="en">Nothing is bundled. Install the contract, the shared core, the factory and the one provider you need.</p>
-        <p data-l="pt">Nada vem embutido. Instale o contrato, o core compartilhado, a factory e o pacote do único cofre de que você precisa.</p>
+        <p data-l="en">Nothing is bundled. Install the factory and the one provider you need.</p>
+        <p data-l="pt">Nada vem embutido. Instale a factory e o pacote do único cofre de que você precisa.</p>
       </div>
     </div>
 
     <div class="row">
       <div class="prose">
-        <h3 data-l="en">Step 1 · install the base</h3>
-        <h3 data-l="pt">Passo 1 · instale a base</h3>
-        <p data-l="en">The contract, the shared core and the factory. No provider yet — that is step 2, and it is a separate distribution so an AWS-only service never pulls a GCP SDK.</p>
-        <p data-l="pt">O contrato, o core compartilhado e a factory. Nenhum cofre ainda — isso é o passo 2, e ele é uma distribuição separada, então um serviço só-AWS nunca baixa um SDK do GCP.</p>
+        <h3 data-l="en">Step 1 · install the factory</h3>
+        <h3 data-l="pt">Passo 1 · instale a factory</h3>
+        <p data-l="en">Your code imports everything from the factory: the parse modes, the errors and the types of the contract come through it. The contract installs with it, as a dependency, and the shared core arrives with the provider. No provider yet — that is step 2, and it is a separate distribution so an AWS-only service never pulls a GCP SDK.</p>
+        <p data-l="pt">O seu código importa tudo da factory: os modos de parse, os erros e os tipos do contrato vêm por ela. O contrato é instalado junto, como dependência, e o core compartilhado chega com o cofre. Nenhum cofre ainda — isso é o passo 2, e ele é uma distribuição separada, então um serviço só-AWS nunca baixa um SDK do GCP.</p>
         <p data-l="en"><code>contracts</code> depends on nothing. A consumer that only declares types or catches errors installs that one package alone.</p>
         <p data-l="pt"><code>contracts</code> não depende de nada. Quem só declara tipos ou captura erros instala apenas esse pacote.</p>
       </div>
       <div class="code">
         <div class="code-bar"><span data-c="py">uv</span><span data-c="ts">npm</span><span class="grow">shell</span></div>
-        <pre data-c="py"><span class="pr">$</span> uv add secret-kernel-contracts secret-kernel-core \
-    secret-kernel-factory</pre>
-        <pre data-c="ts"><span class="pr">$</span> npm install @secret-kernel/contracts @secret-kernel/core \
-    @secret-kernel/factory</pre>
+        <pre data-c="py"><span class="pr">$</span> uv add secret-kernel-factory</pre>
+        <pre data-c="ts"><span class="pr">$</span> npm install @secret-kernel/factory</pre>
       </div>
     </div>
 
@@ -427,9 +425,9 @@ client = <span class="f">create_secret_client</span>(
               <svg aria-hidden="true" data-c="ts"><use href="#logo-typescript"/></svg>
               <span>in-memory</span>
             </div>
-            <pre data-c="py"><span class="k">from</span> secret_kernel.contracts <span class="k">import</span> SecretNotFoundError
-<span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
+            <pre data-c="py"><span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
     CreateSecretClientConfig,
+    SecretNotFoundError,
     <span class="f">create_secret_client</span>,
 )
 <span class="swap"><span class="k">from</span> secret_kernel.provider_in_memory <span class="k">import</span> (</span>
@@ -461,8 +459,8 @@ client = <span class="f">create_secret_client</span>(
     secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<span class="s">"database/password"</span>)
 <span class="k">except</span> SecretNotFoundError <span class="k">as</span> error:
     error.code  <span class="c"># "scrt_not_found", on any provider</span></pre>
-            <pre data-c="ts"><span class="k">import</span> { SecretNotFoundError } <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
-<span class="k">import</span> {
+            <pre data-c="ts"><span class="k">import</span> {
+    SecretNotFoundError,
     SecretProvider,
     <span class="f">createSecretClient</span>,
 } <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
@@ -511,9 +509,9 @@ client = <span class="f">create_secret_client</span>(
               <svg aria-hidden="true"><use href="#logo-aws"/></svg>
               <span>aws-parameter-store</span>
             </div>
-            <pre data-c="py"><span class="k">from</span> secret_kernel.contracts <span class="k">import</span> SecretNotFoundError
-<span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
+            <pre data-c="py"><span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
     CreateSecretClientConfig,
+    SecretNotFoundError,
     <span class="f">create_secret_client</span>,
 )
 <span class="swap"><span class="k">from</span> secret_kernel.provider_aws_parameter_store <span class="k">import</span> (</span>
@@ -543,8 +541,8 @@ client = <span class="f">create_secret_client</span>(
 <span class="info">    <span class="c"># reads /prod/billing/database/password</span></span>
 <span class="k">except</span> SecretNotFoundError <span class="k">as</span> error:
     error.code  <span class="c"># "scrt_not_found", on any provider</span></pre>
-            <pre data-c="ts"><span class="k">import</span> { SecretNotFoundError } <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
-<span class="k">import</span> {
+            <pre data-c="ts"><span class="k">import</span> {
+    SecretNotFoundError,
     SecretProvider,
     <span class="f">createSecretClient</span>,
 } <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
@@ -593,9 +591,9 @@ client = <span class="f">create_secret_client</span>(
               <svg aria-hidden="true"><use href="#logo-aws"/></svg>
               <span>aws-secrets-manager</span>
             </div>
-            <pre data-c="py"><span class="k">from</span> secret_kernel.contracts <span class="k">import</span> SecretNotFoundError
-<span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
+            <pre data-c="py"><span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
     CreateSecretClientConfig,
+    SecretNotFoundError,
     <span class="f">create_secret_client</span>,
 )
 <span class="swap"><span class="k">from</span> secret_kernel.provider_aws_secrets_manager <span class="k">import</span> (</span>
@@ -625,8 +623,8 @@ client = <span class="f">create_secret_client</span>(
 <span class="info">    <span class="c"># reads /prod/billing/database/password, stage AWSCURRENT</span></span>
 <span class="k">except</span> SecretNotFoundError <span class="k">as</span> error:
     error.code  <span class="c"># "scrt_not_found", on any provider</span></pre>
-            <pre data-c="ts"><span class="k">import</span> { SecretNotFoundError } <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
-<span class="k">import</span> {
+            <pre data-c="ts"><span class="k">import</span> {
+    SecretNotFoundError,
     SecretProvider,
     <span class="f">createSecretClient</span>,
 } <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
@@ -680,9 +678,9 @@ client = <span class="f">create_secret_client</span>(
             <pre data-c="py"><span class="only"><span class="k">import</span> json</span>
 <span class="only"><span class="k">from</span> pathlib <span class="k">import</span> Path</span>
 
-<span class="k">from</span> secret_kernel.contracts <span class="k">import</span> SecretNotFoundError
 <span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
     CreateSecretClientConfig,
+    SecretNotFoundError,
     <span class="f">create_secret_client</span>,
 )
 <span class="swap"><span class="k">from</span> secret_kernel.provider_gcp_parameter_manager <span class="k">import</span> (</span>
@@ -711,8 +709,8 @@ client = <span class="f">create_secret_client</span>(
 <span class="k">except</span> SecretNotFoundError <span class="k">as</span> error:
     error.code  <span class="c"># "scrt_not_found", on any provider</span></pre>
             <pre data-c="ts"><span class="only"><span class="k">import</span> { readFileSync } <span class="k">from</span> <span class="s">'node:fs'</span>;</span>
-<span class="k">import</span> { SecretNotFoundError } <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
 <span class="k">import</span> {
+    SecretNotFoundError,
     SecretProvider,
     <span class="f">createSecretClient</span>,
 } <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
@@ -766,9 +764,9 @@ client = <span class="f">create_secret_client</span>(
             <pre data-c="py"><span class="only"><span class="k">import</span> json</span>
 <span class="only"><span class="k">from</span> pathlib <span class="k">import</span> Path</span>
 
-<span class="k">from</span> secret_kernel.contracts <span class="k">import</span> SecretNotFoundError
 <span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
     CreateSecretClientConfig,
+    SecretNotFoundError,
     <span class="f">create_secret_client</span>,
 )
 <span class="swap"><span class="k">from</span> secret_kernel.provider_gcp_secret_manager <span class="k">import</span> (</span>
@@ -796,8 +794,8 @@ client = <span class="f">create_secret_client</span>(
 <span class="k">except</span> SecretNotFoundError <span class="k">as</span> error:
     error.code  <span class="c"># "scrt_not_found", on any provider</span></pre>
             <pre data-c="ts"><span class="only"><span class="k">import</span> { readFileSync } <span class="k">from</span> <span class="s">'node:fs'</span>;</span>
-<span class="k">import</span> { SecretNotFoundError } <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
 <span class="k">import</span> {
+    SecretNotFoundError,
     SecretProvider,
     <span class="f">createSecretClient</span>,
 } <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
@@ -963,7 +961,7 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
           <svg aria-hidden="true" data-c="ts"><use href="#logo-typescript"/></svg>
           <span data-l="en">per-call options</span><span data-l="pt">opções por chamada</span>
         </div>
-        <pre data-c="py"><span class="k">from</span> secret_kernel.contracts <span class="k">import</span> GetSecretOptions
+        <pre data-c="py"><span class="k">from</span> secret_kernel.factory <span class="k">import</span> GetSecretOptions
 
 <span class="c"># /prod/billing/database — the client prefix is left out</span>
 <span class="k">await</span> client.<span class="f">get_secret</span>(
@@ -1030,7 +1028,7 @@ secret = <span class="k">await</span> client.<span class="f">get_secret</span>(<
           <svg aria-hidden="true" data-c="ts"><use href="#logo-typescript"/></svg>
           <span data-c="py">parse</span><span data-c="ts">parse</span>
         </div>
-        <pre data-c="py"><span class="k">from</span> secret_kernel.contracts <span class="k">import</span> (
+        <pre data-c="py"><span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
     GetSecretOptions,
     SecretParseMode,
 )
@@ -1049,7 +1047,7 @@ pairs = <span class="k">await</span> client.<span class="f">get_secret</span>(
     <span class="s">"database/credentials"</span>,
     GetSecretOptions(parse=SecretParseMode.<span class="n">KEY_VALUE</span>),
 )</pre>
-        <pre data-c="ts"><span class="k">import</span> { SecretParseMode } <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
+        <pre data-c="ts"><span class="k">import</span> { SecretParseMode } <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
 
 <span class="c">// "s3cr3t"</span>
 <span class="k">const</span> plain = <span class="k">await</span> client.<span class="f">getSecret</span>(<span class="s">'database/password'</span>);
@@ -1104,7 +1102,7 @@ pairs = <span class="k">await</span> client.<span class="f">get_secret</span>(
           <svg aria-hidden="true" data-c="ts"><use href="#logo-typescript"/></svg>
           <span data-l="en">set once on the client</span><span data-l="pt">definido uma vez no client</span>
         </div>
-        <pre data-c="py"><span class="k">from</span> secret_kernel.contracts <span class="k">import</span> KeyValueParseOptions
+        <pre data-c="py"><span class="k">from</span> secret_kernel.factory <span class="k">import</span> KeyValueParseOptions
 
 client = <span class="f">create_secret_client</span>(
     CreateSecretClientConfig(
@@ -1292,7 +1290,7 @@ client = <span class="f">create_secret_client</span>(
           <svg aria-hidden="true" data-c="ts"><use href="#logo-typescript"/></svg>
           <span data-c="py">cache</span><span data-c="ts">cache</span>
         </div>
-        <pre data-c="py"><span class="k">from</span> secret_kernel.contracts <span class="k">import</span> SecretCacheOptions
+        <pre data-c="py"><span class="k">from</span> secret_kernel.factory <span class="k">import</span> SecretCacheOptions
 
 client = <span class="f">create_secret_client</span>(
     CreateSecretClientConfig(
@@ -1338,8 +1336,8 @@ client = <span class="f">create_secret_client</span>(
 
     <div class="row">
       <div class="prose">
-        <p data-l="en">Three fields identify a failure, and each answers a different question. <code>name</code> is the class, and moves when the class is renamed. <code>code</code> is the kernel's own — <code>scrt_not_found</code> — frozen, always present, and spelled the same in both languages. <code data-c="py">provider_code</code><code data-c="ts">providerCode</code> is the vendor's — <code>AccessDeniedException</code> on AWS, <code>PERMISSION_DENIED</code> on GCP — and is there only when the SDK gave one.</p>
-        <p data-l="pt">Três campos identificam uma falha, e cada um responde a uma pergunta diferente. <code>name</code> é a classe, e muda quando a classe é renomeada. <code>code</code> é do próprio kernel — <code>scrt_not_found</code> — congelado, sempre presente e escrito igual nas duas linguagens. <code data-c="py">provider_code</code><code data-c="ts">providerCode</code> é do fornecedor — <code>AccessDeniedException</code> na AWS, <code>PERMISSION_DENIED</code> no GCP — e só existe quando o SDK deu um.</p>
+        <p data-l="en">Three fields identify a failure, and each answers a different question. <code>name</code> is the class, and moves when the class is renamed. <code>code</code> is the kernel's own — <code>scrt_not_found</code> — frozen, always present, and spelled the same in both languages. <code data-c="py">provider_code</code><code data-c="ts">providerCode</code> is the vendor's — <code>AccessDeniedException</code> on AWS, <code>PERMISSION_DENIED</code> on GCP — and is there only when the SDK gave one. A read that never reached the service carries the network error by name, such as <code>ECONNREFUSED</code>.</p>
+        <p data-l="pt">Três campos identificam uma falha, e cada um responde a uma pergunta diferente. <code>name</code> é a classe, e muda quando a classe é renomeada. <code>code</code> é do próprio kernel — <code>scrt_not_found</code> — congelado, sempre presente e escrito igual nas duas linguagens. <code data-c="py">provider_code</code><code data-c="ts">providerCode</code> é do fornecedor — <code>AccessDeniedException</code> na AWS, <code>PERMISSION_DENIED</code> no GCP — e só existe quando o SDK deu um. Uma leitura que nem chegou ao serviço traz o erro de rede pelo nome, como <code>ECONNREFUSED</code>.</p>
         <p data-l="en">Catch by class inside your own process. Compare <code>code</code> at a boundary, where a partner writes the string into a comparison of their own and a renamed class would break them in silence.</p>
         <p data-l="pt">Capture pela classe dentro do seu próprio processo. Compare <code>code</code> numa fronteira, onde um parceiro escreve a string numa comparação dele e uma classe renomeada o quebraria em silêncio.</p>
         <p data-l="en">Only <strong>not-found</strong> and <strong>permission</strong> are normalized. Every other failure keeps the message the SDK produced and gains <code>provider</code>, <code data-c="py">secret_name</code><code data-c="ts">secretName</code> and, when the SDK offered one, <code data-c="py">provider_code</code><code data-c="ts">providerCode</code>, with the original error in <code>cause</code>.</p>
@@ -1353,7 +1351,7 @@ client = <span class="f">create_secret_client</span>(
           <svg aria-hidden="true" data-c="ts"><use href="#logo-typescript"/></svg>
           <span data-l="en">handling</span><span data-l="pt">tratamento</span>
         </div>
-        <pre data-c="py"><span class="k">from</span> secret_kernel.contracts <span class="k">import</span> (
+        <pre data-c="py"><span class="k">from</span> secret_kernel.factory <span class="k">import</span> (
     SecretKernelError,
     SecretNotFoundError,
 )
@@ -1368,15 +1366,16 @@ client = <span class="f">create_secret_client</span>(
     respond(<span class="n">503</span>, {<span class="s">"code"</span>: error.code})
 
 <span class="c"># a missing secret, env "prod", on GCP</span>
-<span class="c"># str(error)         Secret not found in gcp-secret-manager:</span>
-<span class="c">#                    database/password (full name:</span>
-<span class="c">#                    prod_database_password)</span>
-<span class="c"># error.name         SecretNotFoundError</span>
-<span class="c"># error.code         scrt_not_found</span>
-<span class="c"># error.secret_name  database/password</span></pre>
+<span class="c"># str(error)           Secret not found in gcp-secret-manager:</span>
+<span class="c">#                      database/password (full name:</span>
+<span class="c">#                      prod_database_password)</span>
+<span class="c"># error.name           SecretNotFoundError</span>
+<span class="c"># error.code           scrt_not_found</span>
+<span class="c"># error.provider_code  NOT_FOUND</span>
+<span class="c"># error.secret_name    database/password</span></pre>
         <pre data-c="ts"><span class="k">import</span> {
     SecretKernelError, SecretNotFoundError,
-} <span class="k">from</span> <span class="s">'@secret-kernel/contracts'</span>;
+} <span class="k">from</span> <span class="s">'@secret-kernel/factory'</span>;
 
 <span class="k">let</span> secret;
 <span class="k">try</span> {
@@ -1394,12 +1393,13 @@ client = <span class="f">create_secret_client</span>(
 }
 
 <span class="c">// a missing secret, env 'prod', on GCP</span>
-<span class="c">// error.message     Secret not found in gcp-secret-manager:</span>
-<span class="c">//                   database/password (full name:</span>
-<span class="c">//                   prod_database_password)</span>
-<span class="c">// error.name        SecretNotFoundError</span>
-<span class="c">// error.code        scrt_not_found</span>
-<span class="c">// error.secretName  database/password</span></pre>
+<span class="c">// error.message       Secret not found in gcp-secret-manager:</span>
+<span class="c">//                     database/password (full name:</span>
+<span class="c">//                     prod_database_password)</span>
+<span class="c">// error.name          SecretNotFoundError</span>
+<span class="c">// error.code          scrt_not_found</span>
+<span class="c">// error.providerCode  NOT_FOUND</span>
+<span class="c">// error.secretName    database/password</span></pre>
       </div>
     </div>
 
@@ -1564,69 +1564,62 @@ client = <span class="f">create_secret_client</span>(
         <div>
           <span class="release-v">0.1.0a7</span>
           <span class="release-d">2026-09-25</span>
-          <span class="release-tag" data-l="en">tagged, not on PyPI yet</span>
-          <span class="release-tag" data-l="pt">tagueado, ainda fora do PyPI</span>
         </div>
         <div class="release-body">
           <h4 data-l="en">Changed · breaking</h4>
           <h4 data-l="pt">Alterado · breaking</h4>
           <ul data-l="en">
             <li><strong><code>code</code> changed owner.</strong> It held the vendor's identifier, which moved to <code>provider_code</code>. <code>code</code> is now the kernel's own, always present and frozen: <code>scrt_not_found</code>, <code>scrt_permission_denied</code>, <code>scrt_parse_failed</code>, <code>scrt_invalid_name</code>, <code>scrt_capability_not_supported</code>, <code>scrt_invalid_configuration</code>, <code>scrt_unexpected</code>. <code>SecretErrorCode</code> is a <code>StrEnum</code> of those seven.</li>
-            <li>A normalized failure names the secret you asked for and, in parentheses, the ID the provider looked up: <code>database/password (full name: dev_billing_database_password)</code>.</li>
+            <li>A normalized failure names the provider, the secret you asked for and, in parentheses, the ID the provider looked up: <code>Secret not found in gcp-secret-manager: database/password (full name: dev_billing_database_password)</code>. It used to say <code>Secret provider denied the read.</code></li>
             <li>Errors are built from one <code>SecretKernelErrorOptions</code>, and <code>resolve_secret_full_name</code> takes <code>(client_options, secret_name, options)</code> — the same call shape as TypeScript.</li>
             <li>Helpers drop the <code>secret</code> prefix where the rest of the name is already this kernel's vocabulary — <code>normalize_provider_error</code>, <code>assert_client_contract</code> and six more. Breaking for a custom provider importing them.</li>
             <li><code>replace_secret_path_separator</code> never returns a leading separator. The AWS providers keep the resolved name themselves, so what they send is unchanged.</li>
             <li><code>SecretConfigurationError</code> is now <code>SecretKernelConfigurationError</code>, with no alias. Its <code>code</code> stays <code>scrt_invalid_configuration</code>.</li>
             <li><code>region</code> on both AWS providers defaults to <code>us-east-1</code>, and <code>AWS_REGION</code> or the AWS profile is no longer consulted. Breaking for a caller who left it out and relied on boto3 to find it. <code>location</code> keeps its <code>global</code> default.</li>
             <li><code>region</code>, <code>location</code> or <code>project_id</code> given as <code>None</code> or blank text raises <code>SecretKernelConfigurationError</code> instead of falling back to the default.</li>
+            <li><code>provider_code</code> is the vendor's code. On GCP it is the gRPC status name — <code>NOT_FOUND</code>, <code>PERMISSION_DENIED</code> — where it was an <code>HTTPStatus</code>; AWS already gave the service error code. A read that never reached the service carries the network error by name, such as <code>ECONNREFUSED</code>, and an HTTP status that remains is a plain <code>int</code>. TypeScript reports the same strings.</li>
+            <li><code>cryptography</code> now requires major 50. <code>botocore</code> and <code>google-auth</code>, which the providers import, are now declared dependencies.</li>
+            <li><strong>A log line is one string, and the logger is the only sink.</strong> The context argument and the <code>debug</code> option are gone, and failures are logged — a missing secret at <code>warning</code>, a refused or failed read at <code>error</code>. <code>logging.getLogger("my-app")</code> is a drop-in.</li>
+            <li>Every error carries its class name in <code>name</code>.</li>
+            <li>Names match TypeScript: <code>DEFAULT_CLIENT_CONFIG_KWARGS</code> is <code>DEFAULT_CLIENT_CONFIG</code>, <code>SecretsManagerClient</code> is <code>AwsSecretsManagerClient</code>, <code>SecretProviderName</code> is <code>SecretProvider</code>, and the AWS providers take <code>client_options</code> where they took <code>client_config</code>.</li>
           </ul>
           <ul data-l="pt">
             <li><strong><code>code</code> mudou de dono.</strong> Ele guardava o identificador do fornecedor, que foi para <code>provider_code</code>. <code>code</code> agora é do próprio kernel, sempre presente e congelado: <code>scrt_not_found</code>, <code>scrt_permission_denied</code>, <code>scrt_parse_failed</code>, <code>scrt_invalid_name</code>, <code>scrt_capability_not_supported</code>, <code>scrt_invalid_configuration</code>, <code>scrt_unexpected</code>. <code>SecretErrorCode</code> é um <code>StrEnum</code> desses sete.</li>
-            <li>Uma falha normalizada nomeia o segredo que você pediu e, entre parênteses, o ID que o cofre procurou: <code>database/password (full name: dev_billing_database_password)</code>.</li>
+            <li>Uma falha normalizada nomeia o cofre, o segredo que você pediu e, entre parênteses, o ID que o cofre procurou: <code>Secret not found in gcp-secret-manager: database/password (full name: dev_billing_database_password)</code>. Antes dizia <code>Secret provider denied the read.</code></li>
             <li>Erros são construídos a partir de um único <code>SecretKernelErrorOptions</code>, e <code>resolve_secret_full_name</code> recebe <code>(client_options, secret_name, options)</code> — o mesmo formato de chamada do TypeScript.</li>
             <li>Helpers perdem o prefixo <code>secret</code> onde o resto do nome já é vocabulário deste kernel — <code>normalize_provider_error</code>, <code>assert_client_contract</code> e mais seis. Breaking para um cofre próprio que os importa.</li>
             <li><code>replace_secret_path_separator</code> nunca devolve um separador inicial. Os cofres da AWS mantêm o nome resolvido por conta própria, então o que eles enviam não muda.</li>
             <li><code>SecretConfigurationError</code> agora é <code>SecretKernelConfigurationError</code>, sem alias. O <code>code</code> continua <code>scrt_invalid_configuration</code>.</li>
             <li><code>region</code> nos dois cofres da AWS tem padrão <code>us-east-1</code>, e <code>AWS_REGION</code> ou o perfil da AWS deixam de ser consultados. Breaking para quem omitia a região e contava com o boto3 para achá-la. <code>location</code> mantém o padrão <code>global</code>.</li>
             <li><code>region</code>, <code>location</code> ou <code>project_id</code> passados como <code>None</code> ou texto em branco levantam <code>SecretKernelConfigurationError</code> em vez de cair no padrão.</li>
+            <li><code>provider_code</code> é o código do fornecedor. No GCP é o nome do status gRPC — <code>NOT_FOUND</code>, <code>PERMISSION_DENIED</code> — onde era um <code>HTTPStatus</code>; a AWS já dava o código de erro do serviço. Uma leitura que nem chegou ao serviço traz o erro de rede pelo nome, como <code>ECONNREFUSED</code>, e um status HTTP que reste vira um <code>int</code> simples. O TypeScript reporta as mesmas strings.</li>
+            <li><code>cryptography</code> agora exige a major 50. <code>botocore</code> e <code>google-auth</code>, que os cofres importam, passam a ser dependências declaradas.</li>
+            <li><strong>Uma linha de log é uma string, e o logger é o único destino.</strong> O argumento de contexto e a opção <code>debug</code> saíram, e falhas são logadas — um segredo ausente em <code>warning</code>, uma leitura recusada ou que falhou em <code>error</code>. <code>logging.getLogger("my-app")</code> serve direto.</li>
+            <li>Todo erro carrega o nome da sua classe em <code>name</code>.</li>
+            <li>Os nomes batem com os do TypeScript: <code>DEFAULT_CLIENT_CONFIG_KWARGS</code> é <code>DEFAULT_CLIENT_CONFIG</code>, <code>SecretsManagerClient</code> é <code>AwsSecretsManagerClient</code>, <code>SecretProviderName</code> é <code>SecretProvider</code>, e os cofres da AWS recebem <code>client_options</code> onde recebiam <code>client_config</code>.</li>
           </ul>
           <h4 data-l="en">Changed</h4>
           <h4 data-l="pt">Alterado</h4>
-          <ul data-l="en"><li>Every third-party dependency declares a lower bound, the current release that supports Python 3.12; the three cloud SDKs had none.</li></ul>
-          <ul data-l="pt"><li>Toda dependência de terceiros declara um limite inferior, o release atual que suporta Python 3.12; os três SDKs de nuvem não tinham nenhum.</li></ul>
-          <h4 data-l="en">Fixed</h4>
-          <h4 data-l="pt">Corrigido</h4>
-          <ul data-l="en"><li>Configuration errors name the provider by its canonical name — <code>aws-parameter-store</code>, not <code>AWS Parameter Store</code> — in the message and in <code>provider</code>.</li></ul>
-          <ul data-l="pt"><li>Erros de configuração nomeiam o cofre pelo nome canônico — <code>aws-parameter-store</code>, não <code>AWS Parameter Store</code> — na mensagem e em <code>provider</code>.</li></ul>
-        </div>
-      </div>
-
-      <div class="release" data-c="py">
-        <div>
-          <span class="release-v">0.1.0a6</span>
-          <span class="release-d">2026-08-29</span>
-          <span class="release-tag" data-l="en">tagged, not on PyPI yet</span>
-          <span class="release-tag" data-l="pt">tagueado, ainda fora do PyPI</span>
-        </div>
-        <div class="release-body">
-          <h4 data-l="en">Changed · breaking</h4>
-          <h4 data-l="pt">Alterado · breaking</h4>
-          <ul data-l="en">
-            <li>A normalized failure names the provider and the secret: <code>Permission denied for aws-secrets-manager secret: /dev/billing/database/password</code>, where it said <code>Secret provider denied the read.</code></li>
-            <li><strong>A log line is one string, and the logger is the only sink.</strong> The context argument and the <code>debug</code> option are gone, and failures are logged — a missing secret at <code>warning</code>, a refused or failed read at <code>error</code>. <code>logging.getLogger("my-app")</code> is a drop-in.</li>
-            <li>Every error carries its class name in <code>name</code>.</li>
-            <li>The public surface matches TypeScript name for name: <code>DEFAULT_CLIENT_CONFIG</code>, <code>AwsSecretsManagerClient</code>, <code>SecretProvider</code>. The contract suite exports only <code>assert_secret_client_contract</code> and <code>CreateClient</code>.</li>
-          </ul>
-          <ul data-l="pt">
-            <li>Uma falha normalizada nomeia o cofre e o segredo: <code>Permission denied for aws-secrets-manager secret: /dev/billing/database/password</code>, onde dizia <code>Secret provider denied the read.</code></li>
-            <li><strong>Uma linha de log é uma string, e o logger é o único destino.</strong> O argumento de contexto e a opção <code>debug</code> saíram, e falhas são logadas — um segredo ausente em <code>warning</code>, uma leitura recusada ou que falhou em <code>error</code>. <code>logging.getLogger("my-app")</code> serve direto.</li>
-            <li>Todo erro carrega o nome da sua classe em <code>name</code>.</li>
-            <li>A superfície pública bate com a do TypeScript nome a nome: <code>DEFAULT_CLIENT_CONFIG</code>, <code>AwsSecretsManagerClient</code>, <code>SecretProvider</code>. A suíte de contrato exporta só <code>assert_secret_client_contract</code> e <code>CreateClient</code>.</li>
-          </ul>
+          <ul data-l="en"><li>Install the factory and one provider. <code>secret_kernel.factory</code> re-exports the whole contract — parse modes, errors, types — so everything is imported from it. Imports from <code>secret_kernel.contracts</code> keep working.</li></ul>
+          <ul data-l="pt"><li>Instale a factory e um cofre. <code>secret_kernel.factory</code> reexporta o contrato inteiro — modos de parse, erros, tipos —, então tudo é importado dela. Imports de <code>secret_kernel.contracts</code> continuam funcionando.</li></ul>
           <h4 data-l="en">Added</h4>
           <h4 data-l="pt">Adicionado</h4>
-          <ul data-l="en"><li>The factory declares one extra per provider, plus <code>all</code>, and no longer depends on <code>secret-kernel-core</code>.</li></ul>
-          <ul data-l="pt"><li>A factory declara um extra por cofre, mais <code>all</code>, e não depende mais de <code>secret-kernel-core</code>.</li></ul>
+          <ul data-l="en"><li>The factory declares one extra per provider, plus <code>all</code>: <code>pip install "secret-kernel-factory[aws-parameter-store]"</code>.</li></ul>
+          <ul data-l="pt"><li>A factory declara um extra por cofre, mais <code>all</code>: <code>pip install "secret-kernel-factory[aws-parameter-store]"</code>.</li></ul>
+          <h4 data-l="en">Fixed</h4>
+          <h4 data-l="pt">Corrigido</h4>
+          <ul data-l="en">
+            <li><code>credentials</code> on the GCP providers works. The key file reached the Google client as a dictionary, and the first read failed; it is now read into service account credentials, and needs the file's <code>token_uri</code>.</li>
+            <li>Creating an AWS client no longer rewrites <code>DEFAULT_CLIENT_CONFIG</code>.</li>
+            <li>An operating-system error numbered 5 or 7 is no longer raised as <code>SecretNotFoundError</code> or <code>SecretPermissionError</code>. Those are gRPC's numbers for not found and denied.</li>
+            <li>Configuration errors name the provider by its canonical name — <code>aws-parameter-store</code>, not <code>AWS Parameter Store</code> — in the message and in <code>provider</code>.</li>
+          </ul>
+          <ul data-l="pt">
+            <li><code>credentials</code> nos cofres do GCP funciona. O arquivo de chave chegava ao client do Google como dicionário, e a primeira leitura falhava; agora ele vira credenciais de service account, e precisa do <code>token_uri</code> do arquivo.</li>
+            <li>Criar um client da AWS não reescreve mais o <code>DEFAULT_CLIENT_CONFIG</code>.</li>
+            <li>Um erro de sistema operacional de número 5 ou 7 não é mais levantado como <code>SecretNotFoundError</code> ou <code>SecretPermissionError</code>. Esses são os números do gRPC para não encontrado e negado.</li>
+            <li>Erros de configuração nomeiam o cofre pelo nome canônico — <code>aws-parameter-store</code>, não <code>AWS Parameter Store</code> — na mensagem e em <code>provider</code>.</li>
+          </ul>
         </div>
       </div>
 
@@ -1691,30 +1684,48 @@ client = <span class="f">create_secret_client</span>(
       <div class="release" data-c="ts">
         <div>
           <span class="release-v">0.1.0-alpha.7</span>
-          <span class="release-tag" data-l="en">tagged, not on npm yet</span>
-          <span class="release-tag" data-l="pt">tagueado, ainda fora do npm</span>
         </div>
         <div class="release-body">
           <h4 data-l="en">Changed · breaking</h4>
           <h4 data-l="pt">Alterado · breaking</h4>
           <ul data-l="en">
             <li><strong><code>code</code> changed owner.</strong> It held the vendor's identifier, which moved to <code>providerCode</code>. <code>code</code> is now the kernel's own, always present and frozen — the same seven <code>scrt_*</code> values as Python. <code>SecretErrorCode</code> is the constant map of them and the union of its values.</li>
-            <li>A normalized failure names the secret you asked for and, in parentheses, the ID the provider looked up: <code>database/password (full name: dev_billing_database_password)</code>.</li>
+            <li>A normalized failure names the provider, the secret you asked for and, in parentheses, the ID the provider looked up: <code>Secret not found in gcp-secret-manager: database/password (full name: dev_billing_database_password)</code>.</li>
             <li><code>close()</code> is required on <code>SecretProviderReader</code> and <code>SecretClient</code>, as it already was in Python.</li>
             <li>Helpers drop the <code>Secret</code> prefix where the rest of the name is already this kernel's vocabulary — <code>normalizeProviderError</code>, <code>defineProviderContractTests</code> and six more. Breaking for a custom provider importing them.</li>
             <li><code>SecretConfigurationError</code> is now <code>SecretKernelConfigurationError</code>, with no alias. Its <code>code</code> stays <code>scrt_invalid_configuration</code>.</li>
             <li><code>region</code> on both AWS providers may be omitted and defaults to <code>us-east-1</code>; <code>location</code> on GCP Parameter Manager may be omitted and defaults to <code>global</code>. Both were required. The default is the kernel's: <code>AWS_REGION</code> is not consulted.</li>
             <li><code>region</code>, <code>location</code> or <code>projectId</code> given as <code>undefined</code>, <code>null</code> or blank text throws <code>SecretKernelConfigurationError</code> instead of falling back to the default.</li>
+            <li><code>providerCode</code> is the vendor's code: <code>ParameterNotFound</code> or <code>AccessDeniedException</code> on AWS, where it was the HTTP status, mostly <code>400</code>; <code>NOT_FOUND</code> or <code>PERMISSION_DENIED</code> on GCP, where it was <code>5</code> or <code>7</code>. A read that never reached the service carries the network error by name, such as <code>ECONNREFUSED</code>. Python reports the same strings.</li>
+            <li>Node 22.13 or later, where it was 22.</li>
+            <li>The GCP providers move to the current major of their SDK, <code>@google-cloud/secret-manager</code> 7 and <code>@google-cloud/parametermanager</code> 0.8, so a <code>client</code> you inject has to come from that line.</li>
+            <li><strong>Provider failures are wrapped instead of rethrown raw.</strong> Every failure other than not-found and permission keeps the SDK's message and gains <code>provider</code>, <code>secretName</code> and <code>providerCode</code>, with the original error in <code>cause</code>, as in Python.</li>
+            <li>A binary-only secret throws <code>SecretCapabilityNotSupportedError</code> instead of a plain <code>Error</code>.</li>
+            <li><strong>A log line is one string, and the logger is the only sink.</strong> The context argument and the <code>debug</code> option are gone, and failures are logged — a missing secret at <code>warn</code>, a refused or failed read at <code>error</code>. <code>logger: console</code> is a drop-in.</li>
+            <li>Every error carries its class name in <code>name</code>.</li>
+            <li>The <code>createClient</code> alias is gone from every provider, and <code>SecretMetadata</code> names the shape of <code>metadata</code>.</li>
           </ul>
           <ul data-l="pt">
             <li><strong><code>code</code> mudou de dono.</strong> Ele guardava o identificador do fornecedor, que foi para <code>providerCode</code>. <code>code</code> agora é do próprio kernel, sempre presente e congelado — os mesmos sete valores <code>scrt_*</code> do Python. <code>SecretErrorCode</code> é o mapa constante deles e a união dos seus valores.</li>
-            <li>Uma falha normalizada nomeia o segredo que você pediu e, entre parênteses, o ID que o cofre procurou: <code>database/password (full name: dev_billing_database_password)</code>.</li>
+            <li>Uma falha normalizada nomeia o cofre, o segredo que você pediu e, entre parênteses, o ID que o cofre procurou: <code>Secret not found in gcp-secret-manager: database/password (full name: dev_billing_database_password)</code>.</li>
             <li><code>close()</code> é obrigatório em <code>SecretProviderReader</code> e <code>SecretClient</code>, como já era no Python.</li>
             <li>Helpers perdem o prefixo <code>Secret</code> onde o resto do nome já é vocabulário deste kernel — <code>normalizeProviderError</code>, <code>defineProviderContractTests</code> e mais seis. Breaking para um cofre próprio que os importa.</li>
             <li><code>SecretConfigurationError</code> agora é <code>SecretKernelConfigurationError</code>, sem alias. O <code>code</code> continua <code>scrt_invalid_configuration</code>.</li>
             <li><code>region</code> nos dois cofres da AWS pode ser omitido e tem padrão <code>us-east-1</code>; <code>location</code> no GCP Parameter Manager pode ser omitido e tem padrão <code>global</code>. Os dois eram obrigatórios. O padrão é do kernel: <code>AWS_REGION</code> não é consultado.</li>
             <li><code>region</code>, <code>location</code> ou <code>projectId</code> passados como <code>undefined</code>, <code>null</code> ou texto em branco lançam <code>SecretKernelConfigurationError</code> em vez de cair no padrão.</li>
+            <li><code>providerCode</code> é o código do fornecedor: <code>ParameterNotFound</code> ou <code>AccessDeniedException</code> na AWS, onde era o status HTTP, quase sempre <code>400</code>; <code>NOT_FOUND</code> ou <code>PERMISSION_DENIED</code> no GCP, onde era <code>5</code> ou <code>7</code>. Uma leitura que nem chegou ao serviço traz o erro de rede pelo nome, como <code>ECONNREFUSED</code>. O Python reporta as mesmas strings.</li>
+            <li>Node 22.13 ou mais recente, onde era 22.</li>
+            <li>Os cofres do GCP passam à major atual do seu SDK, <code>@google-cloud/secret-manager</code> 7 e <code>@google-cloud/parametermanager</code> 0.8, então um <code>client</code> que você injeta tem de vir dessa linha.</li>
+            <li><strong>Falhas do cofre são encapsuladas em vez de relançadas cruas.</strong> Toda falha que não seja não-encontrado ou permissão preserva a mensagem do SDK e ganha <code>provider</code>, <code>secretName</code> e <code>providerCode</code>, com o erro original em <code>cause</code>, como no Python.</li>
+            <li>Um segredo só binário lança <code>SecretCapabilityNotSupportedError</code> em vez de um <code>Error</code> comum.</li>
+            <li><strong>Uma linha de log é uma string, e o logger é o único destino.</strong> O argumento de contexto e a opção <code>debug</code> saíram, e falhas são logadas — um segredo ausente em <code>warn</code>, uma leitura recusada ou que falhou em <code>error</code>. <code>logger: console</code> serve direto.</li>
+            <li>Todo erro carrega o nome da sua classe em <code>name</code>.</li>
+            <li>O alias <code>createClient</code> saiu de todos os pacotes de cofre, e <code>SecretMetadata</code> nomeia o formato de <code>metadata</code>.</li>
           </ul>
+          <h4 data-l="en">Changed</h4>
+          <h4 data-l="pt">Alterado</h4>
+          <ul data-l="en"><li>Install the factory and one provider. <code>@secret-kernel/factory</code> re-exports the whole contract — parse modes, errors, types — so everything is imported from it. Imports from <code>@secret-kernel/contracts</code> keep working.</li></ul>
+          <ul data-l="pt"><li>Instale a factory e um cofre. <code>@secret-kernel/factory</code> reexporta o contrato inteiro — modos de parse, erros, tipos —, então tudo é importado dela. Imports de <code>@secret-kernel/contracts</code> continuam funcionando.</li></ul>
           <h4 data-l="en">Fixed</h4>
           <h4 data-l="pt">Corrigido</h4>
           <ul data-l="en">
@@ -1724,34 +1735,6 @@ client = <span class="f">create_secret_client</span>(
           <ul data-l="pt">
             <li>Um cache em <code>maxEntries</code> não descarta mais um segredo não relacionado quando um que ele já guarda é lido de novo.</li>
             <li>Erros de configuração nomeiam o cofre pelo nome canônico, e um cofre do GCP criado sem opções lança <code>SecretKernelConfigurationError</code> em vez de um <code>Error</code> comum.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="release" data-c="ts">
-        <div>
-          <span class="release-v">0.1.0-alpha.6</span>
-          <span class="release-tag" data-l="en">tagged, not on npm yet</span>
-          <span class="release-tag" data-l="pt">tagueado, ainda fora do npm</span>
-        </div>
-        <div class="release-body">
-          <p data-l="en">There is no <code>0.1.0-alpha.5</code>: the number was skipped so this release matches <code>0.1.0a6</code> in Python.</p>
-          <p data-l="pt">Não existe <code>0.1.0-alpha.5</code>: o número foi pulado para que este release case com o <code>0.1.0a6</code> do Python.</p>
-          <h4 data-l="en">Changed · breaking</h4>
-          <h4 data-l="pt">Alterado · breaking</h4>
-          <ul data-l="en">
-            <li><strong>Provider failures are wrapped instead of rethrown raw.</strong> Every failure other than not-found and permission keeps the SDK's message and gains <code>provider</code>, <code>secretName</code> and <code>code</code>, with the original error in <code>cause</code> — the model Python always had.</li>
-            <li>A binary-only secret raises <code>SecretCapabilityNotSupportedError</code> instead of a plain <code>Error</code>.</li>
-            <li>A normalized failure names the provider and the secret: <code>Permission denied for aws-secrets-manager secret: /dev/billing/database/password</code>.</li>
-            <li><strong>A log line is one string, and the logger is the only sink.</strong> The context argument and the <code>debug</code> option are gone, and failures are logged — a missing secret at <code>warn</code>, a refused or failed read at <code>error</code>. <code>logger: console</code> is a drop-in.</li>
-            <li>The <code>createClient</code> alias is gone from every provider, and <code>SecretMetadata</code> names the shape of <code>metadata</code>.</li>
-          </ul>
-          <ul data-l="pt">
-            <li><strong>Falhas do cofre são embrulhadas em vez de relançadas cruas.</strong> Toda falha que não seja não-encontrado ou permissão preserva a mensagem do SDK e ganha <code>provider</code>, <code>secretName</code> e <code>code</code>, com o erro original em <code>cause</code> — o modelo que o Python sempre teve.</li>
-            <li>Um segredo apenas binário levanta <code>SecretCapabilityNotSupportedError</code> em vez de um <code>Error</code> comum.</li>
-            <li>Uma falha normalizada nomeia o cofre e o segredo: <code>Permission denied for aws-secrets-manager secret: /dev/billing/database/password</code>.</li>
-            <li><strong>Uma linha de log é uma string, e o logger é o único destino.</strong> O argumento de contexto e a opção <code>debug</code> saíram, e falhas são logadas — um segredo ausente em <code>warn</code>, uma leitura recusada ou que falhou em <code>error</code>. <code>logger: console</code> serve direto.</li>
-            <li>O alias <code>createClient</code> saiu de todos os pacotes de cofre, e <code>SecretMetadata</code> nomeia o formato de <code>metadata</code>.</li>
           </ul>
         </div>
       </div>
@@ -1825,7 +1808,7 @@ client = <span class="f">create_secret_client</span>(
         <h4>Python</h4>
         <ul>
           <!-- HIDDEN: private repository. <li><a href="https://github.com/brunnofoggia/secret-kernel-py">GitHub</a></li> -->
-          <li><a href="https://pypi.org/project/secret-kernel-core/">PyPI · secret-kernel-core</a></li>
+          <li><a href="https://pypi.org/project/secret-kernel-factory/">PyPI · secret-kernel-factory</a></li>
           <li><span style="color:var(--cream-faint)">Python 3.12+</span></li>
         </ul>
       </div>
@@ -1833,8 +1816,8 @@ client = <span class="f">create_secret_client</span>(
         <h4>TypeScript</h4>
         <ul>
           <!-- HIDDEN: private repository. <li><a href="https://github.com/brunnofoggia/secret-kernel-js">GitHub</a></li> -->
-          <li><a href="https://www.npmjs.com/package/@secret-kernel/core">npm · @secret-kernel/core</a></li>
-          <li><span style="color:var(--cream-faint)">Node 22+</span></li>
+          <li><a href="https://www.npmjs.com/package/@secret-kernel/factory">npm · @secret-kernel/factory</a></li>
+          <li><span style="color:var(--cream-faint)">Node 22.13+</span></li>
         </ul>
       </div>
       <div class="footer-col">

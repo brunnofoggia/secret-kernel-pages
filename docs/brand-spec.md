@@ -18,7 +18,7 @@ is stripped of nothing but its hardcoded `fill`, so the page can recolor it with
 | Python | the Python implementation and code toggle | Simple Icons CDN | `src/assets/logos/python.svg` |
 | TypeScript | the TypeScript implementation and code toggle | Simple Icons CDN | `src/assets/logos/typescript.svg` |
 | PyPI | where `secret-kernel-*` is published | Simple Icons CDN | `src/assets/logos/pypi.svg` |
-| npm | where `@secret-kernel/*` is **not yet** published | Simple Icons CDN | `src/assets/logos/npm.svg` |
+| npm | where `@secret-kernel/*` is published | Simple Icons CDN | `src/assets/logos/npm.svg` |
 | GitHub | source links | Simple Icons CDN | `src/assets/logos/github.svg` |
 
 `scripts/lib/sprite.mjs` folds all seven into one inline `<symbol>` sprite, which
@@ -31,8 +31,12 @@ dependency and cannot render with broken marks if it is moved.
 
 Verified against the repositories on 2026-08-27, not from memory:
 
-- `secret-kernel-py` — nine distributions, latest `0.1.0a4`, on PyPI.
-- `secret-kernel-js` — nine packages, latest `0.1.0-alpha.4`, on npm.
+- `secret-kernel-py` — nine distributions, latest `0.1.0a7`, on PyPI.
+- `secret-kernel-js` — nine packages, latest `0.1.0-alpha.7`, on npm.
+
+Updated 2026-10-13 against the registries: PyPI serves `0.1.0a6` and `0.1.0a7` for all
+nine distributions, and npm serves `0.1.0-alpha.7` with no `alpha.6`. `0.1.0a6` went up by
+mistake, and the page lists neither intermediate.
 
 Checked against the registries rather than the repositories, because a tag is not
 a release: between 2026-08-25 and 2026-08-27 both sides had tags the registries

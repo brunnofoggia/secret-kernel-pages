@@ -7,11 +7,16 @@ exists, so the three differ by design reasoning and not by content.
 
 A one-page website for the **Secret Kernel** library family: two independent
 implementations of the same contract, `secret-kernel-py` (published on PyPI,
-`0.1.0a4`) and `secret-kernel-js` (published on npm, `0.1.0-alpha.4`).
+`0.1.0a7`) and `secret-kernel-js` (published on npm, `0.1.0-alpha.7`).
 
 > Updated 2026-08-27. Both were mid-release while this page was being built:
 > TypeScript was unpublished and the site carried an "unpublished" badge for it,
 > which the sections below still described. Both are published now.
+>
+> Updated 2026-10-13. `0.1.0a7` and `0.1.0-alpha.7` are published, checked against
+> both registries. `0.1.0-alpha.6` was tagged and never published, and `0.1.0a6`
+> reached PyPI by mistake; both leave the changelog, and what they changed moves to
+> `0.1.0a7` / `0.1.0-alpha.7`, per `lib-family/docs/paginas.md` §8.1.
 
 Hand-authored HTML + CSS + minimal vanilla JS. No Vue, React, Angular, no build
 step, no framework. Responsive and modern. Dark mode.
@@ -53,10 +58,18 @@ claim needs the code that proves it, visible without a click.
    cloud; Python and TypeScript, one contract. Beside them, the compare block of
    paginas.md §8.9 with AWS, GCP and `in-memory`, the last loading a `.env` in
    `load_env()`. Added on 2026-10-08, per paginas.md §8.7.
-3. **Install + first read** — copy-pasteable, per language. Step 2 picks one of the
-   five providers with the picker of paginas.md §8.9, and each pane is a complete
-   sample on the Why skeleton: the AWS ones with the fake `EXAMPLE` keys of the AWS
-   docs, the GCP ones reading the service account key file.
+3. **Install + first read** — copy-pasteable, per language. Step 1 installs the
+   factory alone: it re-exports the whole contract, so every sample on the page
+   imports from it, and the contract arrives as its dependency; the core comes with
+   the provider. Step 2
+   picks one of the five providers with the picker of paginas.md §8.9, and each pane
+   is a complete sample on the Why skeleton: the AWS ones with the fake `EXAMPLE`
+   keys of the AWS docs, the GCP ones reading the service account key file.
+
+   > Corrected on 2026-10-13 for `0.1.0a7` / `0.1.0-alpha.7`. Step 1 installed
+   > `contracts`, `core` and `factory`, and the samples imported errors and options
+   > from `contracts`, a package the application no longer declares — which pnpm
+   > refuses to resolve.
 4. **How a name is built** — opens with the client and the call that build it,
    `env` and `project` on the client and the name in the call, then
    `env / project / prefix / name` resolving to `/prod/billing/database/password`.
@@ -99,7 +112,9 @@ claim needs the code that proves it, visible without a click.
 9. **Errors** — the seven classes, the frozen `scrt_*` code each carries, and when
    each is raised. Three fields identify a failure: `name` (the class), `code` (the
    kernel's, frozen, the same string in both languages) and `provider_code` (the
-   vendor's, only when the SDK gave one). Catch by class in-process, compare `code` at
+   vendor's — the AWS service error code, the gRPC status name on GCP — present
+   when the SDK gave one, and the network error by name when the read never reached
+   the service). The sample shows all three. Catch by class in-process, compare `code` at
    a boundary. Only not-found and permission are normalized, and their message names
    the requested secret plus `(full name: …)`; everything else keeps the SDK's message
    and gains `provider`, `secret_name`, `provider_code`, with the original in `cause`.

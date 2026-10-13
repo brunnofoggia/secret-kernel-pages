@@ -49,6 +49,12 @@ The page is downstream of the two libraries. Every claim, option name, default a
 version comes from their api-references, which both repositories declare normative; a
 divergence between the page and them is a defect of the page.
 
+The libraries are read, never written. Work started here changes this repository only —
+no edit, commit, tag or fix in `secret-kernel-py` or `secret-kernel-js`, even when the
+page finds a defect in them. A defect found there is reported to the user, with the file
+and line. The libraries have their own release flow and their own review, and a fix
+slipped in from a page session would reach a published package without passing either.
+
 A divergence from a family decision is a defect, not a variation. When one has to
 change, it changes in `lib-family` first and then in each page — never in one page
 alone, and never in the opposite order.
